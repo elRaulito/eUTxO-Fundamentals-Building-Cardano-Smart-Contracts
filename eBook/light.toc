@@ -1,0 +1,19 @@
+\babel@toc {english}{}\relax 
+\contentsline {part}{I\hspace {1em}Introduction to Cardano Smart Contracts}{3}{part.1}%
+\contentsline {chapter}{\numberline {1}Overview of Cardano Blockchain}{4}{chapter.1}%
+\contentsline {subsection}{\numberline {1.0.1}History}{4}{subsection.1.0.1}%
+\contentsline {subsection}{\numberline {1.0.2}Ouroboros}{4}{subsection.1.0.2}%
+\contentsline {subsection}{\numberline {1.0.3}Cardano Architecture}{4}{subsection.1.0.3}%
+\contentsline {subsection}{\numberline {1.0.4}Improvements from Other Blockchains}{4}{subsection.1.0.4}%
+\contentsline {section}{\numberline {1.1}Importance and Applications of Smart Contracts}{5}{section.1.1}%
+\contentsline {subsection}{\numberline {1.1.1}What is a Smart Contract?}{5}{subsection.1.1.1}%
+\contentsline {subsection}{\numberline {1.1.2}Applications}{5}{subsection.1.1.2}%
+\contentsline {section}{\numberline {1.2}Advantages of Cardano for Smart Contract Development}{6}{section.1.2}%
+\contentsline {part}{II\hspace {1em}Setting Up the Development Environment}{7}{part.2}%
+\contentsline {chapter}{\numberline {2}Installing and Configuring Cardano Development Tools}{8}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Installing and Configuring Cardano Development Tools}{8}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Setting Up and Connecting to Cardano Testnet}{8}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}CIP30}{9}{subsection.2.2.1}%
+\contentsline {section}{\numberline {2.3}Interacting with Cardano Node and Wallet APIs}{10}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Create a Maestro account}{10}{subsection.2.3.1}%
+\contentsfinish 

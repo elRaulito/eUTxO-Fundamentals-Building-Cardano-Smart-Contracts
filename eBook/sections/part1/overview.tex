@@ -1,0 +1,73 @@
+\subsection{History} \label{sec:overwiew}
+
+Charles Hoskinson, along with Jeremy Wood, co-founded Cardano, both were part of Ethereum before. In 2015, they established Input Output Hong Kong with the aim of creating and developing more sustainable blockchain solutions. Utilizing a peer-reviewed approach to blockchain development and introducing a novel consensus mechanism called \textbf{Ouroboros}, Cardano was prepared for its Mainnet launch in 2017.
+
+\subsection{Ouroboros}
+
+Ouroboros relies on a \textbf{proof of stake} consensus. Rather than requiring nodes to engage in computationally intensive work as in PoW chains, nodes are randomly selected based on the amount of ADA they hold at stake. This approach serves two purposes: it is more energy-efficient and incentivizes nodes to act responsibly as their stake is at risk in case of misbehavior.
+
+\subsection{Cardano Architecture}
+
+The blockchain model comprises several components. Users interact with the current ledger state by creating transactions, which are then submitted to the mempool until they are included in a block. Blocks are mined by stake pools, which are rewarded for their efforts and share these rewards with their delegators. Increased decentralization is achieved with more stake pool operators.
+
+\subsection{Improvements from Other Blockchains}
+
+Cardano offers several advantages over other chains:
+
+\begin{itemize}
+\item \textbf{Determinism}: This feature enables transaction chaining.
+\item \textbf{Predictable Fees}: There is no risk of pending transactions due to fee increases.
+\item \textbf{Sustainability}: Unlike PoW, which is power-intensive, Cardano's approach is more sustainable.
+\item \textbf{Native Tokens}: Tokens are stored on the ledger, allowing smart contracts to interact with them. Users have control over tokens in their wallets, which cannot be frozen by external parties.
+\end{itemize}
+
+Scaling is currently the most significant challenge for the ecosystem. The ability to handle high volumes of users without being limited by block or transaction size is crucial for increasing adoption.
+
+\newpage
+
+
+\section{Importance and Applications of Smart Contracts}
+
+Smart contracts are a concept born alongside Ethereum, enabling the execution of code and interactions without a third party. Once initiated, the terms of the contract are set by the parties involved, and no one can stop or interfere thereafter.
+
+However, history teaches us that some protocols have included backdoors within their smart contracts, leading to fund theft or enabling bad actors to access users' funds.
+
+Let's start with the basics.
+
+\subsection{What is a Smart Contract?}
+
+A smart contract is decentralized software accessible to users on the blockchain, typically through a website interface. Users interacting with the contract can perform operations (financial, trading, storage) without requiring permission from a third party.
+
+The essential components of a smart contract are:
+
+\begin{itemize}
+\item \textbf{Parties}: Who can interact with the contract? Is it open to everyone, specific users, or owners of particular assets?
+\item \textbf{Actions}: What operations can users perform with the contract? These could include depositing funds, creating NFTs, storing data, reading data, withdrawing funds, and more.
+\item \textbf{Rules}: Define the actions each party can take under specific conditions.
+\item \textbf{Data Fields}: What data is involved in interactions with the contract, and how can each step of the interaction be tracked?
+\end{itemize}
+
+\subsection{Applications}
+
+In a typical decentralized exchange (DEX) application, the parties are liquidity providers and traders. Liquidity providers can deposit and withdraw liquidity, while traders can only perform swaps. Rules dictate that liquidity providers must hold LP tokens in their wallets, while traders must have sufficient funds to cover transactions. Data fields stored in the contract typically include LP tokens, fees for liquidity providers, and token data.
+
+In a marketplace scenario, the parties are sellers and buyers. Sellers can sell assets, while buyers can buy them. Rules stipulate that sellers must possess the assets they intend to sell, and buyers must have sufficient funds to purchase assets and pay sellers. Data stored includes the seller's address, payment amounts, royalties (if applicable), and platform fees.
+
+On Cardano, specific actions might include Cancel Listing and Buy. Selling/List is more of a smart contract interaction than an action.
+
+\begin{remark}
+A smart contract action involves a transaction where the smart contract is invoked in the inputs. If the smart contract is present only in the outputs, it's considered a smart contract interaction.
+\end{remark}
+
+\section{Advantages of Cardano for Smart Contract Development}
+
+Two years ago, if you asked me about the advantages of writing smart contracts on Cardano, I would have struggled to answer. However, now I can easily list several:
+
+\begin{itemize}
+\item \textbf{Composability}: The ability to create a transaction involving multiple contracts and perform actions with each of them.
+\item \textbf{User-Friendly}: No longer requiring Haskell, languages like Aiken, Opshin, and more offer a user-friendly experience.
+\item \textbf{Liquid Staking}: Thanks to Cardano staking, smart contracts can delegate ADA or keep funds staked with liquidity providers.
+\item \textbf{UTxO Skills}: While much of the focus has been on Ethereum Virtual Machine (EVM) smart contracts, the UTXO model is ideal for solutions like ZK rollups, as it's easier to implement compared to the account model.
+\end{itemize}
+
+If you're still interested in becoming a Cardano smart contract wizard after this introduction, we can continue in the next chapter, where we'll install the components needed to \textbf{build on Cardano}.

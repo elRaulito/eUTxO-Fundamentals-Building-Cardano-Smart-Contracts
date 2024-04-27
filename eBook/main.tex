@@ -1,0 +1,33 @@
+\usepackage{lipsum}
+
+\begin{document}
+
+% =======================================================================================
+%\cleardoublepage % Forces the first chapter to start on an odd page so it's on the right
+
+% =======================================================================================
+%                                   PREAMBLE
+% =======================================================================================
+\coverpage{\TITLE}{\SUBTITLE}{\AUTHOR}{\DATE}{\SUBJECT}
+%----------------------------------------------------------------------------------------
+\newpage
+\tableofcontents
+
+% =======================================================================================
+%                                   PART I
+% =======================================================================================
+\part{Introduction to Cardano Smart Contracts}
+%----------------------------------------------------------------------------------------
+\newpage
+\chapter{Overview of Cardano Blockchain} \label{ch:overview}
+\input{sections/part1/overview}
+% =======================================================================================
+%                                   PART II
+% =======================================================================================
+\part{Setting Up the Development Environment}
+%----------------------------------------------------------------------------------------
+\newpage
+\chapter{Installing and Configuring Cardano Development Tools} \label{ch:setup}
+\input{sections/part2/setup}
+
+\end{document}
