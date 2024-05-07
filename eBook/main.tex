@@ -1,4 +1,11 @@
 \usepackage{lipsum}
+\usepackage[automake,toc]{glossaries}
+\usepackage{caption}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{filecontents}
+\makeglossaries
+% Term definitions 
 
 \begin{document}
 
@@ -30,4 +37,13 @@
 \chapter{Installing and Configuring Cardano Development Tools} \label{ch:setup}
 \input{sections/part2/setup}
 
+
+\newpage
+\part{EXERCISE solutions}
+\chapter{Solutions}
+\input{sections/solutions/solutions.tex}
+
+
+\input{sections/glossary/glossary.tex}
+\printglossary[title={Glossary}, type=main]
 \end{document}

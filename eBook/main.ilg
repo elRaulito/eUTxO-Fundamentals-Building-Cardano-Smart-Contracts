@@ -1,0 +1,69 @@
+This is makeindex, version 2.17 [TeX Live 2024] (kpathsea + Thai support).
+Scanning input file main.tex...
+!! Input index error (file = main.tex, line = 1):
+   -- Unknown index keyword \usepackage.
+!! Input index error (file = main.tex, line = 2):
+   -- Unknown index keyword \usepackage.
+!! Input index error (file = main.tex, line = 3):
+   -- Missing arguments -- need two (premature LFD).
+!! Input index error (file = main.tex, line = 4):
+   -- Unknown index keyword \begin.
+!! Input index error (file = main.tex, line = 6):
+   -- Missing arguments -- need two (premature LFD).
+!! Input index error (file = main.tex, line = 7):
+   -- Missing arguments -- need two (premature LFD).
+!! Input index error (file = main.tex, line = 9):
+   -- Missing arguments -- need two (premature LFD).
+!! Input index error (file = main.tex, line = 10):
+   -- Missing arguments -- need two (premature LFD).
+!! Input index error (file = main.tex, line = 11):
+   -- Missing arguments -- need two (premature LFD).
+!! Input index error (file = main.tex, line = 12):
+   -- Unknown index keyword \coverpage.
+!! Input index error (file = main.tex, line = 13):
+   -- Missing arguments -- need two (premature LFD).
+!! Input index error (file = main.tex, line = 14):
+   -- Missing arguments -- need two (premature LFD).
+!! Input index error (file = main.tex, line = 15):
+   -- Missing arguments -- need two (premature LFD).
+!! Input index error (file = main.tex, line = 17):
+   -- Missing arguments -- need two (premature LFD).
+!! Input index error (file = main.tex, line = 18):
+   -- Missing arguments -- need two (premature LFD).
+!! Input index error (file = main.tex, line = 19):
+   -- Missing arguments -- need two (premature LFD).
+!! Input index error (file = main.tex, line = 20):
+   -- Unknown index keyword \part.
+!! Input index error (file = main.tex, line = 21):
+   -- Missing arguments -- need two (premature LFD).
+!! Input index error (file = main.tex, line = 22):
+   -- Missing arguments -- need two (premature LFD).
+!! Input index error (file = main.tex, line = 23):
+   -- Unknown index keyword \chapter.
+!! Input index error (file = main.tex, line = 24):
+   -- Unknown index keyword \input.
+!! Input index error (file = main.tex, line = 25):
+   -- Missing arguments -- need two (premature LFD).
+!! Input index error (file = main.tex, line = 26):
+   -- Missing arguments -- need two (premature LFD).
+!! Input index error (file = main.tex, line = 27):
+   -- Missing arguments -- need two (premature LFD).
+!! Input index error (file = main.tex, line = 28):
+   -- Unknown index keyword \part.
+!! Input index error (file = main.tex, line = 29):
+   -- Missing arguments -- need two (premature LFD).
+!! Input index error (file = main.tex, line = 30):
+   -- Missing arguments -- need two (premature LFD).
+!! Input index error (file = main.tex, line = 31):
+   -- Unknown index keyword \chapter.
+!! Input index error (file = main.tex, line = 32):
+   -- Unknown index keyword \input.
+!! Input index error (file = main.tex, line = 34):
+   -- Unknown index keyword \input.
+!! Input index error (file = main.tex, line = 35):
+   -- Unknown index keyword \printglossary[title=.
+!! Input index error (file = main.tex, line = 36):
+   -- Unknown index keyword \end.
+done (0 entries accepted, 32 rejected).
+Nothing written in main.ind.
+Transcript written in main.ilg.

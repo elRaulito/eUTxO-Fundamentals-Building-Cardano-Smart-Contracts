@@ -1,0 +1,196 @@
+\glsdefs@newdocentry{Determinism}%
+{%
+name={Determinism},%
+sort={Determinism},%
+type={main},%
+first={Determinism},%
+firstplural={Determinisms},%
+text={Determinism},%
+plural={Determinisms},%
+description={Transaction and blockchain behavior are predictable, given a sort of input and outputs, once the fee is decided the transaction hash will always be the same},%
+descriptionplural={Transaction and blockchain behavior are predictable, given a sort of input and outputs, once the fee is decided the transaction hash will always be the same},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={},%
+longplural={},%
+short={},%
+shortplural={},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{Composability}%
+{%
+name={Composability},%
+sort={Composability},%
+type={main},%
+first={Composability},%
+firstplural={Composabilitys},%
+text={Composability},%
+plural={Composabilitys},%
+description={Also referred to as transaction in transaction, it's the ability to interact with multiple parties in the same transaction, this is not possible in the account model, however, this also raises the concurrency issue when two parties or transactions want to spend the same utxo},%
+descriptionplural={Also referred to as transaction in transaction, it's the ability to interact with multiple parties in the same transaction, this is not possible in the account model, however, this also raises the concurrency issue when two parties or transactions want to spend the same utxo},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={},%
+longplural={},%
+short={},%
+shortplural={},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{Liquid Staking}%
+{%
+name={Liquid Staking},%
+sort={Liquid Staking},%
+type={main},%
+first={Liquid Staking},%
+firstplural={Liquid Stakings},%
+text={Liquid Staking},%
+plural={Liquid Stakings},%
+description={Cardano staking is referred to as Liquid, no locking mechanism is needed to get the staking rewards. This becomes useful because users can move their ADA around inside smart contracts while keeping the delegation rewards },%
+descriptionplural={Cardano staking is referred to as Liquid, no locking mechanism is needed to get the staking rewards. This becomes useful because users can move their ADA around inside smart contracts while keeping the delegation rewards },%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={},%
+longplural={},%
+short={},%
+shortplural={},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{orderbook}%
+{%
+name={orderbook},%
+sort={orderbook},%
+type={main},%
+first={orderbook},%
+firstplural={orderbooks},%
+text={orderbook},%
+plural={orderbooks},%
+description={In this configuration each order placed by users is a single entry with a price and amount of token willing to sell (ADA or native tokens), swaps happen matching the orders },%
+descriptionplural={In this configuration each order placed by users is a single entry with a price and amount of token willing to sell (ADA or native tokens), swaps happen matching the orders },%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={},%
+longplural={},%
+short={},%
+shortplural={},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{AMM}%
+{%
+name={AMM},%
+sort={AMM},%
+type={main},%
+first={AMM},%
+firstplural={AMMs},%
+text={AMM},%
+plural={AMMs},%
+description={Automatic market maker dexes involve a liquidity pool, the pool has two pair tokens, usually ADA and the Cardano native token, users can sell or buy tokens from this pool and the price is adjusted according to the market need },%
+descriptionplural={Automatic market maker dexes involve a liquidity pool, the pool has two pair tokens, usually ADA and the Cardano native token, users can sell or buy tokens from this pool and the price is adjusted according to the market need },%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={},%
+longplural={},%
+short={},%
+shortplural={},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{CIP}%
+{%
+name={CIP},%
+sort={CIP},%
+type={main},%
+first={CIP},%
+firstplural={CIPs},%
+text={CIP},%
+plural={CIPs},%
+description={Cardano Improvement Proposals that if approved can change the current ledger or chain parameters, usually are also standards to develop in a similar way between projects },%
+descriptionplural={Cardano Improvement Proposals that if approved can change the current ledger or chain parameters, usually are also standards to develop in a similar way between projects },%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={},%
+longplural={},%
+short={},%
+shortplural={},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{test}%
+{%
+name={test},%
+sort={test},%
+type={main},%
+first={test},%
+firstplural={tests},%
+text={test},%
+plural={tests},%
+description={raulito},%
+descriptionplural={raulito},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={},%
+longplural={},%
+short={},%
+shortplural={},%
+counter={page},%
+parent={},%
+%
+}%
+

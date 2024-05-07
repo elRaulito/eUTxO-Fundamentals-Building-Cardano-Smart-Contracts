@@ -44,11 +44,11 @@
   <internal package="biblatex" priority="9" active="0">
     <generic>latex</generic>
     <provides type="dynamic">
-      <file>light.aux</file>
-      <file>light-blx.bib</file>
+      <file>dark.aux</file>
+      <file>dark-blx.bib</file>
     </provides>
     <requires type="dynamic">
-      <file>light.bbl</file>
+      <file>dark.bbl</file>
     </requires>
     <requires type="static">
       <file>blx-dm.def</file>
@@ -68,20 +68,20 @@
     <cmdline>
       <binary>bibtex</binary>
       <option>-min-crossrefs 2</option>
-      <infile>light</infile>
+      <infile>dark</infile>
     </cmdline>
     <input>
-      <file>light.aux</file>
+      <file>dark.aux</file>
     </input>
     <output>
-      <file>light.bbl</file>
+      <file>dark.bbl</file>
     </output>
     <provides type="dynamic">
-      <file>light.bbl</file>
+      <file>dark.bbl</file>
     </provides>
     <requires type="dynamic">
-      <file>light.aux</file>
-      <file>light-blx.bib</file>
+      <file>dark.aux</file>
+      <file>dark-blx.bib</file>
     </requires>
     <requires type="editable">
     </requires>

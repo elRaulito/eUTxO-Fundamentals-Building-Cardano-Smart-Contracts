@@ -1,0 +1,41 @@
+\babel@toc {english}{}\relax 
+\contentsline {part}{I\hspace {1em}Introduction to Cardano Smart Contracts}{3}{part.1}%
+\contentsline {chapter}{\numberline {1}Overview of Cardano Blockchain}{4}{chapter.1}%
+\contentsline {subsection}{\numberline {1.0.1}History}{4}{subsection.1.0.1}%
+\contentsline {subsection}{\numberline {1.0.2}Ouroboros}{4}{subsection.1.0.2}%
+\contentsline {subsection}{\numberline {1.0.3}Cardano Architecture}{4}{subsection.1.0.3}%
+\contentsline {subsection}{\numberline {1.0.4}Improvements from Other Blockchains}{4}{subsection.1.0.4}%
+\contentsline {subsection}{\numberline {1.0.5}\textit {Determinism} and predictable fees to make a better user experience}{4}{subsection.1.0.5}%
+\contentsline {section}{\numberline {1.1}Importance and Applications of Smart Contracts}{6}{section.1.1}%
+\contentsline {subsection}{\numberline {1.1.1}What is a Smart Contract?}{6}{subsection.1.1.1}%
+\contentsline {subsection}{\numberline {1.1.2}Applications}{6}{subsection.1.1.2}%
+\contentsline {subsection}{\numberline {1.1.3}Smart Contract audits}{7}{subsection.1.1.3}%
+\contentsline {subsection}{\numberline {1.1.4}Smart Contract risks}{7}{subsection.1.1.4}%
+\contentsline {subsection}{\numberline {1.1.5}The cost of deploying a contract}{8}{subsection.1.1.5}%
+\contentsline {section}{\numberline {1.2}Advantages of Cardano for Smart Contract Development}{8}{section.1.2}%
+\contentsline {part}{II\hspace {1em}Setting Up the Development Environment}{9}{part.2}%
+\contentsline {chapter}{\numberline {2}Installing and Configuring Cardano Development Tools}{10}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Installing and Configuring Cardano Development Tools}{10}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Hot wallets on Cardano}{10}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Setting Up and Connecting to Cardano Testnet}{10}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Preview and Preprod testnets}{12}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Get tADA}{12}{subsection.2.3.2}%
+\contentsline {subsection}{\numberline {2.3.3}CIP30}{12}{subsection.2.3.3}%
+\contentsline {section}{\numberline {2.4}Interacting with Cardano Node and Wallet APIs}{13}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}Create a Maestro account}{13}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}Indexer alternatives}{13}{subsection.2.4.2}%
+\contentsline {section}{\numberline {2.5}Setting Up a Cardano Node on Contabo Cloud VPS}{14}{section.2.5}%
+\contentsline {subsection}{\numberline {2.5.1}Step 1: Provisioning a Contabo Cloud VPS}{14}{subsection.2.5.1}%
+\contentsline {subsection}{\numberline {2.5.2}Step 2: Downloading and Extracting Cardano Node Software}{14}{subsection.2.5.2}%
+\contentsline {subsection}{\numberline {2.5.3}Step 3: Setting Up Node Configuration}{14}{subsection.2.5.3}%
+\contentsline {subsection}{\numberline {2.5.4}Step 4: Installing Required Dependencies and Syncing the Blockchain}{15}{subsection.2.5.4}%
+\contentsline {subsection}{\numberline {2.5.5}Step 5: Starting the Cardano Node}{15}{subsection.2.5.5}%
+\contentsline {subsection}{\numberline {2.5.6}Step 6: Setting Up Cardano Submit API}{16}{subsection.2.5.6}%
+\contentsline {subsection}{\numberline {2.5.7}Step 7: Accessing Transaction Submission Endpoint}{16}{subsection.2.5.7}%
+\contentsline {part}{III\hspace {1em}EXERCISE solutions}{17}{part.3}%
+\contentsline {chapter}{\numberline {3}Solutions}{18}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Solutions}{18}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Excercise 1}{18}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}Excercise 2}{18}{subsection.3.1.2}%
+\contentsline {chapter}{Glossary}{20}{section*.2}%
+\contentsfinish 
