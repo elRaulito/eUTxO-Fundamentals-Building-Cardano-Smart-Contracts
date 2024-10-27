@@ -20,10 +20,10 @@
 %----------------------------------------------------------------------------------------
 
 \titleformat{\part}[display]
-  {}
-  {}
-  {0pt}
-  {\begin{tikzpicture}[overlay]
+{}
+{}
+{0pt}
+{\begin{tikzpicture}[overlay]
     % horizontal bg strip behind title
     \node[anchor=north west, inner sep=0mm, outer sep=0pt, minimum height=48mm, minimum width=\paperwidth, xshift=0cm, yshift=2.8cm, fill=bg] {\parbox{\paperwidth}{}};
     % introduction block below title
@@ -34,7 +34,7 @@
 \let\originalpart\part
 
 \renewcommand{\part}[1]{% to reference the title in the left bar in the margin
-\setparttitle{\uppercase{#1}}
-\backgroundtitlevisiblefalse
-\originalpart{#1}
-\backgroundtitlevisibletrue}
+  \setparttitle{\uppercase{#1}}
+  \backgroundtitlevisiblefalse
+  \originalpart{#1}
+  \backgroundtitlevisibletrue}

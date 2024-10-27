@@ -1,4 +1,4 @@
-\babel@toc {english}{}\relax 
+\babel@toc {english}{}\relax
 \contentsline {part}{I\hspace {1em}Introduction to Cardano Smart Contracts}{3}{part.1}%
 \contentsline {chapter}{\numberline {1}Overview of Cardano Blockchain}{4}{chapter.1}%
 \contentsline {subsection}{\numberline {1.0.1}History}{4}{subsection.1.0.1}%
@@ -35,7 +35,7 @@
 \contentsline {part}{III\hspace {1em}EXERCISE solutions}{17}{part.3}%
 \contentsline {chapter}{\numberline {3}Solutions}{18}{chapter.3}%
 \contentsline {section}{\numberline {3.1}Solutions}{18}{section.3.1}%
-\contentsline {subsection}{\numberline {3.1.1}Excercise 1}{18}{subsection.3.1.1}%
-\contentsline {subsection}{\numberline {3.1.2}Excercise 2}{18}{subsection.3.1.2}%
+\contentsline {subsection}{\numberline {3.1.1}Exercise 1}{18}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}Exercise 2}{18}{subsection.3.1.2}%
 \contentsline {chapter}{Glossary}{20}{section*.2}%
-\contentsfinish 
+\contentsfinish

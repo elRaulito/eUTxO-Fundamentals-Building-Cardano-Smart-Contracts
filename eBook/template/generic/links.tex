@@ -6,30 +6,30 @@
 %   HYPERLINKS IN THE DOCUMENTS
 %----------------------------------------------------------------------------------------
 \hypersetup{
-hidelinks,
-backref=true,
-pagebackref=true,
-hyperindex=true,
-colorlinks=true,
-breaklinks=true,
-urlcolor=accent,
-bookmarks=true,
-bookmarksopen=false,
-pdftitle={\TITLE},
-pdfauthor={\AUTHOR},
-pdfsubject={\SUBJECT}}
+  hidelinks,
+  backref=true,
+  pagebackref=true,
+  hyperindex=true,
+  colorlinks=true,
+  breaklinks=true,
+  urlcolor=accent,
+  bookmarks=true,
+  bookmarksopen=false,
+  pdftitle={\TITLE},
+  pdfauthor={\AUTHOR},
+  pdfsubject={\SUBJECT}}
 
 \bookmarksetup{
-open,
-numbered,
-addtohook={%
-\ifnum\bookmarkget{level}=0 % chapter
-\bookmarksetup{bold}%
-\fi
-\ifnum\bookmarkget{level}=-1 % part
-\bookmarksetup{color=accent,bold}%
-\fi
-}
+  open,
+  numbered,
+  addtohook={%
+      \ifnum\bookmarkget{level}=0 % chapter
+        \bookmarksetup{bold}%
+      \fi
+      \ifnum\bookmarkget{level}=-1 % part
+        \bookmarksetup{color=accent,bold}%
+      \fi
+    }
 }
 
 %----------------------------------------------------------------------------------------
