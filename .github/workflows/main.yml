@@ -1,7 +1,7 @@
-name: Build LaTeX document
+name: render eBook
 on: [push]
 jobs:
-  tests:
+  render-ebook:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
