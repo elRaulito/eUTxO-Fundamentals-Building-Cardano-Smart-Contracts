@@ -1,20 +1,15 @@
 name: Build LaTeX document
 on: [push]
 jobs:
-  build_latex:
+  tests:
     runs-on: ubuntu-latest
     steps:
-      - name: Set up Git repository
-        uses: actions/checkout@v2
-      - name: pdflatex main
-        uses: dante-ev/latex-action@latest
-        with:
-          root_file: eBook/light.tex
-          compiler: pdflatex
-          args: -interaction=nonstopmode -shell-escape
-      - name: pdflatex main
-        uses: dante-ev/latex-action@latest
-        with:
-          root_file: main.tex
-          compiler: pdflatex
-          args: -interaction=nonstopmode -shell-escape
+    - uses: actions/checkout@v4
+    - uses: cachix/install-nix-action@v27
+      with:
+        github_access_token: ${{ secrets.GITHUB_TOKEN }}
+    - run: nix build .#
+    - uses: actions/upload-artifact@v4
+      with:
+        name: rendered-ebook
+        path: result
