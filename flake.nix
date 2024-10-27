@@ -21,10 +21,29 @@
           pkgs = import nixpkgs {
             inherit system;
           };
+
+          # Ideally we figure out what exact package is used, but too much work
+          tex = pkgs.texlive.combine { inherit (pkgs.texlive) scheme-full; };
         in
         {
-          packages.default = pkgs.hello;
+          packages.default = pkgs.stdenvNoCC.mkDerivation rec {
+            name = "eUTxO-fundamentals-pdf";
+            src = ./eBook;
+            buildInputs = [ pkgs.coreutils tex pkgs.texlive.bin.pygmentex ];
+            phases = [ "unpackPhase" "buildPhase" "installPhase" ];
+            buildPhase = ''
+              mkdir -p .cache/texmf-var
+              env TEXMFHOME=.cache TEXMFVAR=.cache/texmf-var \
+                latexmk --shell-escape -interaction=nonstopmode -pdf -lualatex \
+                light.tex dark.tex
+            '';
+            installPhase = ''
+              mkdir -p $out
+              cp *.pdf $out/
+            '';
+          };
           devShells.default = pkgs.mkShell {
+            buildInputs = [ tex ];
             shellHook = ''
               export LC_CTYPE=C.UTF-8;
               export LC_ALL=C.UTF-8;
