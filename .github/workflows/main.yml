@@ -2,6 +2,7 @@ name: render eBook
 on: [push]
 permissions:
   actions: write
+  contents: write
 jobs:
   render-ebook:
     runs-on: ubuntu-latest
