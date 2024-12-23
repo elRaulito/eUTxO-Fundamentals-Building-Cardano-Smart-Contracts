@@ -1,0 +1,55 @@
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegray},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+\lstdefinelanguage{Haskell}{
+    keywords={module, import, qualified, as, data, type, where, if, then, else, otherwise},
+    keywordstyle=\color{blue}\bfseries,
+    ndkeywords={},
+    ndkeywordstyle=\color{orange}\bfseries,
+    identifierstyle=\color{black},
+    sensitive=true,
+    comment=[l]{--},
+    morecomment=[s]{/*}{*/},
+    commentstyle=\color{codegray}\ttfamily,
+    stringstyle=\color{codepurple}\ttfamily,
+    morestring=[b]',
+    morestring=[b]"
+}
+
+% Set listing style
+\lstset{
+    basicstyle=\ttfamily\small,
+    commentstyle=\color{codegray},
+    stringstyle=\color{codepurple},
+    keywordstyle=\color{blue},
+    showstringspaces=false,
+    tabsize=4,
+    language=Haskell,
+    breaklines=true,
+    frame=single,
+    captionpos=b
+}
+
+\lstinputlisting[]{sections/solutions/fortytwo.hs}

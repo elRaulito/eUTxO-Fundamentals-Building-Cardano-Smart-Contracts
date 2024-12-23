@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.18.0 (TeX Live 2024)  (format=lualatex 2024.4.18)  7 MAY 2024 15:44
+This is LuaHBTeX, Version 1.18.0 (TeX Live 2024)  (format=lualatex 2024.4.18)  23 DEC 2024 14:27
  restricted system commands enabled.
  file:line:error style messages enabled.
 **c:/Users/raulr/Documents/eBook/dark.tex
@@ -1452,7 +1452,20 @@ Package biblatex Warning: 'babel/polyglossia' detected but 'csquotes' missing.
 
 \@quotelevel=\count512
 \@quotereset=\count513
-(./dark.aux)
+(./dark.aux
+
+LaTeX Warning: Label `sec:Languages' multiply defined.
+
+
+LaTeX Warning: Label `sec:Languages' multiply defined.
+
+
+LaTeX Warning: Label `sec:Languages' multiply defined.
+
+
+LaTeX Warning: Label `sec:Languages' multiply defined.
+
+)
 \openout1 = dark.aux
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 10.
@@ -1863,7 +1876,155 @@ Overfull \hbox (22.97252pt too wide) in paragraph at lines 37--37
  []
 
 
-Overfull \hbox (22.97252pt too wide) in paragraph at lines 40--40
+Overfull \hbox (22.97252pt too wide) in paragraph at lines 38--38
+[][][][][][][]  
+ []
+
+
+Overfull \hbox (22.97252pt too wide) in paragraph at lines 46--46
+[][][][][][][]  
+ []
+
+
+Overfull \hbox (22.97252pt too wide) in paragraph at lines 49--49
+[][][][][][][]  
+ []
+
+
+Overfull \hbox (22.97252pt too wide) in paragraph at lines 59--59
+[][][][][][][]  
+ []
+
+
+Overfull \hbox (22.97252pt too wide) in paragraph at lines 63--63
+[][][][][][][]  
+ []
+
+
+Overfull \hbox (22.97252pt too wide) in paragraph at lines 67--67
+[][][][][][][]  
+ []
+
+
+Overfull \hbox (22.97252pt too wide) in paragraph at lines 71--71
+[][][][][][][]  
+ []
+
+
+Overfull \hbox (22.97252pt too wide) in paragraph at lines 72--72
+[][][][][][][]  
+ []
+
+
+Overfull \hbox (22.97252pt too wide) in paragraph at lines 73--73
+[][][][][][][]  
+ []
+
+
+Overfull \hbox (22.97252pt too wide) in paragraph at lines 85--85
+[][][][][][][]  
+ []
+
+
+Overfull \hbox (22.97252pt too wide) in paragraph at lines 92--92
+[][][][][][][]  
+ []
+
+
+Overfull \hbox (22.97252pt too wide) in paragraph at lines 103--103
+[][][][][][][]  
+ []
+
+
+Overfull \hbox (22.97252pt too wide) in paragraph at lines 109--109
+[][][][][][][]  
+ []
+
+
+Overfull \hbox (22.97252pt too wide) in paragraph at lines 117--117
+[][][][][][][]  
+ []
+
+[2
+
+
+]
+Overfull \hbox (22.97252pt too wide) in paragraph at lines 118--118
+[][][][][][][]  
+ []
+
+
+Overfull \hbox (22.97252pt too wide) in paragraph at lines 119--119
+[][][][][][][]  
+ []
+
+
+Overfull \hbox (22.97252pt too wide) in paragraph at lines 122--122
+[][][][][][][]  
+ []
+
+
+Overfull \hbox (22.97252pt too wide) in paragraph at lines 127--127
+[][][][][][][]  
+ []
+
+
+Overfull \hbox (22.97252pt too wide) in paragraph at lines 130--130
+[][][][][][][]  
+ []
+
+
+Overfull \hbox (22.97252pt too wide) in paragraph at lines 133--133
+[][][][][][][]  
+ []
+
+
+Overfull \hbox (22.97252pt too wide) in paragraph at lines 134--134
+[][][][][][][]  
+ []
+
+
+Overfull \hbox (22.97252pt too wide) in paragraph at lines 135--135
+[][][][][][][]  
+ []
+
+
+Overfull \hbox (22.97252pt too wide) in paragraph at lines 137--137
+[][][][][][][]  
+ []
+
+
+Overfull \hbox (22.97252pt too wide) in paragraph at lines 146--146
+[][][][][][][]  
+ []
+
+
+Overfull \hbox (22.97252pt too wide) in paragraph at lines 150--150
+[][][][][][][]  
+ []
+
+
+Overfull \hbox (22.97252pt too wide) in paragraph at lines 151--151
+[][][][][][][]  
+ []
+
+
+Overfull \hbox (22.97252pt too wide) in paragraph at lines 152--152
+[][][][][][][]  
+ []
+
+
+Overfull \hbox (22.97252pt too wide) in paragraph at lines 153--153
+[][][][][][][]  
+ []
+
+
+Overfull \hbox (22.97252pt too wide) in paragraph at lines 154--154
+[][][][][][][]  
+ []
+
+
+Overfull \hbox (22.97252pt too wide) in paragraph at lines 160--160
 [][][][][][][]  
  []
 
@@ -1871,10 +2032,7 @@ Overfull \hbox (22.97252pt too wide) in paragraph at lines 40--40
 \tf@toc=\write8
 
 \openout8 = dark.toc
- [2
-
-
-]
+ [3]
 LaTeX Font Info:    Trying to load font information for U+msa on input line 26.
  (c:/texlive/2024/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
@@ -1901,7 +2059,7 @@ Overfull \hbox (31.73222pt too wide) in paragraph at lines 26--26
  \TU/Inconsolata-LGC(0)/m/n/48 DANO SMART CON-TRACTS| 
  []
 
-[3
+[4
 
 
 
@@ -1918,19 +2076,19 @@ LaTeX Font Info:    Font shape `TU/Inconsolata-LGC(0)/b/n' will be
 (Font)              scaled to size 11.35675pt on input line 1.
 LaTeX Font Info:    Font shape `TU/Inconsolata-LGC(0)/b/it' will be
 (Font)              scaled to size 10.36302pt on input line 25.
- [4
+ [5
 
-] [5]
+] [6]
 LaTeX Font Info:    Font shape `TU/Inconsolata-LGC(0)/m/n' will be
 (Font)              scaled to size 11.35675pt on input line 58.
 LaTeX Font Info:    Font shape `TU/Inconsolata-LGC(0)/b/n' will be
 (Font)              scaled to size 15.14233pt on input line 58.
- [6] [7]) [8]
+ [7] [8]) [9]
 Overfull \hbox (47.77454pt too wide) in paragraph at lines 34--34
  |[] []\TU/Inconsolata-LGC(0)/m/n/48 SET-TING UP THE DE-VEL-
  []
 
-[9
+[10
 
 ]
 Chapter 2.
@@ -1943,78 +2101,249 @@ Overfull \hbox (13.84444pt too wide) in paragraph at lines 37--37
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<images/wallet_preview.png, id=146, 295.60437pt x 442.65375pt>
+[11
+
+]
+<images/wallet_preview.png, id=218, 295.60437pt x 442.65375pt>
 File: images/wallet_preview.png Graphic file (type png)
 <use images/wallet_preview.png>
-Package luatex.def Info: images/wallet_preview.png  used on input line 48.
+Package luatex.def Info: images/wallet_preview.png  used on input line 50.
 (luatex.def)             Requested size: 295.60364pt x 442.65265pt.
-[10
-
-] [11<./images/wallet_preview.png>]
-<images/cip30.png, id=162, 1031.35312pt x 498.86375pt>
-File: images/cip30.png Graphic file (type png)
-<use images/cip30.png>
-Package luatex.def Info: images/cip30.png  used on input line 70.
+ [12] [13<./images/wallet_preview.png>]
+<images/CIP30.png, id=233, 1031.35312pt x 498.86375pt>
+File: images/CIP30.png Graphic file (type png)
+<use images/CIP30.png>
+Package luatex.def Info: images/CIP30.png  used on input line 72.
 (luatex.def)             Requested size: 309.40833pt x 149.66028pt.
- [12<./images/cip30.png>]
-<images/maestro.png, id=175, 1020.81375pt x 592.2125pt>
+ [14<./images/cip30.png>]
+<images/maestro.png, id=245, 1020.81375pt x 592.2125pt>
 File: images/maestro.png Graphic file (type png)
 <use images/maestro.png>
-Package luatex.def Info: images/maestro.png  used on input line 98.
+Package luatex.def Info: images/maestro.png  used on input line 100.
 (luatex.def)             Requested size: 306.24649pt x 177.66512pt.
- [13<./images/maestro.png>]
+ [15<./images/maestro.png>]
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `lmtt' (encoding: TU).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 
-Overfull \hbox (96.22838pt too wide) in paragraph at lines 142--142
- []    \TU/lmtt/m/n/10.95 wget https://github.com/input-output-hk/cardano-node/releases/download/8.1.2/cardano-
- []
-
-LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <20.74> not available
-(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 170.
-[14]
-Overfull \hbox (107.72588pt too wide) in paragraph at lines 178--178
+Overfull \hbox (107.72588pt too wide) in paragraph at lines 181--181
  []\TU/lmtt/m/n/10.95 /home/ubuntu/nodev30/mainnet/db/ --socket-path  /home/ubuntu/nodev30/sockets/node.socket --[] 
  []
 
-
-Overfull \hbox (343.42458pt too wide) in paragraph at lines 208--208
- []    \TU/lmtt/m/n/10.95 curl -o - https://downloads.csnapshots.io/snapshots/mainnet/$(curl -s https://downloads.csnapshots.io/snapshots/mainnet/mainnet-
+LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <20.74> not available
+(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 189.
+[16]
+Overfull \hbox (38.74089pt too wide) in paragraph at lines 211--211
+ []    \TU/lmtt/m/n/10.95 curl -o - https://downloads.csnapshots.io/snapshots/mainnet/$(curl -s \dots 
  []
 
 
-Overfull \hbox (73.23338pt too wide) in paragraph at lines 208--208
- \TU/lmtt/m/n/10.95 db-snapshot.json| jq -r .[].file_name ) | lz4 -c -d - | tar -x -C /root/node/mainnet/ 
+Overfull \hbox (67.48463pt too wide) in paragraph at lines 212--212
+ []    \TU/lmtt/m/n/10.95 https://downloads.csnapshots.io/snapshots/mainnet/mainnet-db-snapshot.json| jq -
  []
 
-[15]
-Overfull \hbox (222.70085pt too wide) in paragraph at lines 239--239
- []    \TU/lmtt/m/n/10.95 ./cardano-submit-api --tx-submit-mainnet-config.yaml --socket-path /root/node/sockets/socket node.socket --
+[17]
+Overfull \hbox (21.49464pt too wide) in paragraph at lines 244--244
+ []    \TU/lmtt/m/n/10.95 ./cardano-submit-api --tx-submit-mainnet-config.yaml --socket-path \dots 
  []
 
-) [16] [17
+
+Overfull \hbox (61.73589pt too wide) in paragraph at lines 245--245
+ []    \TU/lmtt/m/n/10.95 /root/node/sockets/socket node.socket --port 8090 --mainnet --host-addr 0.0.0.0[] 
+ []
+
+) [18]
+Overfull \hbox (6.96902pt too wide) in paragraph at lines 43--43
+ |[] []\TU/Inconsolata-LGC(0)/m/n/48 EX-PLOR-ING THE EU-TXO
+ []
+
+[19
 
 ]
 Chapter 3.
-(./sections/solutions/solutions.tex (./sections/solutions/numberone.tex
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 28.
- (./sections/solutions/index.html)) (./sections/solutions/numbertwo.tex (./sections/solutions/get_addresses.py
-LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <10> not available
-(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 1.
- [18
 
-]))) (./sections/glossary/glossary.tex
+Overfull \hbox (7.96317pt too wide) in paragraph at lines 46--46
+|[]\TU/Inconsolata-LGC(0)/b/n/20.74 UN-DER-STAND-ING THE EU-TXO MODEL AND ITS
+ []
+
+(./sections/part3/exploring.tex [20
+
+]
+<images/transactionTestnet.png, id=309, 1050.92625pt x 589.20125pt>
+File: images/transactionTestnet.png Graphic file (type png)
+<use images/transactionTestnet.png>
+Package luatex.def Info: images/transactionTestnet.png  used on input line 59.
+(luatex.def)             Requested size: 315.2803pt x 176.76173pt.
+ [21] [22<./images/transactionTestnet.png>]
+LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <9> not available
+(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 104.
+ [23] [24] [25] [26] [27] [28]
+LaTeX Font Info:    Font shape `TU/Inconsolata-LGC(0)/m/n' will be
+(Font)              scaled to size 9.46396pt on input line 443.
+LaTeX Font Info:    Font shape `TU/Inconsolata-LGC(0)/b/n' will be
+(Font)              scaled to size 9.46396pt on input line 443.
+ [29] [30] [31] [32] [33]) [34]
+Overfull \hbox (87.18849pt too wide) in paragraph at lines 50--50
+ |[] []\TU/Inconsolata-LGC(0)/m/n/48 CAR-DANO SMART CON-TRACT
+ []
+
+[35
+
+]
+Chapter 4.
+(./sections/part4/languages.tex [36
+
+] [37]
+LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <10.95> not available
+(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 72.
+
+Overfull \hbox (15.7459pt too wide) in paragraph at lines 77--77
+ []    \TU/lmtt/m/n/10.95 curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh[] 
+ []
+
+[38] (./sections/solutions/plutus.tex
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 55.
+ (./sections/solutions/fortytwo.hs
+LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <10> not available
+(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 7.
+)) [39] [40]
+Overfull \hbox (9.99715pt too wide) in paragraph at lines 209--209
+ []            \TU/lmtt/m/n/10.95 "helios": "https://helios.hyperion-bt.org/<version>/helios.js"[] 
+ []
+
+[41]
+Overfull \hbox (10.11356pt too wide) in paragraph at lines 269--269
+[]        \TU/lmtt/m/n/10.95 tx.value_sent_to_datum(self.seller, self.nonce, false) >= self.price[] 
+ []
+
+[42] [43]
+<images/aiken.png, id=720, 926.46124pt x 467.24562pt>
+File: images/aiken.png Graphic file (type png)
+<use images/aiken.png>
+Package luatex.def Info: images/aiken.png  used on input line 360.
+(luatex.def)             Requested size: 277.9405pt x 140.17476pt.
+ [44] [45<./images/aiken.png>] (c:/texlive/2024/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2024/03/11 1.10a listings language file
+) [46] [47] [48]
+Overfull \hbox (82.46475pt too wide) in paragraph at lines 586--587
+\TU/lmtt/m/n/10.95 MyDatum \TU/lmr/m/n/10.95 and \TU/lmtt/m/n/10.95 MyRedeemer \TU/lmr/m/n/10.95 are types de-fined by us in \TU/lmtt/m/n/10.95 src/MyDatum/index.ts \TU/lmr/m/n/10.95 and \TU/lmtt/m/n/10.95 src/MyRedeemer/index.ts
+ []
+
+[49]) [50
+Missing character: There is no 🎉 (U+1F389) in font [lmmono10-regular]:!
+]
+Overfull \hbox (88.5513pt too wide) in paragraph at lines 56--56
+ |[] []\TU/Inconsolata-LGC(0)/m/n/48 SMART CON-TRACT RUN-TIME
+ []
+
+[51
+
+]
+Chapter 5.
+(./sections/part5/runtime.tex [52
+
+] [53] [54]
+<images/collateral.png, id=930, 250.43562pt x 229.35687pt>
+File: images/collateral.png Graphic file (type png)
+<use images/collateral.png>
+Package luatex.def Info: images/collateral.png  used on input line 136.
+(luatex.def)             Requested size: 250.435pt x 229.35631pt.
+ [55] [56<./images/collateral.png>] [57]
+<images/gastronomy.png, id=953, 1204.5pt x 632.3625pt>
+File: images/gastronomy.png Graphic file (type png)
+<use images/gastronomy.png>
+Package luatex.def Info: images/gastronomy.png  used on input line 225.
+(luatex.def)             Requested size: 361.35278pt x 189.7102pt.
+ [58<./images/gastronomy.png>]
+Overfull \hbox (90.59604pt too wide) in paragraph at lines 255--255
+[]    \TU/lmtt/m/n/10.95 blockfrost.key   BLOCKFROST_KEY           The API key to use when querying Blockfrost.[] 
+ []
+
+[59] [60]) [61]
+Overfull \hbox (88.5513pt too wide) in paragraph at lines 62--62
+ |[] []\TU/Inconsolata-LGC(0)/m/n/48 SMART CON-TRACT RUN-TIME
+ []
+
+[62
+
+]
+Chapter 6.
+
+Overfull \hbox (25.59456pt too wide) in paragraph at lines 65--65
+|[]\TU/Inconsolata-LGC(0)/b/n/20.74 GET-TING STARTED WITH CAR-DANO SMART CON-
+ []
+
+(./sections/part6/gettingstarted.tex [63
+
+] [64
+Missing character: There is no │ (U+2502) in font [lmmono10-regular]:!
+Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no └ (U+2514) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+]
+Overfull \hbox (10.11356pt too wide) in paragraph at lines 85--85
+[]    \TU/lmtt/m/n/10.95 Compiling aiken-lang/stdlib v2 (/Users/aiken/Documents/aiken-lang/hello-
+ []
+
+[65
+Missing character: There is no ❯ (U+276F) in font [lmmono10-regular]:!
+] [66]
+Overfull \hbox (61.8523pt too wide) in paragraph at lines 213--213
+[]\TU/lmtt/m/n/10.95 const blockchainProvider = new BlockfrostProvider(process.env.BLOCKFROST_PROJECT_ID);[] 
+ []
+
+[67]
+Overfull \hbox (49.65674pt too wide) in paragraph at lines 227--228
+[]\TU/lmr/m/n/10.95 Note that the high-lighted line above looks for an en-vi-ron-ment vari-able named \TU/lmtt/m/n/10.95 BLOCKFROST_PROJECT_ID
+ []
+
+
+Overfull \hbox (291.80225pt too wide) in paragraph at lines 249--249
+[]    \TU/lmtt/m/n/10.95 "addr_test1qxygsw9r9rt5q0jx8m6lmcjlsrn2ck7c7tpekl9wzyj8nvc70wwdlcs78s7ntljtm6xqfvwzttttts33dtjpytldc7cs7dpjl7jqxyr9qyz3e"[] 
+ []
+
+<images/lock.png, id=1014, 1028.84375pt x 638.385pt>
+File: images/lock.png Graphic file (type png)
+<use images/lock.png>
+Package luatex.def Info: images/lock.png  used on input line 269.
+(luatex.def)             Requested size: 308.6555pt x 191.51697pt.
+[68]
+<images/unlock.png, id=1020, 1046.91125pt x 640.3925pt>
+File: images/unlock.png Graphic file (type png)
+<use images/unlock.png>
+Package luatex.def Info: images/unlock.png  used on input line 296.
+(luatex.def)             Requested size: 314.0758pt x 192.11923pt.
+ [69<./images/lock.png>]
+Overfull \hbox (28.44337pt too wide) in paragraph at lines 302--303
+[]\TU/lmr/m/n/10.95 You can look for it us-ing the trans-ac-tion hash: \TU/lmr/m/it/10.95 af3e7d83e5ee5324a612de9126636ef55505ffb9c468da-
+ []
+
+[70<./images/unlock.png>]) [71] [72
+
+]
+Chapter 7.
+(./sections/solutions/solutions.tex (./sections/solutions/numberone.tex (./sections/solutions/index.html)) (./sections/solutions/numbertwo.tex (./sections/solutions/get_addresses.py [73
+
+])) (./sections/solutions/nft.tex (./sections/solutions/nft.ak [74] [75] [76] [77] [78] [79])) (./sections/solutions/cip69.tex (./sections/solutions/cip69.ak [80])) (./sections/solutions/fraction.tex (./sections/solutions/fraction.ak [81] [82] [83] [84] [85] [86]))) (./sections/glossary/glossary.tex
 \@gls@deffile=\write9
 
 \openout9 = dark.glsdefs
-) (./dark.gls [19])
+) (./dark.gls [87])
 
 Package caption Warning: Unused \captionsetup[figure] on input line 42.
 See the caption package documentation for explanation.
 
-[20
+[88
 
 
 ] (./dark.aux)
@@ -2026,25 +2355,28 @@ L3 programming layer <2024-03-14>
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
+
+LaTeX Warning: There were multiply-defined labels.
+
 Package logreq Info: Writing requests to 'dark.run.xml'.
 
 \openout1 = dark.run.xml
 ))
 
 Here is how much of LuaTeX's memory you used:
- 55174 strings out of 476435
- 476944,2373549 words of node,token memory allocated
- 1505 words of node memory still in use:
-   31 hlist, 2 vlist, 14 rule, 1 local_par, 4 glue, 5 kern, 1 penalty, 3 glyph, 89 attribute, 81 glue_spec, 82 attribute_list, 3 write, 1 close, 24 pdf_literal, 1 pdf_action, 24 pdf_colorstack nodes
-   avail lists: 1:11,2:9063,3:5944,4:11846,5:8883,6:102,7:11543,8:4,9:22415,10:29,11:819
- 75557 multiletter control sequences out of 65536+600000
- 70 fonts using 6249431 bytes
- 116i,16n,128p,2386b,2001s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<c:/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmmonolt10-bold.otf><c:/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmroman9-regular.otf><c:/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmmono10-regular.otf><c:/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmroman10-italic.otf><./template/generic/fonts/inconsolata/Inconsolata-LGC-BoldItalic.otf><c:/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmroman10-bolditalic.otf><c:/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmroman10-bold.otf><c:/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmroman10-regular.otf><c:/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmsans10-regular.otf><c:/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmsans10-bold.otf><./template/generic/fonts/inconsolata/Inconsolata-LGC.otf><./template/generic/fonts/inconsolata/Inconsolata-LGC-Bold.otf>
-Output written on dark.pdf (20 pages, 440016 bytes).
+ 58024 strings out of 476435
+ 931575,2373549 words of node,token memory allocated
+ 1583 words of node memory still in use:
+   31 hlist, 2 vlist, 14 rule, 1 local_par, 4 glue, 4 kern, 1 penalty, 1 margin_kern, 4 glyph, 101 attribute, 81 glue_spec, 88 attribute_list, 3 write, 1 close, 24 pdf_literal, 7 pdf_action, 24 pdf_colorstack nodes
+   avail lists: 1:9,2:13768,3:5945,4:24228,5:19289,6:137,7:26643,8:93,9:48733,10:42,11:1815
+ 77003 multiletter control sequences out of 65536+600000
+ 90 fonts using 7979847 bytes
+ 116i,16n,128p,2386b,3076s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<c:/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmroman9-bold.otf><c:/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmroman6-regular.otf><c:/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmmono10-italic.otf><c:/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmmonolt10-bold.otf><c:/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmmono9-regular.otf><c:/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmroman9-regular.otf><c:/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmmono10-regular.otf><c:/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmroman10-italic.otf><./template/generic/fonts/inconsolata/Inconsolata-LGC-BoldItalic.otf><c:/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmroman10-bolditalic.otf><c:/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmroman10-bold.otf><c:/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmroman10-regular.otf><c:/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmsans10-regular.otf><c:/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmsans10-bold.otf><./template/generic/fonts/inconsolata/Inconsolata-LGC.otf><./template/generic/fonts/inconsolata/Inconsolata-LGC-Bold.otf>
+Output written on dark.pdf (88 pages, 1190850 bytes).
 
-PDF statistics: 457 PDF objects out of 1000 (max. 8388607)
- 365 compressed objects within 4 object streams
- 155 named destinations out of 1000 (max. 131072)
- 376 words of extra memory for PDF output out of 10000 (max. 100000000)
+PDF statistics: 2239 PDF objects out of 2487 (max. 8388607)
+ 2038 compressed objects within 21 object streams
+ 1464 named destinations out of 1728 (max. 131072)
+ 608 words of extra memory for PDF output out of 10000 (max. 100000000)
 

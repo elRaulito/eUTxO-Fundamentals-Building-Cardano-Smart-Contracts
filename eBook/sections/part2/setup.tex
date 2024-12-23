@@ -4,13 +4,15 @@ What are we going to use for our project?
 
 
 \begin{itemize}
-    \item \textbf{A hot Wallet}: We are going to use a wallet to test our contracts, this wallet will be used to receive tADA. We'll never store our main ADA holdings in this wallet: Wallets recommended for testnet are Nami on desktop and  Vespr for mobile.
+    \item \textbf{A hot wallet}: We are going to use a wallet to test our contracts, this wallet will be used to receive tADA. We'll never store our main ADA holdings in this wallet: Wallets recommended for testnet are Nami on desktop and  Vespr for mobile.
     \item \textbf{A indexer account}: Indexers are the ones that will provide us the APIs in order to interact with the chain, we won't need to run a node for testing, let's use services and projects already there like \textbf{Maestro}, let's set up an account and get the API key.
-    \item \textbf{Lucid library}: Lucid is not maintained anymore as a function and has been replaced by COMING SOON, however for testing and understanding the flow of Cardano transactions it can be really useful.
+    \item \textbf{Lucid library}: Lucid is not maintained anymore as a function and has been replaced by COMING SOON*, however for testing and understanding the flow of Cardano transactions it can be really useful.
     \item \textbf{tADA}: How are we going to test without having testnet ADA? let's not mess up real ADA
-    \item  \textbf{IDE}: Personally I use Visual Studio Code as IDE, but any other editor is ok since we are going to 
-    \item \textbf{Cardano Node:} This is NOT mandatory at all, as homework, we could try to set up a Cardano node and interact with the chain using cardano-cli (command line), however, this is something we can do in our free time, there are other hobbies out there better than this, swimming, dancing or reading a book.
+    \item  \textbf{IDE}: Personally I use Visual Studio Code as IDE, but any other editor is ok since we are going to run the code on the browser.
+    \item \textbf{Cardano node:} This is NOT mandatory at all, as homework, we could try to set up a Cardano node and interact with the chain using cardano-cli (command line), however, this is something we can do in our free time, there are other hobbies out there better than this, swimming, dancing or reading a book.
 \end{itemize}
+
+*A new library is being built and once live it's going to be added in this book.
 
 \section{Hot wallets on Cardano}
 When it comes to the wallet choice on Cardano the question we should ask ourselves is: Desktop or Mobile?
@@ -67,9 +69,9 @@ The process doesn't involve any payment and at the end of your testing, ideally,
 
 To connect our wallet with any webpage we'll use \gls{CIP}30 reference, we can find the list of methods to connect and invoke the functions of the wallets at this \href{https://www.cardano-caniuse.io/}{page}
 
-\includegraphics[scale=0.3]{cip30}
+\includegraphics[scale=0.3]{CIP30}
 
-The steps to interact with a wallet following cip30 are:
+The steps to interact with a wallet following CIP30 are:
 
 \begin{itemize}
     \item \textbf{cardano.{walletName}.enable()}: we get an API object as Promise, this will create a popup message to allow the wallet to connect to the current website
@@ -84,7 +86,7 @@ The steps to interact with a wallet following cip30 are:
 
 
 
-\section{Interacting with Cardano Node and Wallet APIs}
+\section{Interacting with Cardano node and Wallet APIs}
 
 CIP30 is not enough, what if we want to get the information regarding a specific NFT in our wallet?
 How to get the list of tokens inside the wallet and get information regarding their circulation supply?
@@ -116,7 +118,7 @@ If you would like to explore additional API providers you should consider the fo
 \begin{itemize}
     \item Blockfrost: The very first API provider for Cardano \href{https://blockfrost.io/dashboard}{link}
     \item Kupo: A tool that requires a node in order to host your own11 indexer \href{https://github.com/CardanoSolutions/kupo}{Github}
-    \item Db-sync: Additional indexer that requires a Cardano Node, this is the very first one that was created \href{https://github.com/IntersectMBO/cardano-db-sync}{Github}
+    \item Db-sync: Additional indexer that requires a Cardano node, this is the very first one that was created \href{https://github.com/IntersectMBO/cardano-db-sync}{Github}
 \end{itemize}
 
 Now Let's code smart contracts.
@@ -126,7 +128,7 @@ Now Let's code smart contracts.
 \end{remark}
 
 
-\section{Setting Up a Cardano Node on Contabo Cloud VPS}
+\section{Setting Up a Cardano node on Contabo Cloud VPS}
 
 \subsection{Step 1: Provisioning a Contabo Cloud VPS}
 \begin{enumerate}
@@ -134,12 +136,13 @@ Now Let's code smart contracts.
     \item Once you have access to your VPS, log in via SSH.
 \end{enumerate}
 
-\subsection{Step 2: Downloading and Extracting Cardano Node Software}
+\subsection{Step 2: Downloading and Extracting Cardano node Software}
 \begin{enumerate}
-    \item Navigate to the official Cardano GitHub release page: \href{https://github.com/input-output-hk/cardano-node/releases/tag/8.1.2}{Cardano Node Releases}.
-    \item Download the Cardano Node software for macOS by running the following command:
+    \item Navigate to the official Cardano GitHub release page: \href{https://github.com/input-output-hk/cardano-node/releases/tag/8.1.2}{Cardano node Releases}.
+    \item Download the Cardano node software for macOS by running the following command:
     \begin{verbatim}
-    wget https://github.com/input-output-hk/cardano-node/releases/download/8.1.2/cardano-node-8.1.2-macos.tar.gz
+    wget https://github.com/input-output-hk/cardano-node/releases \dots
+    /download/8.1.2/cardano-node-8.1.2-macos.tar.gz
     \end{verbatim}
     \item After the download completes, create a directory named "node" and extract the downloaded files into it:
     \begin{verbatim}
@@ -157,7 +160,7 @@ Now Let's code smart contracts.
     cd ..
     mkdir sockets
     \end{verbatim}
-    \item Create a systemd service file for the Cardano Node:
+    \item Create a systemd service file for the Cardano node:
     \begin{verbatim}
     sudo nano /etc/systemd/system/cardano-node.service
     \end{verbatim}
@@ -205,14 +208,16 @@ WantedBy=multi-user.target
     \end{verbatim}
     \item Fetch the latest blockchain snapshot and sync the blockchain:
     \begin{verbatim}
-    curl -o - https://downloads.csnapshots.io/snapshots/mainnet/$(curl -s https://downloads.csnapshots.io/snapshots/mainnet/mainnet-db-snapshot.json| jq -r .[].file_name ) | lz4 -c -d - | tar -x -C /root/node/mainnet/
+    curl -o - https://downloads.csnapshots.io/snapshots/mainnet/$(curl -s \dots 
+    https://downloads.csnapshots.io/snapshots/mainnet/mainnet-db-snapshot.json| jq -r .[].file_name ) \dots 
+     | lz4 -c -d - | tar -x -C /root/node/mainnet/
     \end{verbatim}
     This process may take around 30 minutes.
 \end{enumerate}
 
-\subsection{Step 5: Starting the Cardano Node}
+\subsection{Step 5: Starting the Cardano node}
 \begin{enumerate}
-    \item Enable and start the Cardano Node service:
+    \item Enable and start the Cardano node service:
     \begin{verbatim}
     sudo systemctl enable cardano-node.service
     sudo systemctl start cardano-node.service
@@ -233,10 +238,11 @@ WantedBy=multi-user.target
     \begin{verbatim}
     nano tx-submit-mainnet-config.yaml
     \end{verbatim}
-    Paste the content from \href{https://github.com/input-output-hk/cardano-node/blob/master/cardano-submit-api/config/tx-submit-mainnet-config.yaml}{Cardano Node GitHub} into this file. Save and exit the editor.
+    Paste the content from \href{https://github.com/input-output-hk/cardano-node/blob/master/cardano-submit-api/config/tx-submit-mainnet-config.yaml}{Cardano node GitHub} into this file. Save and exit the editor.
     \item Run the Cardano Submit API with the provided configuration:
     \begin{verbatim}
-    ./cardano-submit-api --tx-submit-mainnet-config.yaml --socket-path /root/node/sockets/socket node.socket --port 8090 --mainnet --host-addr 0.0.0.0
+    ./cardano-submit-api --tx-submit-mainnet-config.yaml --socket-path \dots
+    /root/node/sockets/socket node.socket --port 8090 --mainnet --host-addr 0.0.0.0
     \end{verbatim}
 \end{enumerate}
 

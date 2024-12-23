@@ -1,0 +1,38 @@
+% Define Aiken language style for listings
+\lstdefinelanguage{Aiken} {
+    keywords={
+        use, pub, type, validator, fn, let, if, else, when, trace, expect, and, or, fail, True, False,
+        Mint, Burn, Action, Option, List, Dict, Pair, ByteArray, Int, Pairs, Input, Output, Transaction, Script, NoDatum
+    },
+    keywordstyle=\color{blue}\bfseries,
+    ndkeywords={
+        from_asset, from_asset_list, mock_policy_id, mock_pub_key_hash, mock_utxo_ref, assets, dict, list, to_string, to_bytearray
+    },
+    ndkeywordstyle=\color{orange}\bfseries,
+    identifierstyle=\color{black},
+    sensitive=false,
+    comment=[l]{\#},
+    morecomment=[s]{/*}{*/},
+    commentstyle=\color{gray}\ttfamily,
+    stringstyle=\color{red}\ttfamily,
+    morestring=[b]',
+    morestring=[b]"
+}
+
+% Set listing style for Aiken code
+\lstset{
+    basicstyle=\ttfamily\small,
+    commentstyle=\color{gray},
+    stringstyle=\color{red},
+    keywordstyle=\color{blue},
+    showstringspaces=false,
+    tabsize=4,
+    language=Aiken,
+    breaklines=true,
+    frame=single,
+    captionpos=b
+}
+
+
+
+\lstinputlisting[]{sections/solutions/nft.ak}
