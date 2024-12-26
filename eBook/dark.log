@@ -1,8 +1,8 @@
-This is LuaHBTeX, Version 1.18.0 (TeX Live 2024)  (format=lualatex 2024.4.18)  23 DEC 2024 14:27
+This is LuaHBTeX, Version 1.18.0 (TeX Live 2024)  (format=lualatex 2024.4.18)  26 DEC 2024 12:10
  restricted system commands enabled.
  file:line:error style messages enabled.
-**c:/Users/raulr/Documents/eBook/dark.tex
-(c:/Users/raulr/Documents/eBook/dark.tex
+**c:/Users/raulr/Documents/GitHub/eUTxO-Fundamentals-Building-Cardano-Smart-Contracts/eBook/dark.tex
+(c:/Users/raulr/Documents/GitHub/eUTxO-Fundamentals-Building-Cardano-Smart-Contracts/eBook/dark.tex
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-03-14>
 Lua module: luaotfload 2024-02-14 3.28 Lua based OpenType font support
@@ -2104,19 +2104,19 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 [11
 
 ]
-<images/wallet_preview.png, id=218, 295.60437pt x 442.65375pt>
+<images/wallet_preview.png, id=220, 295.60437pt x 442.65375pt>
 File: images/wallet_preview.png Graphic file (type png)
 <use images/wallet_preview.png>
 Package luatex.def Info: images/wallet_preview.png  used on input line 50.
 (luatex.def)             Requested size: 295.60364pt x 442.65265pt.
  [12] [13<./images/wallet_preview.png>]
-<images/CIP30.png, id=233, 1031.35312pt x 498.86375pt>
+<images/CIP30.png, id=235, 1031.35312pt x 498.86375pt>
 File: images/CIP30.png Graphic file (type png)
 <use images/CIP30.png>
 Package luatex.def Info: images/CIP30.png  used on input line 72.
 (luatex.def)             Requested size: 309.40833pt x 149.66028pt.
  [14<./images/cip30.png>]
-<images/maestro.png, id=245, 1020.81375pt x 592.2125pt>
+<images/maestro.png, id=247, 1020.81375pt x 592.2125pt>
 File: images/maestro.png Graphic file (type png)
 <use images/maestro.png>
 Package luatex.def Info: images/maestro.png  used on input line 100.
@@ -2170,7 +2170,7 @@ Overfull \hbox (7.96317pt too wide) in paragraph at lines 46--46
 (./sections/part3/exploring.tex [20
 
 ]
-<images/transactionTestnet.png, id=309, 1050.92625pt x 589.20125pt>
+<images/transactionTestnet.png, id=311, 1050.92625pt x 589.20125pt>
 File: images/transactionTestnet.png Graphic file (type png)
 <use images/transactionTestnet.png>
 Package luatex.def Info: images/transactionTestnet.png  used on input line 59.
@@ -2218,7 +2218,7 @@ Overfull \hbox (10.11356pt too wide) in paragraph at lines 269--269
  []
 
 [42] [43]
-<images/aiken.png, id=720, 926.46124pt x 467.24562pt>
+<images/aiken.png, id=722, 926.46124pt x 467.24562pt>
 File: images/aiken.png Graphic file (type png)
 <use images/aiken.png>
 Package luatex.def Info: images/aiken.png  used on input line 360.
@@ -2233,9 +2233,9 @@ Overfull \hbox (82.46475pt too wide) in paragraph at lines 586--587
 [49]) [50
 Missing character: There is no 🎉 (U+1F389) in font [lmmono10-regular]:!
 ]
-Overfull \hbox (88.5513pt too wide) in paragraph at lines 56--56
- |[] []\TU/Inconsolata-LGC(0)/m/n/48 SMART CON-TRACT RUN-TIME
- []
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\\' on input line 56.
 
 [51
 
@@ -2244,13 +2244,13 @@ Chapter 5.
 (./sections/part5/runtime.tex [52
 
 ] [53] [54]
-<images/collateral.png, id=930, 250.43562pt x 229.35687pt>
+<images/collateral.png, id=932, 250.43562pt x 229.35687pt>
 File: images/collateral.png Graphic file (type png)
 <use images/collateral.png>
 Package luatex.def Info: images/collateral.png  used on input line 136.
 (luatex.def)             Requested size: 250.435pt x 229.35631pt.
  [55] [56<./images/collateral.png>] [57]
-<images/gastronomy.png, id=953, 1204.5pt x 632.3625pt>
+<images/gastronomy.png, id=955, 1204.5pt x 632.3625pt>
 File: images/gastronomy.png Graphic file (type png)
 <use images/gastronomy.png>
 Package luatex.def Info: images/gastronomy.png  used on input line 225.
@@ -2261,9 +2261,9 @@ Overfull \hbox (90.59604pt too wide) in paragraph at lines 255--255
  []
 
 [59] [60]) [61]
-Overfull \hbox (88.5513pt too wide) in paragraph at lines 62--62
- |[] []\TU/Inconsolata-LGC(0)/m/n/48 SMART CON-TRACT RUN-TIME
- []
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\\' on input line 62.
 
 [62
 
@@ -2312,13 +2312,13 @@ Overfull \hbox (291.80225pt too wide) in paragraph at lines 249--249
 []    \TU/lmtt/m/n/10.95 "addr_test1qxygsw9r9rt5q0jx8m6lmcjlsrn2ck7c7tpekl9wzyj8nvc70wwdlcs78s7ntljtm6xqfvwzttttts33dtjpytldc7cs7dpjl7jqxyr9qyz3e"[] 
  []
 
-<images/lock.png, id=1014, 1028.84375pt x 638.385pt>
+<images/lock.png, id=1016, 1028.84375pt x 638.385pt>
 File: images/lock.png Graphic file (type png)
 <use images/lock.png>
 Package luatex.def Info: images/lock.png  used on input line 269.
 (luatex.def)             Requested size: 308.6555pt x 191.51697pt.
 [68]
-<images/unlock.png, id=1020, 1046.91125pt x 640.3925pt>
+<images/unlock.png, id=1022, 1046.91125pt x 640.3925pt>
 File: images/unlock.png Graphic file (type png)
 <use images/unlock.png>
 Package luatex.def Info: images/unlock.png  used on input line 296.
@@ -2364,19 +2364,19 @@ Package logreq Info: Writing requests to 'dark.run.xml'.
 ))
 
 Here is how much of LuaTeX's memory you used:
- 58024 strings out of 476435
- 931575,2373549 words of node,token memory allocated
- 1583 words of node memory still in use:
-   31 hlist, 2 vlist, 14 rule, 1 local_par, 4 glue, 4 kern, 1 penalty, 1 margin_kern, 4 glyph, 101 attribute, 81 glue_spec, 88 attribute_list, 3 write, 1 close, 24 pdf_literal, 7 pdf_action, 24 pdf_colorstack nodes
-   avail lists: 1:9,2:13768,3:5945,4:24228,5:19289,6:137,7:26643,8:93,9:48733,10:42,11:1815
- 77003 multiletter control sequences out of 65536+600000
+ 58025 strings out of 476435
+ 931570,2373549 words of node,token memory allocated
+ 1667 words of node memory still in use:
+   31 hlist, 2 vlist, 14 rule, 1 local_par, 4 glue, 4 kern, 1 penalty, 1 margin_kern, 4 glyph, 115 attribute, 81 glue_spec, 95 attribute_list, 3 write, 1 close, 24 pdf_literal, 14 pdf_action, 24 pdf_colorstack nodes
+   avail lists: 1:8,2:13321,3:5946,4:23600,5:18871,6:134,7:26125,8:93,9:47679,10:42,11:1775
+ 77004 multiletter control sequences out of 65536+600000
  90 fonts using 7979847 bytes
- 116i,16n,128p,2386b,3076s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 116i,16n,128p,2445b,3076s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmroman9-bold.otf><c:/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmroman6-regular.otf><c:/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmmono10-italic.otf><c:/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmmonolt10-bold.otf><c:/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmmono9-regular.otf><c:/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmroman9-regular.otf><c:/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmmono10-regular.otf><c:/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmroman10-italic.otf><./template/generic/fonts/inconsolata/Inconsolata-LGC-BoldItalic.otf><c:/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmroman10-bolditalic.otf><c:/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmroman10-bold.otf><c:/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmroman10-regular.otf><c:/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmsans10-regular.otf><c:/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmsans10-bold.otf><./template/generic/fonts/inconsolata/Inconsolata-LGC.otf><./template/generic/fonts/inconsolata/Inconsolata-LGC-Bold.otf>
-Output written on dark.pdf (88 pages, 1190850 bytes).
+Output written on dark.pdf (88 pages, 1193468 bytes).
 
-PDF statistics: 2239 PDF objects out of 2487 (max. 8388607)
- 2038 compressed objects within 21 object streams
+PDF statistics: 2255 PDF objects out of 2487 (max. 8388607)
+ 2054 compressed objects within 21 object streams
  1464 named destinations out of 1728 (max. 131072)
  608 words of extra memory for PDF output out of 10000 (max. 100000000)
 

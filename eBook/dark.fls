@@ -1,6 +1,6 @@
-PWD c:/Users/raulr/Documents/eBook
+PWD c:/Users/raulr/Documents/GitHub/eUTxO-Fundamentals-Building-Cardano-Smart-Contracts/eBook
 INPUT c:/texlive/2024/texmf-var/web2c/luahbtex/lualatex.fmt
-INPUT c:/Users/raulr/Documents/eBook/dark.tex
+INPUT c:/Users/raulr/Documents/GitHub/eUTxO-Fundamentals-Building-Cardano-Smart-Contracts/eBook/dark.tex
 OUTPUT dark.log
 INPUT c:/texlive/2024/texmf-dist/tex/latex/tex-ini-files/lualatexquotejobname.lua
 INPUT c:/texlive/2024/texmf-dist/tex/latex/base/ltluatex.lua

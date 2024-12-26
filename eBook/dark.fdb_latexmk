@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex dark"] 1734960438.58352 "dark.aux" "dark.bbl" "dark" 1734960453.27499 0
-  "./dark-blx.bib" 1734960451 342 a6d1c440eb7fe5beb150fba2e17e21b4 ""
+["bibtex dark"] 1735211424.71056 "dark.aux" "dark.bbl" "dark" 1735211434.41534 0
+  "./dark-blx.bib" 1735211432 342 a6d1c440eb7fe5beb150fba2e17e21b4 ""
   "c:/texlive/2024/texmf-dist/bibtex/bst/biblatex/biblatex.bst" 1713455045 65510 b1f696b0241395385f422f67543c37fd ""
-  "dark.aux" 1734960451 62861 7857300e8c96c8bd772446653ce92999 "lualatex"
+  "dark.aux" 1735211432 62640 d9cbb164df5b198907e7dd50d0e86114 "lualatex"
   (generated)
   "dark.bbl"
   "dark.blg"
   (rewritten before read)
-["lualatex"] 1734960439.22165 "c:/Users/raulr/Documents/eBook/dark.tex" "dark.pdf" "dark" 1734960453.27585 0
+["lualatex"] 1735211425.19152 "c:/Users/raulr/Documents/GitHub/eUTxO-Fundamentals-Building-Cardano-Smart-Contracts/eBook/dark.tex" "dark.pdf" "dark" 1735211434.41648 0
   "C:/texlive/2024/texmf-var/luatex-cache/generic/fonts/otl/inconsolata-lgc-bold.luc" 1713718237 69252 47b441090fb2fd09a02aa4ea33bb1b58 ""
   "C:/texlive/2024/texmf-var/luatex-cache/generic/fonts/otl/inconsolata-lgc-bolditalic.luc" 1713718237 70590 0eb836b7e9ce83d06a098cd3ece62469 ""
   "C:/texlive/2024/texmf-var/luatex-cache/generic/fonts/otl/inconsolata-lgc-italic.luc" 1713718237 70098 5945cae7ae2dcd5cee39b072fd2927f1 ""
@@ -32,7 +32,7 @@
   "C:/texlive/2024/texmf-var/luatex-cache/generic/fonts/otl/lmsans10-bold.luc" 1713509161 128096 30b0c865c12e83dde55ea412ade7758b ""
   "C:/texlive/2024/texmf-var/luatex-cache/generic/fonts/otl/lmsans10-regular.luc" 1713509161 127638 ee0c1de4285eb315202736fee1024d41 ""
   "C:/texlive/2024/texmf-var/luatex-cache/generic/names/luaotfload-names.luc.gz" 1713508973 302121 bc669ff8c1afe17866eea23ce0b48dcf ""
-  "c:/Users/raulr/Documents/eBook/dark.tex" 1733691344 577 cb5193199d55bdf55989dace4dd4dc86 ""
+  "c:/Users/raulr/Documents/GitHub/eUTxO-Fundamentals-Building-Cardano-Smart-Contracts/eBook/dark.tex" 1733691344 577 cb5193199d55bdf55989dace4dd4dc86 ""
   "c:/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmmono10-italic.otf" 1713457618 63584 4d362a77d55d0d8683d2b315bd34f34b ""
   "c:/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmmono10-regular.otf" 1713457618 64684 c6f5a48921f83c1a51d9384f785ddd5a ""
   "c:/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmmono9-regular.otf" 1713457618 63076 649b48710517d49fb67ce305ff6982d9 ""
@@ -401,14 +401,14 @@
   "c:/texlive/2024/texmf-var/tex/generic/config/language.dat" 1713462726 7119 0ff77e8370739e26146c5cec3822dcf6 ""
   "c:/texlive/2024/texmf-var/web2c/luahbtex/lualatex.fmt" 1713462934 12263988 27d24959e6537f251d670518baa798c1 ""
   "context.tex" 1713454309 470 6f6e6fea730ab2f69e41fd1a4c4df3fa ""
-  "dark.aux" 1734960451 62861 7857300e8c96c8bd772446653ce92999 "lualatex"
-  "dark.bbl" 1734960439 519 c509c3014ae4e0f7ab9c902c559d8615 "bibtex dark"
-  "dark.gls" 1734960443 1667 f8aa999b7f5e7c4ae86ae19fd8f9138d ""
-  "dark.glsdefs" 1734960451 9585 771b3066196209b37bd3065bf6664040 "lualatex"
-  "dark.ind" 1734960408 0 d41d8cd98f00b204e9800998ecf8427e "makeindex dark.idx"
-  "dark.run.xml" 1734960451 2526 82c2884f3fc94065a321db530829075e "lualatex"
+  "dark.aux" 1735211432 62640 d9cbb164df5b198907e7dd50d0e86114 "lualatex"
+  "dark.bbl" 1735211425 519 c509c3014ae4e0f7ab9c902c559d8615 "bibtex dark"
+  "dark.gls" 1735211427 1667 f8aa999b7f5e7c4ae86ae19fd8f9138d ""
+  "dark.glsdefs" 1735211432 9585 771b3066196209b37bd3065bf6664040 "lualatex"
+  "dark.ind" 1735211405 0 d41d8cd98f00b204e9800998ecf8427e "makeindex dark.idx"
+  "dark.run.xml" 1735211432 2526 82c2884f3fc94065a321db530829075e "lualatex"
   "dark.tex" 1733691344 577 cb5193199d55bdf55989dace4dd4dc86 ""
-  "dark.toc" 1734960451 14943 8d9553d1cf46f1bb8cd1a5ec9db3c42f "lualatex"
+  "dark.toc" 1735211432 14924 a6db3b56ccdb08ca9240fdbe2925dc28 "lualatex"
   "images/aiken.png" 1721780339 100376 0858bbf0e39e3a2e99c725ce8178533f ""
   "images/cip30.png" 1714228144 126243 9a3219691046ae1ddfbe4d2f1840d579 ""
   "images/collateral.png" 1734954737 31711 5beccfb85bbeaacd88ef4871668b27c7 ""
@@ -418,7 +418,7 @@
   "images/transactionTestnet.png" 1720789396 253718 69510d09f564811f2ee6f43084fcd3fb ""
   "images/unlock.png" 1734958566 161677 19d67271ac3a72f0d49231aa3a84066d ""
   "images/wallet_preview.png" 1714227725 43283 8b84fb1d15653944e8f14e153185fc7b ""
-  "main.tex" 1734958354 3258 f1de3796199545ee05285135b63c3b25 ""
+  "main.tex" 1735210770 3243 794bf332a8699265b9e0ddd6fd0a98f6 ""
   "sections/glossary/glossary.tex" 1720790735 3521 515f285accd9e702a3d327ecf969f727 ""
   "sections/part1/overview.tex" 1715189118 12839 f8de1ecad16d633ff9dd1899df797b2f ""
   "sections/part2/setup.tex" 1721782076 12720 b601f5f3bd750ef0968eacccd51c4846 ""
@@ -438,7 +438,7 @@
   "sections/solutions/numberone.tex" 1715188293 566 25f5131e9be8724248cc0c882a90fb64 ""
   "sections/solutions/numbertwo.tex" 1721781507 895 02cabc72fa1fa89a18c9e475ad126597 ""
   "sections/solutions/plutus.tex" 1721763784 1610 f1d6580d3287166dfa81cfd8a7668027 ""
-  "sections/solutions/solutions.tex" 1734960071 349 2f4871944d65f79560624f970aaa5368 ""
+  "sections/solutions/solutions.tex" 1735211270 1526 f5f944f879272cd58648ae41cdfaf246 ""
   "template/book/background.tex" 1713878907 1167 ef6566cbaabb6ec957fcc22930805dfb ""
   "template/book/bibliography.tex" 1713454309 291 38d0da2846ef4b8d43138243f8f413d4 ""
   "template/book/cover.tex" 1715188823 2016 5ff96330db614134460acb10e7ab3e3b ""
@@ -478,8 +478,8 @@
   "dark.run.xml"
   "dark.toc"
   (rewritten before read)
-["makeindex dark.idx"] 1734960408.37279 "dark.idx" "dark.ind" "dark" 1734960453.27458 0
-  "dark.idx" 1734960442 0 d41d8cd98f00b204e9800998ecf8427e "lualatex"
+["makeindex dark.idx"] 1735211405.53518 "dark.idx" "dark.ind" "dark" 1735211434.41477 0
+  "dark.idx" 1735211427 0 d41d8cd98f00b204e9800998ecf8427e "lualatex"
   (generated)
   "dark.ilg"
   "dark.ind"
