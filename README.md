@@ -11,3 +11,5 @@ You can contribute creating Issues or PR to the book, the source code, layout an
 
 
 This project is funded by Catalyst F11
+
+Check `rendered` branch to see the rendered PDF
