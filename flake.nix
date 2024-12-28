@@ -42,11 +42,11 @@
                 deadnix.enable = true;
                 latexindent = {
                   enable = true;
-                  settings.flags = "-y=\"defaultIndent:'  ',onlyOneBackUp: 1\" -w -s -k eBook/**/*.tex";
+                  settings.flags = "-l -wd -s";
                 };
                 typos = {
                   enable = true;
-                  excludes = [ ];
+                  excludes = [ "eBook/template" ];
                 };
               };
             };

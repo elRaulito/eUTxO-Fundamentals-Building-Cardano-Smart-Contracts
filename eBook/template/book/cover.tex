@@ -1,13 +1,13 @@
 \newcommand{\coverpage}[5]{
-    % #1 - title
-    % #2 - subtitle
-    % #3 - author
-    % #4 - date
-    % #5 - subject
-    \pagestyle{empty}
-    \newgeometry{left=0cm,top=0cm,right=0cm,bottom=0cm}
+  % #1 - title
+  % #2 - subtitle
+  % #3 - author
+  % #4 - date
+  % #5 - subject
+  \pagestyle{empty}
+  \newgeometry{left=0cm,top=0cm,right=0cm,bottom=0cm}
 
-    \begin{tikzpicture}[remember picture,overlay]
+  \begin{tikzpicture}[remember picture,overlay]
 
     %%%%%%%%%%%%%%%%%%%% Layers %%%%%%%%%%%%%%%%%%%%%%%%
     \pgfdeclarelayer{bg}    % declare background layer
@@ -36,12 +36,12 @@
 
     %%%%%%%%%%%%%%%%%%%% Author Name %%%%%%%%%%%%%%%%%%%%
     \begin{pgfonlayer}{fg}
-    \drawtext{\Large\textsc{Raul Rosa}\\\Large\textsc{aka ElRaulito}}{$(current page.east)+(-0.5,-5.2)$}{2cm}{0}{text=fg,anchor=east,align=right,font=\headingfontfamily};
+      \drawtext{\Large\textsc{Raul Rosa}\\\Large\textsc{aka ElRaulito}}{$(current page.east)+(-0.5,-5.2)$}{2cm}{0}{text=fg,anchor=east,align=right,font=\headingfontfamily};
     \end{pgfonlayer}
 
     %%%%%%%%%%%%%%%%%%%% Year %%%%%%%%%%%%%%%%%%%%
     \drawhexagon{\Large AFL v3.0 - 2024}{$(current page.west)+(2.5,-5)$}{2.5 cm}{0}{blue!60,draw,text=fg,font=\headingfontfamily};
 
-    \end{tikzpicture}
-    \restoregeometry
+  \end{tikzpicture}
+  \restoregeometry
 }
