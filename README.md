@@ -7,7 +7,9 @@ You can find the files in light.pdf and dark.pdf, these are light and dark mode 
 
 # Contribution and source code
 
-You can contribute creating Issues or PR to the book, the source code, layout and content are completly open to everyone in this way it is easy to fork and keep updating the content of this file
+You can contribute creating Issues or PR to the book, the source code, layout and content are completely open to everyone in this way it is easy to fork and keep updating the content of this file
 
 
 This project is funded by Catalyst F11
+
+Check `rendered` branch to see the rendered PDF

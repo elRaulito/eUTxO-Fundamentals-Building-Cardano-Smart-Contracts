@@ -1,4 +1,4 @@
-\subsection{History} \label{sec:overwiew}
+\subsection{History} \label{sec:overview}
 
 Charles Hoskinson, along with Jeremy Wood, co-founded Cardano, both were part of Ethereum before. In 2015, they established Input Output Hong Kong to create and develop more sustainable blockchain solutions. Utilizing a peer-reviewed approach to blockchain development and introducing a novel consensus mechanism called \textbf{Ouroboros}, Cardano was prepared for its Mainnet launch in 2017.
 
@@ -14,25 +14,25 @@ The blockchain model comprises several components. Users interact with the curre
 Cardano offers several advantages over other chains:
 
 \begin{itemize}
-\item \textbf{\textit{\gls{Determinism}}}: This feature enables transaction chaining.
-\item \textbf{Predictable Fees}: There is no risk of pending transactions due to fee increases.
-\item \textbf{Sustainability}: Unlike PoW, which is power-intensive, Cardano's approach is more sustainable.
-\item \textbf{Native Tokens}: Tokens are stored on the ledger, allowing smart contracts to interact with them. Users have control over tokens in their wallets, which cannot be frozen by external parties.
+  \item \textbf{\textit{\gls{Determinism}}}: This feature enables transaction chaining.
+  \item \textbf{Predictable Fees}: There is no risk of pending transactions due to fee increases.
+  \item \textbf{Sustainability}: Unlike PoW, which is power-intensive, Cardano's approach is more sustainable.
+  \item \textbf{Native Tokens}: Tokens are stored on the ledger, allowing smart contracts to interact with them. Users have control over tokens in their wallets, which cannot be frozen by external parties.
 \end{itemize}
 
 Scaling is currently the most significant challenge for the ecosystem. The ability to handle high volumes of users without being limited by block or transaction size is crucial for increasing adoption.
 
 \subsection{\textit{Determinism} and predictable fees to make a better user experience}
-Why \textbf{\textit{Determinism}} is important in smart contract programming? 
+Why \textbf{\textit{Determinism}} is important in smart contract programming?
 Cardano inherits determinism from Bitcoin, once all the fields of a transaction are decided you will always get the same transaction Hash.
 But more importantly, if you can get the hash of a transaction before actually submitting, you can even create a following transaction, relying on the first one.
 This is usually called transaction chaining, I can create a chain of transactions that are not submitted, and this can allow me to speed up the user flow.
 Ok, let's try to simplify even more this concept.
 \begin{itemize}
-    \item Alice, Bob and Raul are in a Bar, each has 100 ADA
-    \item Alice sends to Raul 50 ADA but the blockchain right now is super clogged
-    \item However Raul is already able to build a transaction to send 120 ADA to Bob because even if the blockchain is clogged, the hash of the transaction is already decided and won't change at all
-    \item Now even Bob can send 220 ADA to someone else, even before the transactions are confirmed, due to Cardano determinism he can use transactions that are not confirmed yet
+  \item Alice, Bob and Raul are in a Bar, each has 100 ADA
+  \item Alice sends to Raul 50 ADA but the blockchain right now is super clogged
+  \item However Raul is already able to build a transaction to send 120 ADA to Bob because even if the blockchain is clogged, the hash of the transaction is already decided and won't change at all
+  \item Now even Bob can send 220 ADA to someone else, even before the transactions are confirmed, due to Cardano determinism he can use transactions that are not confirmed yet
 \end{itemize}
 
 Everything seems amazing, perfect. Where is the issue?
@@ -70,10 +70,10 @@ A smart contract is a decentralized software accessible to users on the blockcha
 The essential components of a smart contract are:
 
 \begin{itemize}
-\item \textbf{Parties}: Who can interact with the contract? Is it open to everyone, specific users, or owners of particular assets?
-\item \textbf{Actions}: What operations can users perform with the contract? These could include depositing funds, creating NFTs, storing data, reading data, withdrawing funds, and more.
-\item \textbf{Rules}: Define the actions each party can take under specific conditions.
-\item \textbf{Data Fields}: What data is involved in interactions with the contract, and how can each step of the interaction be tracked?
+  \item \textbf{Parties}: Who can interact with the contract? Is it open to everyone, specific users, or owners of particular assets?
+  \item \textbf{Actions}: What operations can users perform with the contract? These could include depositing funds, creating NFTs, storing data, reading data, withdrawing funds, and more.
+  \item \textbf{Rules}: Define the actions each party can take under specific conditions.
+  \item \textbf{Data Fields}: What data is involved in interactions with the contract, and how can each step of the interaction be tracked?
 \end{itemize}
 \subsection{Applications}
 
@@ -84,11 +84,11 @@ In a marketplace scenario, the parties are sellers and buyers. Sellers can sell 
 On Cardano, specific actions might include \textbf{\textit{Cancel Listing}} and \textbf{\textit{Buy}}. \textbf{\textit{Selling/List}} is more of a smart contract interaction than an action.
 
 \begin{remark}
-A smart contract action involves a transaction where the smart contract is invoked in the inputs. If the smart contract is present only in the outputs, it's considered a smart contract interaction.
+  A smart contract action involves a transaction where the smart contract is invoked in the inputs. If the smart contract is present only in the outputs, it's considered a smart contract interaction.
 \end{remark}
 
 There can be many more smart contract applications, imagination is the limit, and some applications may work better on Cardano due to UTXO architecture or on EVM chains due to the account model.
-Let's consider the case of a dex, it can be either \textbf{\textit{\gls{orderbook}}} or \textbf{\textit{\gls{AMM}}}. The orderbook works perfectly in a UTXO blockchain because every order can be a single UTXO. 
+Let's consider the case of a dex, it can be either \textbf{\textit{\gls{orderbook}}} or \textbf{\textit{\gls{AMM}}}. The orderbook works perfectly in a UTXO blockchain because every order can be a single UTXO.
 While on EVM chains orderbook dexes struggle because they are limited by the memory of the smart contract.
 On the opposite side, building an AMM on Cardano requires a lot of emulation, since the pool is a single UTXO, more parties can't spend it at the same time, that's why we found as solutions the batchers.
 Batchers match the orders with the single UTXO liquidity pool.
@@ -97,10 +97,10 @@ This concept is not efficient however AMM are more user-friendly usually and tha
 \subsection{Smart Contract audits}
 
 Once a smart contract is developed and ready to launch an audit should be done, this is to ensure that the code is safe and no issues may arise once people start interacting with it.
-Audits play a critical role in the deployment of smart contracts, serving as a crucial safeguard against potential vulnerabilities and ensuring the integrity of the code. 
-Smart contracts, being immutable, leave little room for error once deployed, making thorough scrutiny prior to launch imperative. 
-Audits help identify security flaws, logic errors, and vulnerabilities that may compromise the contract's functionality or jeopardize users' funds. 
-By subjecting the code to rigorous review by experienced professionals, audits instill confidence among users and investors, fostering trust in the decentralized ecosystem. Moreover, audits contribute to the overall maturation of the blockchain space, driving standards for secure coding practices and enhancing the reliability of smart contract applications. 
+Audits play a critical role in the deployment of smart contracts, serving as a crucial safeguard against potential vulnerabilities and ensuring the integrity of the code.
+Smart contracts, being immutable, leave little room for error once deployed, making thorough scrutiny prior to launch imperative.
+Audits help identify security flaws, logic errors, and vulnerabilities that may compromise the contract's functionality or jeopardize users' funds.
+By subjecting the code to rigorous review by experienced professionals, audits instill confidence among users and investors, fostering trust in the decentralized ecosystem. Moreover, audits contribute to the overall maturation of the blockchain space, driving standards for secure coding practices and enhancing the reliability of smart contract applications.
 Ultimately, investing in audits upfront mitigates the risk of costly exploits or breaches down the line, safeguarding both the project's reputation and the interests of its stakeholders.
 
 But audits have a cost and sometimes early projects may not afford that much.
@@ -112,11 +112,11 @@ Opensource can be a way in order to launch a project asking for external reviews
 On Cardano there are some risks regarding smart contracts that we'll study better in the following chapters, but here are a few of them as a preview:
 
 \begin{itemize}
-    \item Double satisfaction attack: User may spend two inputs that require similar conditions
-    \item Dust attack: Users may add spam tokens in a smart contract making it impossible to retrieve funds from it
-    \item Spam Contract: A second smart contract can run together with the attacked one, making it possible to unlock funds from the first 
-    \item Datum attack: A datum of the contract may be corrupted making unspendable the funds inside the contract
-    \item backdoor: All the funds of the contract may be retrieved by someone who coded a backdoor
+  \item Double satisfaction attack: User may spend two inputs that require similar conditions
+  \item Dust attack: Users may add spam tokens in a smart contract making it impossible to retrieve funds from it
+  \item Spam Contract: A second smart contract can run together with the attacked one, making it possible to unlock funds from the first
+  \item Datum attack: A datum of the contract may be corrupted making unspendable the funds inside the contract
+  \item backdoor: All the funds of the contract may be retrieved by someone who coded a backdoor
 \end{itemize}
 
 \subsection{The cost of deploying a contract}
@@ -127,10 +127,10 @@ Deploying a contract onto the blockchain carries no direct cost, allowing widesp
 Two years ago, if you asked me about the advantages of writing smart contracts on Cardano, I would have struggled to answer. However, now I can easily list several:
 
 \begin{itemize}
-\item \textbf{\gls{Composability}}: The ability to create a transaction involving multiple contracts and perform actions with each of them.
-\item \textbf{User-Friendly}: No longer requiring Haskell, languages like Aiken, Opshin, and more offer a user-friendly experience.
-\item \textbf{\gls{Liquid Staking}}: Thanks to Cardano staking, smart contracts can delegate ADA or keep funds staked with liquidity providers.
-\item \textbf{UTxO Skills}: While much of the focus has been on Ethereum Virtual Machine (EVM) smart contracts, the UTXO model is ideal for solutions like ZK rollups, as it's easier to implement compared to the account model.
+  \item \textbf{\gls{Composability}}: The ability to create a transaction involving multiple contracts and perform actions with each of them.
+  \item \textbf{User-Friendly}: No longer requiring Haskell, languages like Aiken, Opshin, and more offer a user-friendly experience.
+  \item \textbf{\gls{Liquid Staking}}: Thanks to Cardano staking, smart contracts can delegate ADA or keep funds staked with liquidity providers.
+  \item \textbf{UTxO Skills}: While much of the focus has been on Ethereum Virtual Machine (EVM) smart contracts, the UTXO model is ideal for solutions like ZK rollups, as it's easier to implement compared to the account model.
 \end{itemize}
 
 If you're still interested in becoming a Cardano smart contract wizard after this introduction, we can continue in the next chapter, where we'll install the components needed to \textbf{build on Cardano}.
