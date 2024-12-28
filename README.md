@@ -1,5 +1,5 @@
 # eUTxO-Fundamentals-Building-Cardano-Smart-Contracts
-This book is a guide for new developers into the Cardano development ecosystem.
+This book is a guide for new developers into the Cardano development ecosystem. 
 
 # Book
 
