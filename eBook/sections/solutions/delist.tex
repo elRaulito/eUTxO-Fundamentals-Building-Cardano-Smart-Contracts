@@ -1,0 +1,28 @@
+
+
+% Define HTML language style for listings
+\lstdefinelanguage{HTML}{
+  sensitive=true,
+  keywords={},
+  otherkeywords={<, >, /, =},
+  morecomment=[s]{<!--}{-->},
+  morestring=[b]",
+  morestring=[b]',
+}
+
+% Set listing style
+\lstset{
+  basicstyle=\ttfamily\small,
+  commentstyle=\color{gray},
+  stringstyle=\color{blue},
+  keywordstyle=\color{red},
+  showstringspaces=false,
+  tabsize=4,
+  language=HTML,
+  breaklines=true,
+  frame=single,
+  captionpos=b
+}
+
+
+\lstinputlisting[]{sections/solutions/delist.js}

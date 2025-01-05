@@ -22,7 +22,7 @@ The contract will store the following information for each NFT listing:
     \item \texttt{nRoyaltyPercent} :: \texttt{Integer} \texttt{the percentage of royalty}
 \end{itemize}
 
-\section{Implementing Marketplace Contracts in Plutus, Helios, Aiken, OpShin, and plut-ts}
+\section{Implementing Marketplace Contracts}
 
 To implement marketplace contracts, we will begin by analyzing the contract implementation in \textbf{PlutusTX}. We can refer to the [JPG Store contract repository](https://github.com/jpg-store/current-jpg-store-contracts/blob/main/src/Market/Onchain.hs).
 
@@ -294,17 +294,742 @@ A buyer can purchase the NFT by fulfilling the following conditions:
 
 You don't need to fully grasp every detail of the contract at this moment. This book is here to guide you through the learning process, not to overwhelm you with technicalities. Let's simplify the contract and break it down into more accessible terms with other programming languages.
 
-\subsection{Helios marketplace}
-\subsection{Opshin marketplace}
-\subsection{Plu-ts marketplace}
-\subsection{Aiken marketplace}
+\subsection{Implementing the Marketplace Contract in Helios}
 
+To implement the marketplace contract in Helios, we can follow a similar structure to the Plutus contract but using the Helios language. In this subsection, we'll define the contract's key components, including the datum, actions, and the main program.
+
+\paragraph{Defining the Contract Name}
+First, we define the name of the contract as follows:
+
+\begin{lstlisting}[language=haskell, caption=Contract Name Definition]
+spending marketplace
+\end{lstlisting}
+
+\paragraph{Defining the Datum}
+Next, we define the \texttt{Datum}, which holds the key data for each NFT sale listing. The datum will contain the seller's address, the price of the NFT, the currency, token name, the royalty recipient, and the royalty percentage:
+
+\begin{lstlisting}[language=haskell, caption=Datum Definition]
+    struct Datum{
+        nSeller: PubKeyHash
+        nPrice: Int
+        nCurrency:AssetClass
+        nRoyalty: PubKeyHash
+        nRoyaltyPercent: Int
+    }
+\end{lstlisting}
+
+\paragraph{Defining the Redeemer}
+We define the possible actions (or \texttt{Redeemer}) that users can perform. The two actions in our marketplace contract are \texttt{Cancel} and \texttt{Buy}, which control the logic for canceling a listing or purchasing the NFT:
+
+\begin{lstlisting}[language=haskell, caption=Redeemer Definition]
+enum Redeemer{
+    Cancel
+    Buy
+}
+\end{lstlisting}
+
+\paragraph{Main Program Logic}
+Finally, we define the main program for the marketplace contract. The \texttt{main} function takes the \texttt{Datum}, the \texttt{Redeemer}, and the script context as inputs. The main logic will validate the transaction based on the action chosen by the redeemer. Here’s the initial version of the contract:
+
+\begin{lstlisting}[language=haskell, caption=Main Program Logic]
+func main(datum: Datum, redeemer: Redeemer, ctx: ScriptContext) -> Bool {
+    tx: Tx = ctx.tx;
+
+    redeemer.switch{
+        Cancel => {
+            true
+        },
+        Buy => {
+            false
+        }
+    }
+}
+\end{lstlisting}
+
+At this point, we have defined the basic structure of the marketplace contract in Helios. The next step will be to replace \texttt{true} and \texttt{false} with the actual logic for checking that the correct payments are made, the buyer gets the NFT, and the appropriate parties (seller, marketplace, and royalty recipient) are paid. This basic flow sets the foundation for a fully functional smart contract in Helios.
+
+In this section, we will add the first validation checks to our marketplace contract: one for the \texttt{Cancel} action and multiple checks for the \texttt{Buy} action. 
+
+\paragraph{Cancel Flow}
+The only way a listing can be canceled is if the transaction is signed by the owner of the NFT. We define this rule in the \texttt{Cancel} case, where the transaction must be signed by the seller's address, as indicated by the \texttt{nSeller} field in the \texttt{Datum}:
+
+\begin{lstlisting}[language=haskell, caption=Cancel Flow Code]
+Cancel => {
+    tx.is_signed_by(datum.nSeller)
+}
+\end{lstlisting}
+
+This ensures that only the owner of the NFT (the seller) can cancel the listing.
+
+\paragraph{Buy Flow}
+The \texttt{Buy} action has several checks to ensure that the transaction is valid:
+
+\begin{itemize}
+    \item The buyer must send the correct amount of money to the seller, as specified in the \texttt{nPrice} field.
+    \item A marketplace fee of 2\% is collected and sent to the designated marketplace fee address.
+    \item If royalties are set, the appropriate royalty percentage is sent to the royalty recipient address.
+    \item The contract checks that only one input with a datum is present to prevent multiple NFTs from being purchased in a single transaction.
+\end{itemize}
+
+Here's the complete Helios code with the checks for both \texttt{Cancel} and \texttt{Buy} actions:
+
+\begin{lstlisting}[language=haskell, caption=Marketplace Contract with Cancel and Buy Flow]
+spending marketplace
+
+struct Datum{
+    nSeller: PubKeyHash
+    nPrice: Int
+    nCurrency: AssetClass
+    nRoyalty: PubKeyHash
+    nRoyaltyPercent: Int
+}
+
+enum Redeemer{
+    Cancel
+    Buy
+}
+
+func main(datum: Datum, redeemer: Redeemer, ctx: ScriptContext) -> Bool {
+    tx: Tx = ctx.tx;
+    marketplaceFeeAddress: PubKeyHash = PubKeyHash::new(#87beb2237d63ff03bc842950a88959d69abbe29e8adea8176b32fd69);
+    datums: Int = tx.inputs.map((x: TxInput) -> Int { x.output.datum.switch{None => 0, else => 1} }).fold((sum: Int, x: Int) -> Int { sum + x }, 0);
+
+    redeemer.switch {
+        Cancel => {
+            tx.is_signed_by(datum.nSeller)
+        },
+        Buy => {
+            tx.value_sent_to(datum.nSeller).contains(Value::new(datum.nCurrency, datum.nPrice)) &&
+            tx.value_sent_to(marketplaceFeeAddress).contains(Value::new(datum.nCurrency, datum.nPrice * 20 / 1000)) &&
+            tx.value_sent_to(datum.nRoyalty).contains(Value::new(datum.nCurrency, datum.nPrice * datum.nRoyaltyPercent / 1000)) &&
+            datums == 1
+        }
+    }
+}
+\end{lstlisting}
+
+\paragraph{Explanation of the Code}
+In the code above:
+\begin{itemize}
+    \item \texttt{Cancel}: The transaction must be signed by the seller (the owner of the NFT), ensuring that only the owner can cancel the listing.
+    \item \texttt{Buy}: 
+        \begin{itemize}
+            \item The buyer must pay the correct price to the seller.
+            \item The marketplace receives a 2\% fee, calculated as \texttt{datum.nPrice * 20 / 1000}.
+            \item If royalties are set, the specified royalty percentage is paid to the royalty address.
+            \item The \texttt{datums == 1} check ensures that only one NFT can be purchased at a time by counting how many inputs contain a datum.
+        \end{itemize}
+\end{itemize}
+
+These checks ensure that the transaction is valid for both canceling and buying actions. The marketplace fee and royalties are handled, and the buyer is restricted to purchasing only one NFT per transaction.
+
+You can find the code at [link](https://www.hyperion-bt.org/helios-playground/?share=a0e1ed7521aba9685750f003c47c9c69) and export it to use it.
+
+\subsection{OpShin Marketplace}
+
+In this subsection, we will explore how to implement a marketplace contract using the \texttt{OpShin} framework. OpShin is a Python-based framework for developing smart contracts, and it provides a more user-friendly development experience compared to \texttt{PlutusTx}. You can find an example of this contract on their
+\paragraph{Datum Definition}
+In OpShin, the datum for the marketplace contract is defined as follows. The \texttt{Listing} datum includes the price of the listing, the vendor (the owner of the listed item), and the owner who can withdraw the listing:
+
+\begin{lstlisting}[language=python, caption=Datum Definition in OpShin]
+@dataclass
+class Listing(PlutusData):
+    CONSTR_ID = 0
+    # Price of the listing in lovelace
+    price: int
+    # the owner of the listed object
+    vendor: Address
+    # whoever is allowed to withdraw the listing
+    owner: PubKeyHash
+\end{lstlisting}
+
+\paragraph{Actions Definition}
+OpShin defines the possible actions that users can perform in the marketplace using Python dataclasses. The actions include \texttt{Buy}, which allows the buyer to purchase the listed item, and \texttt{Unlist}, which enables the owner to remove the listing:
+
+\begin{lstlisting}[language=python, caption=Actions Definition in OpShin]
+@dataclass
+class Buy(PlutusData):
+    # Redeemer to buy the listed values
+    CONSTR_ID = 0
+
+@dataclass
+class Unlist(PlutusData):
+    # Redeemer to unlist the values
+    CONSTR_ID = 1
+
+ListingAction = Union[Buy, Unlist]
+\end{lstlisting}
+
+\paragraph{Smart Contract Implementation}
+Now we can define the smart contract logic in OpShin, which includes several auxiliary functions to check payments, prevent double spending, and verify that the correct parties are signing the transaction.
+
+Here are the auxiliary functions used in the contract:
+
+\begin{itemize}
+    \item \textbf{check\_paid}: This function ensures that the correct amount of lovelace has been paid to the vendor.
+    \item \textbf{check\_single\_utxo\_spent}: This function prevents double spending by ensuring that only one UTxO is spent from the contract address.
+    \item \textbf{check\_owner\_signed}: This function checks that the owner of the listing has signed the transaction when unlisting.
+\end{itemize}
+
+The contract is implemented as follows:
+
+\begin{lstlisting}[language=python, caption=OpShin Marketplace Smart Contract]
+def check_paid(txouts: List[TxOut], addr: Address, price: int) -> None:
+    """Check that the correct amount has been paid to the vendor (or more)"""
+    res = False
+    for txo in txouts:
+        if txo.value.get(b"", {b"": 0}).get(b"", 0) >= price and txo.address == addr:
+            res = True
+    assert res, "Did not send required amount of lovelace to vendor"
+
+def check_single_utxo_spent(txins: List[TxInInfo], addr: Address) -> None:
+    """To prevent double spending, count how many UTxOs are unlocked from the contract address"""
+    count = 0
+    for txi in txins:
+        if txi.resolved.address == addr:
+            count += 1
+    assert count == 1, f"Only 1 contract utxo allowed but found {count}"
+
+def check_owner_signed(signatories: List[PubKeyHash], owner: PubKeyHash) -> None:
+    assert (
+        owner in signatories
+    ), f"Owner did not sign transaction, requires {owner.hex()} but got {[s.hex() for s in signatories]}"
+
+def validator(datum: Listing, redeemer: ListingAction, context: ScriptContext) -> None:
+    purpose = context.purpose
+    tx_info = context.tx_info
+    assert isinstance(purpose, Spending), f"Wrong script purpose: {purpose}"
+    own_utxo = resolve_spent_utxo(tx_info.inputs, purpose)
+    own_addr = own_utxo.address
+
+    check_single_utxo_spent(tx_info.inputs, own_addr)
+    # It is recommended to explicitly check all options with isinstance for user input
+    if isinstance(redeemer, Buy):
+        check_paid(tx_info.outputs, datum.vendor, datum.price)
+    elif isinstance(redeemer, Unlist):
+        check_owner_signed(tx_info.signatories, datum.owner)
+    else:
+        assert False, "Wrong redeemer"
+\end{lstlisting}
+
+\paragraph{Explanation of the Code}
+In the smart contract:
+\begin{itemize}
+    \item \texttt{check\_paid}: Verifies that the correct amount of lovelace has been paid to the vendor.
+    \item \texttt{check\_single\_utxo\_spent}: Ensures that only one UTxO is spent, preventing double spending.
+    \item \texttt{check\_owner\_signed}: Ensures that the owner has signed the transaction for the unlisting action.
+\end{itemize}
+
+The contract logic starts by checking that the transaction purpose is \texttt{Spending}, resolving the spent UTxO, and ensuring that only one contract UTxO is unlocked. Depending on the redeemer type, it either checks that the payment has been made correctly (for the \texttt{Buy} action) or that the owner has signed the transaction (for the \texttt{Unlist} action).
+
+\paragraph{Conclusion}
+This example demonstrates how OpShin provides a more user-friendly approach to building smart contracts using Python. By leveraging Python's simplicity and the \texttt{PlutusData} class, we can easily define the datum, actions, and contract logic. This approach is ideal for developers who prefer working with Python and want to avoid the complexities of \texttt{PlutusTx}.
+
+
+\subsection{Plu-ts Marketplace}
+
+In this subsection, we will explore how to implement a marketplace contract using \texttt{Plu-ts}, a TypeScript-based framework for writing Cardano smart contracts. With \texttt{Plu-ts}, we can write Cardano smart contracts in a more familiar programming language like TypeScript, which can make the development process easier for web developers.
+
+You can find the \texttt{Plu-ts} framework and more examples in the official [Plu-ts GitHub repository](https://github.com/harmoniclabs/plu-ts).
+
+\paragraph{Datum Definition}
+In \texttt{Plu-ts}, we define the datum structure for the marketplace contract as follows. The \texttt{MarketDatum} includes the seller’s public key hash and the price (in lovelace) of the listed item:
+
+\begin{lstlisting}[language=haskell, caption=Datum Definition in Plu-ts]
+import { PPubKeyHash, int, pstruct } from "@harmoniclabs/plu-ts";
+
+const MarketDatum = pstruct({ 
+    MarketDatum: { 
+        seller: PPubKeyHash.type, 
+        lovelace: int // price in lovelace
+    }
+});
+
+export default MarketDatum;
+\end{lstlisting}
+
+This structure defines the key data that will be used in the contract: the seller’s public key hash and the price of the item in lovelace.
+
+\paragraph{Contract Definition}
+Now, we define the marketplace contract using the \texttt{pfn} function in \texttt{Plu-ts}. This function allows us to write the contract logic. In the contract, we will check the transaction purpose and the seller’s signature, ensuring that the correct parties are involved.
+
+Here’s the main contract definition:
+
+\begin{lstlisting}[language=haskell, caption=Plu-ts Marketplace Contract]
+/* imports */
+
+import { PPubKeyHash, int, pstruct } from "@harmoniclabs/plu-ts";
+
+const MarketDatum = pstruct({ 
+    MarketDatum: { 
+        seller: PPubKeyHash.type, 
+        lovelace: int // price in lovelace
+    }
+});
+
+const plovelaces = phoist(
+    pfn([ PValue.type ], int)
+    ( value => value.head.snd.head.snd )
+);
+
+export default MarketDatum;
+
+/* imports */
+
+export const contract = pfn([ PScriptContext.type ], unit)(
+    ( {redeemer, tx, purpose} ) => {
+
+        const maybeDatum = plet(
+            pmatch(purpose)
+                .onSpending(({ datum }) => datum)
+                ._(_ => perror(PMaybe(data).type))
+        );
+
+        const datum = plet( punsafeConvertType( maybeDatum.unwrap, MarketDatum.type ) );
+
+        const seller = plet( datum.seller );
+
+        // use `peq` instead of `eq` to pass the function as argument or save it as variable
+        const isSeller = plet( datum.seller.peq );
+
+        const signedBySeller = tx.signatories.some( isSeller );
+
+        const sellerGetsPaid = plet(
+          tx.outputs.some( out => 
+            isSeller.$( out.address.credential.hash )
+            .and( plovelaces.$( out.value ).eq( datum.lovelace ) )
+          )
+        );
+        return passert.$(
+            (ptraceIfFalse.$(pdelay(pStr("Error in signedBySeller"))).$(signedBySeller))
+            .or( ptraceIfFalse.$(pdelay(pStr("Seller not paid"))).$( sellerGetsPaid ) )
+        );
+    }
+);
+
+/* other code */
+\end{lstlisting}
+
+\paragraph{Explanation of the Code}
+In this contract:
+\begin{itemize}
+    \item \texttt{maybeDatum}: This variable attempts to extract the datum from the transaction based on the script’s purpose (in this case, spending).
+    \item \texttt{datum}: The datum is then converted to the correct \texttt{MarketDatum} type.
+    \item \texttt{signedBySeller}: This checks whether the transaction has been signed by the seller (using the public key hash in the datum).
+    \item \texttt{passert}: This is used to assert conditions within the contract, ensuring that the seller has signed the transaction and that the seller has been paid the correct amount.
+    \item \texttt{ptraceIfFalse}: If any assertion fails, a trace message is printed to indicate what went wrong (e.g., "Error in signedBySeller" or "Seller not paid").
+\end{itemize}
+
+The contract logic checks that:
+\begin{itemize}
+    \item The transaction has been signed by the seller.
+    \item The seller has been paid the correct amount of lovelace as indicated in the \texttt{MarketDatum}.
+\end{itemize}
+
+\paragraph{Additional Features}
+This contract provides a simple structure for handling the sale of items, ensuring that only the seller can sign the transaction and that they are paid correctly. You can easily extend this contract to include additional features, such as marketplace fees, royalty payments, or checks for multiple buyers.
+
+\paragraph{Conclusion}
+The \texttt{Plu-ts} framework provides a way to write Cardano smart contracts using TypeScript, making it easier for web developers familiar with haskell/TypeScript to build blockchain applications. With simple constructs like \texttt{pfn}, \texttt{pstruct}, and \texttt{passert}, \texttt{Plu-ts} provides a clean and readable way to define and enforce contract logic on the Cardano blockchain.
+
+
+This contract has been written in plutus v3, how do we know?
+The Datum is optional and we see that the contracts try to read it before running.
+
+\subsection{Aiken Marketplace}
+
+In this subsection, we will explore how to implement a marketplace contract using Aiken, a smart contract language built on top of the Cardano blockchain. This contract is the latest version from JPG Store and is available in their [GitHub repository](https://github.com/jpg-store/contracts-v3/blob/main/validators/ask.ak).
+
+Aiken offers a clean and expressive syntax for building Cardano smart contracts. Below, we will break down the key parts of this marketplace contract, focusing on the Datum, Redeemer, and the Validator.
+
+\paragraph{Datum Definition}
+In Aiken, the datum for the marketplace listing contains two primary fields:
+1. \texttt{payouts}: A list of addresses that need to be paid, such as the seller and royalties.
+2. \texttt{owner}: The owner’s verification key hash, which determines who can update or cancel the listing.
+
+Here is the \texttt{Datum} type definition:
+
+\begin{lstlisting}[language=haskell, caption=Datum Definition in Aiken]
+type Datum {
+  payouts: List<Payout>,  -- List of payouts (royalty, seller, etc.)
+  owner: VerificationKeyHash,  -- Owner of the listing
+}
+\end{lstlisting}
+
+Additionally, the \texttt{Payout} type represents a payment that needs to be made, with an \texttt{address} and the \texttt{amount\_lovelace} that needs to be paid:
+
+\begin{lstlisting}[language=haskell, caption=Payout Definition in Aiken]
+pub type Payout {
+  address: Address,
+  amount_lovelace: Int,
+}
+\end{lstlisting}
+
+This setup means that the price of the listed NFT is always in ADA (lovelace), and the contract enforces payments to the specified addresses.
+
+\paragraph{Redeemer Definition}
+The contract allows two types of actions through the \texttt{Redeemer}:
+1. \texttt{Buy}: The buyer can purchase the listed item. The \texttt{payout\_outputs\_offset} specifies the starting point of the outputs containing the payouts.
+2. \texttt{WithdrawOrUpdate}: The owner can update or cancel the listing. This action requires the owner’s signature.
+
+Here is the \texttt{Redeemer} definition:
+
+\begin{lstlisting}[language=haskell, caption=Redeemer Definition in Aiken]
+type Redeemer {
+  Buy { payout_outputs_offset: Int }  -- Buy action with payout offset
+  WithdrawOrUpdate  -- Cancel or update the listing
+}
+\end{lstlisting}
+
+\paragraph{Contract Flow}
+The flow of the contract is as follows:
+
+\begin{itemize}
+    \item \textbf{Buy}: When a user buys the NFT, the contract checks the payouts to the correct addresses and calculates the marketplace fee if necessary. If any of the authorized users have signed the transaction, a discount may be applied.
+    \item \textbf{WithdrawOrUpdate}: If the owner wants to cancel or update the listing, the contract checks whether the transaction is signed by the owner of the NFT.
+\end{itemize}
+
+Here’s the core logic of the contract:
+
+\begin{lstlisting}[language=haskell, caption=Aiken Marketplace Contract Logic]
+validator {
+  fn spend(datum: Datum, redeemer: Redeemer, ctx: ScriptContext) -> Bool {
+    let ScriptContext { transaction, purpose } = ctx
+    let Transaction { outputs, extra_signatories, .. } = transaction
+
+    when redeemer is {
+      Buy { payout_outputs_offset } -> {
+        expect Spend(out_ref) = purpose
+
+        let datum_tag = out_ref
+          |> serialise_data
+          |> blake2b_256
+          |> InlineDatum
+
+        let Datum { payouts, .. } = datum
+        let payout_outputs = find_payout_outputs(outputs, payout_outputs_offset)
+
+        let can_have_discount = constants.authorizers()
+          |> list.any(fn(authorizer) { list.has(extra_signatories, authorizer) })
+
+        if can_have_discount {
+          check_payouts(payout_outputs, payouts, datum_tag) > 0
+        } else {
+          expect [marketplace_output, ..rest_outputs] = payout_outputs
+
+          let payouts_sum = check_payouts(rest_outputs, payouts, NoDatum)
+          let marketplace_fee = payouts_sum * 50 / 49 / 50
+
+          check_marketplace_payout(marketplace_output, marketplace_fee, datum_tag)
+        }
+      }
+
+      WithdrawOrUpdate -> 
+        list.has(extra_signatories, datum.owner)
+    }
+  }
+}
+\end{lstlisting}
+
+\paragraph{Explanation of the Code}
+In the contract:
+\begin{itemize}
+    \item \textbf{Buy Action}: 
+        \begin{itemize}
+            \item The contract expects a \texttt{Spend} purpose, indicating that the transaction is a purchase.
+            \item The contract checks the payouts by using \texttt{find\_payout\_outputs} to locate the relevant outputs and then verifying that the correct amounts are paid.
+            \item If authorized users have signed the transaction, a discount can be applied to the marketplace fee.
+            \item If no discount is applied, the marketplace fee is calculated and verified.
+        \end{itemize}
+    \item \textbf{WithdrawOrUpdate Action}: 
+        \begin{itemize}
+            \item The contract verifies that the transaction is signed by the owner of the listing, allowing them to update or cancel the listing.
+        \end{itemize}
+\end{itemize}
+
+\paragraph{Discount Handling}
+One interesting feature of this contract is the ability to apply a discount to the marketplace fee. This is done by checking if any of the authorizers (presumably JPG Store’s trusted signers) have signed the transaction. If so, the contract assumes that JPG Store has correctly calculated the fee off-chain and applies the discount:
+
+\begin{lstlisting}[language=haskell, caption=Discount Logic in Aiken]
+let can_have_discount = constants.authorizers()
+  |> list.any(fn(authorizer) { list.has(extra_signatories, authorizer) })
+\end{lstlisting}
+
+\paragraph{Conclusion}
+This Aiken marketplace contract is a powerful and flexible solution for managing NFT listings on the Cardano blockchain. By using Aiken’s expressive syntax, the contract efficiently handles buy and update actions while ensuring proper payout distribution. The ability to allow discounts based on JPG Store’s off-chain calculations is also a unique feature that makes this contract more adaptable to real-world usage.
+
+With Aiken, Cardano developers can write clean, readable smart contracts that interact seamlessly with Cardano’s blockchain, while also offering advanced features like dynamic fee handling and marketplace control.
 
 
 \section{Testing and Deploying Marketplace Contracts}
 
-In this section, we will focus on the steps necessary for testing and deploying the marketplace contracts. This involves simulating transactions, verifying contract behavior, and deploying the contract on a Cardano testnet before going live.
+Now that we've defined and explained the marketplace contract using the Aiken language, it's time to interact with it. This process involves obtaining the contract address and interacting with the contract, which can be done with various tools and libraries.
+
+\subsection{Getting the Marketplace Address}
+
+To begin interacting with the marketplace contract, we first need to obtain the address of the deployed contract. This is crucial for sending transactions that interact with the contract, such as listing or delisting NFTs. The address can be obtained by using the Plutus bytecode, which is stored in the \texttt{plutus.json} file.
+
+In the case of the marketplace contract provided earlier, the contract's compiled code is stored in the \texttt{plutus.json} file, which contains all the necessary information to interact with the contract. You can find an example of this file from the JPG Store repository on GitHub [here](https://github.com/jpg-store/contracts-v3/blob/main/plutus.json). This file contains the contract's bytecode and other details required to interact with it.
+
+The \texttt{plutus.json} file looks like this:
+\begin{quote}
+\begin{verbatim}
+{
+  "validators": [
+    {
+      "name": "ask_validator",
+      "compiledCode": "<compiled contract bytecode>",
+      "isMultiAsset": false
+    }
+  ]
+}
+\end{verbatim}
+\end{quote}
+
+From this file, we can extract the compiled bytecode to deploy the contract on the Cardano blockchain.
+
+\subsection{Using MeshJS to Build the Frontend}
+
+To interact with the Cardano blockchain and deploy the marketplace contract, we will use MeshJS. MeshJS is a powerful library designed for interacting with Cardano-based smart contracts. It allows us to build a frontend interface to interact with the marketplace contract, enabling features like listing NFTs, delisting them, and managing transactions.
+
+MeshJS provides an easy-to-use framework to connect to Cardano’s blockchain, deploy smart contracts, and manage transactions. By integrating MeshJS into our frontend, we can perform tasks such as:
+
+\begin{itemize}
+    \item Connecting to the Cardano blockchain.
+    \item Sending transactions to deploy or interact with the marketplace contract.
+    \item Managing wallet connections and user interactions.
+    \item Signing and submitting transactions to the blockchain.
+\end{itemize}
+
+In the following sections, we’ll demonstrate how to use MeshJS to list and delist NFTs in the marketplace, as well as perform a purchase.
+
+\subsubsection{Listing an NFT}
+
+The first part of the code is used by the seller to list an NFT for sale and set the price. The seller locks the NFT and specifies the amount of ADA (lovelace) that the item is priced at. This is achieved by sending the assets (NFT and the specified ADA price) to the contract address.
+
+Here’s how the listing works:
+
+\begin{lstlisting}[language=haskell, caption=Listing an NFT using MeshJS]
+import { Asset, deserializeAddress, mConStr0 } from "@meshsdk/core";
+import { getScript, getTxBuilder, wallet } from "./common";
+
+async function main() {
+  // These are the assets we want to lock into the contract
+  const assets: Asset[] = [
+    {
+      unit: "lovelace",
+      quantity: "2000000", // minADA attached
+    },
+    {
+      unit: "NFT_UNIT",
+      quantity: "1", // nft to list
+    },
+  ];
+
+  // Get utxo and wallet address
+  const utxos = await wallet.getUtxos();
+  const walletAddress = (await wallet.getUsedAddresses())[0];
+
+  const { scriptAddr } = getScript();
+
+  // Hash of the public key of the wallet, to be used in the datum
+  const signerHash = deserializeAddress(walletAddress).pubKeyHash;
+
+  // Build transaction with MeshTxBuilder
+  const txBuilder = getTxBuilder();
+  await txBuilder
+    .txOut(scriptAddr, assets) // Send assets to the script address
+    .txOutInlineDatumValue(mConStr0([[],signerHash])) //let's start by setting only the owner and no payout list
+    .changeAddress(walletAddress) // Send change back to the wallet address
+    .selectUtxosFrom(utxos)
+    .complete();
+  const unsignedTx = txBuilder.txHex;
+
+  const signedTx = await wallet.signTx(unsignedTx);
+  const txHash = await wallet.submitTx(signedTx);
+  console.log(`NFT locked into the contract at Tx ID: ${txHash}`);
+}
+
+main();
+\end{lstlisting}
+
+In this example, the seller is locking an NFT and setting the price. The datum contains the seller's public key hash, and the transaction ensures the correct amount of ADA is transferred to the contract.
+
+\subsubsection{Delisting or Purchasing an NFT}
+
+The second part is used for delisting or purchasing an NFT. When a buyer wants to purchase the NFT or the seller wants to remove it from the marketplace, they must interact with the contract to either complete the purchase or delist the item. 
+
+Here’s how the delisting and purchase flow works:
+
+\begin{lstlisting}[language=haskell, caption=Delisting or Purchasing an NFT using MeshJS]
+import { 
+  deserializeAddress, 
+  mConStr0, 
+  stringToHex 
+} from "@meshsdk/core";
+import { getScript, getTxBuilder, getUtxoByTxHash, wallet } from "./common";
+
+export function getScript() {
+  const scriptCbor = applyParamsToScript(
+    blueprint.validators[0].compiledCode,
+    []
+  );
+ 
+  const scriptAddr = serializePlutusScript(
+    { code: scriptCbor, version: "V3" },
+  ).address;
+ 
+  return { scriptCbor, scriptAddr };
+}
+
+async function main() {
+  // Get utxo, collateral and address from wallet
+  const utxos = await wallet.getUtxos();
+  const walletAddress = (await wallet.getUsedAddresses())[0];
+  const collateral = (await wallet.getCollateral())[0];
+
+  const { scriptCbor } = getScript();
+
+  // Hash of the public key of the wallet, to be used in the datum
+  const signerHash = deserializeAddress(walletAddress).pubKeyHash;
+  const scriptUtxo = await getUtxoByTxHash(txHashFromDesposit);
+
+  // Build transaction with MeshTxBuilder
+  const txBuilder = getTxBuilder();
+  await txBuilder
+    .spendingPlutusScript("V2") // We used Plutus V3
+    .txIn( // Spend the utxo from the script address
+      scriptUtxo.input.txHash,
+      scriptUtxo.input.outputIndex,
+      scriptUtxo.output.amount,
+      scriptUtxo.output.address
+    )
+    .txInScript(scriptCbor)
+    .txInRedeemerValue(mConStr1([])) 
+    .txInInlineDatumPresent()
+    .requiredSignerHash(signerHash)
+    .changeAddress(walletAddress)
+    .txInCollateral(
+      collateral.input.txHash,
+      collateral.input.outputIndex,
+      collateral.output.amount,
+      collateral.output.address
+    )
+    .selectUtxosFrom(utxos)
+    .complete();
+  const unsignedTx = txBuilder.txHex;
+
+  const signedTx = await wallet.signTx(unsignedTx);
+  const txHash = await wallet.submitTx(signedTx);
+  console.log(`1 tADA unlocked from the contract at Tx ID: ${txHash}`);
+}
+
+main();
+\end{lstlisting}
+
+Purchase code
+
+
+\begin{lstlisting}[language=haskell, caption=Delisting or Purchasing an NFT using MeshJS]
+  import { 
+    deserializeAddress, 
+    mConStr0, 
+    stringToHex 
+  } from "@meshsdk/core";
+  import { getScript, getTxBuilder, getUtxoByTxHash, wallet } from "./common";
+  
+  async function main() {
+    // Get utxo, collateral and address from wallet
+    const utxos = await wallet.getUtxos();
+    const walletAddress = (await wallet.getUsedAddresses())[0];
+    const collateral = (await wallet.getCollateral())[0];
+  
+    const { scriptCbor } = getScript();
+  
+    // Hash of the public key of the wallet, to be used in the datum
+    const signerHash = deserializeAddress(walletAddress).pubKeyHash;
+    const scriptUtxo = await getUtxoByTxHash(txHashFromDesposit);
+  
+    // Build transaction with MeshTxBuilder
+    const txBuilder = getTxBuilder();
+    await txBuilder
+      .spendingPlutusScript("V2") // We used Plutus V3
+      .txIn( // Spend the utxo from the script address
+        scriptUtxo.input.txHash,
+        scriptUtxo.input.outputIndex,
+        scriptUtxo.output.amount,
+        scriptUtxo.output.address
+      )
+      .txInScript(scriptCbor)
+      .txInRedeemerValue(mConStr0([0])) 
+      .txInInlineDatumPresent()
+      .requiredSignerHash(signerHash)
+      .changeAddress(walletAddress)
+      .txInCollateral(
+        collateral.input.txHash,
+        collateral.input.outputIndex,
+        collateral.output.amount,
+        collateral.output.address
+      )
+      .selectUtxosFrom(utxos)
+      .txOut(marketplaceaddress, {lovelace:fee})
+      .txOut(sellerAddress, {lovelace:fee})
+      .complete();
+    const unsignedTx = txBuilder.txHex;
+  
+    const signedTx = await wallet.signTx(unsignedTx);
+    const txHash = await wallet.submitTx(signedTx);
+    console.log(`1 tADA unlocked from the contract at Tx ID: ${txHash}`);
+  }
+  
+  main();
+  \end{lstlisting}
+
+
+In this example:
+1. Purchasing the NFT: If the buyer sends the correct amount of ADA to the marketplace contract, the contract checks that the buyer is paying the right amount, and the NFT is transferred to the buyer.
+2. Delisting the NFT: The seller can delist their NFT by interacting with the contract, provided they are the one who signed the transaction.
+
+\subsubsection{Conclusion}
+
+Using MeshJS, we can easily build a frontend to interact with the marketplace contract deployed on Cardano. The listing functionality locks the NFT and sets a price, while the delisting or purchase functionalities allow users to either remove the NFT from the marketplace or complete the purchase.
+
+These examples demonstrate how to manage NFTs on the Cardano blockchain using MeshJS, making it possible for developers to create simple, intuitive interfaces for interacting with smart contracts.
+
 
 \section{Enhancing Marketplace Contracts with Additional Features}
 
 In this section, we explore potential enhancements for the marketplace contracts. These could include adding new features like auction support, bidding systems, or enhancing security by implementing advanced validation techniques. We will also discuss how we can extend the contract to support multi-asset marketplaces and integrate additional services.
+
+\subsection{Improving Marketplace Contract Features}
+
+Many marketplaces have been developed with basic functionalities, but several improvements could enhance their capability and security. Some key features that could be added or improved include:
+
+\begin{itemize}
+    \item \textbf{Listing an NFT for Different Currencies}: Allowing NFTs to be listed for various currencies such as ADA or tokens, providing more flexibility in transaction options.
+    \item \textbf{Listing an NFT for a Specific Buyer}: Introducing functionality where an NFT can only be purchased by a specific person, adding more control over the marketplace.
+    \item \textbf{Listing a Bundle of NFTs}: Although bundles of NFTs can already be listed, this feature could be enhanced further. Understanding why and how this works in the current ecosystem is crucial for improving the process.
+\end{itemize}
+
+One example of a successful enhancement is the Aiken version, which allows multiple NFTs to be purchased in a single transaction. This is beneficial for security, as it mitigates risks related to transaction errors.
+
+However, in the \texttt{plu-ts} smart contract, there is a potential vulnerability in the absence of checks for single inputs coming from the contract. This lack of validation could present an attack vector for double-spending issues. To address this, additional validation mechanisms could be implemented to ensure that each input is validated and that transactions are secure.
+
+Now, it’s time to reflect on these improvements and consider how we can achieve the desired results in our marketplace contracts.
+
+
+\begin{remark}
+  EXERCISE 7: Write a function to delist an NFT from a marketplace based on the following conditions:
+
+  \begin{itemize}
+      \item The redeemer to delist is represented by the following redeemer value:
+      \[
+      \text{redeemerCancel} = \texttt{Data.to( new Constr(0,[]) )}
+      \]
+      \item The datum is hashed, not inline.
+      \item The contract bytecode for the delisting function is available at:
+      \url{https://github.com/elRaulito/cnft-delist/blob/main/contract.json}.
+  \end{itemize}
+\end{remark}
+
+
