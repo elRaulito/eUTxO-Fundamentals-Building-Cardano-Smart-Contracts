@@ -294,7 +294,7 @@ A buyer can purchase the NFT by fulfilling the following conditions:
 
 You don't need to fully grasp every detail of the contract at this moment. This book is here to guide you through the learning process, not to overwhelm you with technicalities. Let's simplify the contract and break it down into more accessible terms with other programming languages.
 
-\subsection{Implementing the Marketplace Contract in Helios}
+\section{Marketplace in Helios}
 
 To implement the marketplace contract in Helios, we can follow a similar structure to the Plutus contract but using the Helios language. In this subsection, we'll define the contract's key components, including the datum, actions, and the main program.
 
@@ -425,7 +425,7 @@ These checks ensure that the transaction is valid for both canceling and buying 
 
 You can find the code at [link](https://www.hyperion-bt.org/helios-playground/?share=a0e1ed7521aba9685750f003c47c9c69) and export it to use it.
 
-\subsection{OpShin Marketplace}
+\section{OpShin Marketplace}
 
 In this subsection, we will explore how to implement a marketplace contract using the \texttt{OpShin} framework. OpShin is a Python-based framework for developing smart contracts, and it provides a more user-friendly development experience compared to \texttt{PlutusTx}. You can find an example of this contract on their
 \paragraph{Datum Definition}
@@ -526,7 +526,7 @@ The contract logic starts by checking that the transaction purpose is \texttt{Sp
 This example demonstrates how OpShin provides a more user-friendly approach to building smart contracts using Python. By leveraging Python's simplicity and the \texttt{PlutusData} class, we can easily define the datum, actions, and contract logic. This approach is ideal for developers who prefer working with Python and want to avoid the complexities of \texttt{PlutusTx}.
 
 
-\subsection{Plu-ts Marketplace}
+\section{Plu-ts Marketplace}
 
 In this subsection, we will explore how to implement a marketplace contract using \texttt{Plu-ts}, a TypeScript-based framework for writing Cardano smart contracts. With \texttt{Plu-ts}, we can write Cardano smart contracts in a more familiar programming language like TypeScript, which can make the development process easier for web developers.
 
@@ -636,7 +636,7 @@ The \texttt{Plu-ts} framework provides a way to write Cardano smart contracts us
 This contract has been written in plutus v3, how do we know?
 The Datum is optional and we see that the contracts try to read it before running.
 
-\subsection{Aiken Marketplace}
+\section{Aiken Marketplace}
 
 In this subsection, we will explore how to implement a marketplace contract using Aiken, a smart contract language built on top of the Cardano blockchain. This contract is the latest version from JPG Store and is available in their [GitHub repository](https://github.com/jpg-store/contracts-v3/blob/main/validators/ask.ak).
 
@@ -997,7 +997,7 @@ Using MeshJS, we can easily build a frontend to interact with the marketplace co
 These examples demonstrate how to manage NFTs on the Cardano blockchain using MeshJS, making it possible for developers to create simple, intuitive interfaces for interacting with smart contracts.
 
 
-\section{Enhancing Marketplace Contracts with Additional Features}
+\section{Enhancing Marketplace Contracts}
 
 In this section, we explore potential enhancements for the marketplace contracts. These could include adding new features like auction support, bidding systems, or enhancing security by implementing advanced validation techniques. We will also discuss how we can extend the contract to support multi-asset marketplaces and integrate additional services.
 
