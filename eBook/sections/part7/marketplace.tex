@@ -758,12 +758,29 @@ let can_have_discount = constants.authorizers()
 \paragraph{Conclusion}
 This Aiken marketplace contract is a powerful and flexible solution for managing NFT listings on the Cardano blockchain. By using Aiken’s expressive syntax, the contract efficiently handles buy and update actions while ensuring proper payout distribution. The ability to allow discounts based on JPG Store’s off-chain calculations is also a unique feature that makes this contract more adaptable to real-world usage.
 
-With Aiken, Cardano developers can write clean, readable smart contracts that interact seamlessly with Cardano’s blockchain, while also offering advanced features like dynamic fee handling and marketplace control.
+With Aiken, Cardano developers can write clean, readable smart contracts that interact seamlessly with Cardano's blockchain, while also offering advanced features like dynamic fee handling and marketplace control.
+
+\section{Plutarch Marketplace}
+
+% TODO (SeungheonOh): Write the Plutarch marketplace implementation covering:
+% - Defining the Datum and Redeemer types in Plutarch
+% - Implementing the marketplace validator using Plutarch's eDSL
+% - Handling Buy and WithdrawOrUpdate actions
+% - Marketplace fee calculation and payout validation
+% - Comparison with the Plutus, Aiken, Helios, OpShin, and Plu-ts implementations
+% - Full code listing with explanations
 
 
 \section{Testing and Deploying Marketplace Contracts}
 
 Now that we've defined and explained the marketplace contract using the Aiken language, it's time to interact with it. This process involves obtaining the contract address and interacting with the contract, which can be done with various tools and libraries.
+
+% TODO (SeungheonOh): Add Plutarch-specific testing and deployment instructions:
+% - Compiling and serializing Plutarch marketplace contracts
+% - Generating the Plutus blueprint / plutus.json from Plutarch
+% - Obtaining the contract address for a Plutarch-compiled validator
+% - Testing the Plutarch marketplace contract on testnet
+% - Any Plutarch-specific deployment considerations
 
 \subsection{Getting the Marketplace Address}
 
