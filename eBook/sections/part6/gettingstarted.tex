@@ -9,11 +9,11 @@ At the end of the chapter, you will also find exercises to test your understandi
 Here is a list of key concepts and terminology that will help you:
 
 \begin{itemize}
-    \item \textbf{Collateral}: A specific UTxO required to interact with smart contracts. It ensures that nodes are compensated in case the contract validation fails.
-    \item \textbf{Script Hash}: A unique hash that identifies the smart contract, allowing transactions to reference it securely.
-    \item \textbf{Locked UTxO}: A transaction output that holds funds, NFTs, or tokens locked within a contract. These can only be spent if the contract validation logic passes.
-    \item \textbf{CIP69 Contract}: A contract where the datum is optional. It behaves like a user, allowing it to receive funds. However, every UTxO associated with this contract must execute the validation logic to be spendable.
-    \item \textbf{Multipurpose Script}: A versatile script that can perform multiple functions, such as locking funds, minting NFTs, and more.
+  \item \textbf{Collateral}: A specific UTxO required to interact with smart contracts. It ensures that nodes are compensated in case the contract validation fails.
+  \item \textbf{Script Hash}: A unique hash that identifies the smart contract, allowing transactions to reference it securely.
+  \item \textbf{Locked UTxO}: A transaction output that holds funds, NFTs, or tokens locked within a contract. These can only be spent if the contract validation logic passes.
+  \item \textbf{CIP69 Contract}: A contract where the datum is optional. It behaves like a user, allowing it to receive funds. However, every UTxO associated with this contract must execute the validation logic to be spendable.
+  \item \textbf{Multipurpose Script}: A versatile script that can perform multiple functions, such as locking funds, minting NFTs, and more.
 \end{itemize}
 
 
@@ -25,9 +25,9 @@ You can find code supporting this tutorial on Aiken's main repository.
 
 \subsection{Covered in this tutorial}
 \begin{itemize}
-    \item Writing a basic Aiken validator;
-    \item Writing \& running tests with Aiken;
-    \item Troubleshooting smart contracts.
+  \item Writing a basic Aiken validator;
+  \item Writing \& running tests with Aiken;
+  \item Troubleshooting smart contracts.
 \end{itemize}
 
 When encountering an unfamiliar syntax or concept, do not hesitate to refer to the language-tour for details and extra examples.
@@ -137,10 +137,10 @@ This format is framework-agnostic and is meant to facilitate interoperability be
 \subsection{Let's see the validator in action!}
 
 \begin{itemize}
-    \item Interact with a validator on the Preview network;
-    \item Using Mesh through Blockfrost;
-    \item Getting test funds from the Cardano Faucet;
-    \item Using web explorers such as CardanoScan.
+  \item Interact with a validator on the Preview network;
+  \item Using Mesh through Blockfrost;
+  \item Getting test funds from the Cardano Faucet;
+  \item Using web explorers such as CardanoScan.
 \end{itemize}
 
 \subsection{Pre-requisites}
@@ -150,7 +150,7 @@ You can install Mesh and set up the project as follows:
 
 \begin{verbatim}
 npm init -y
-npm install @meshsdk/core tsx
+npm install @meshsdk/core @meshsdk/core-csl tsx
 \end{verbatim}
 
 \subsection{Getting Funds}
@@ -160,20 +160,23 @@ For this tutorial, we will use the validator we built in First steps. Yet, befor
 generate-credentials.ts
 import { MeshWallet } from '@meshsdk/core';
 import fs from 'node:fs';
- 
-const secret_key = MeshWallet.brew(true) as string;
- 
-fs.writeFileSync('me.sk', secret_key);
- 
+
+const secretKey = MeshWallet.brew(true) as string;
+
+fs.writeFileSync('me.sk', secretKey);
+
 const wallet = new MeshWallet({
   networkId: 0,
   key: {
     type: 'root',
-    bech32: secret_key,
-  },
+    bech32: secretKey,
+  }
 });
- 
-fs.writeFileSync('me.addr', wallet.getUnusedAddresses()[0]);
+
+(async () => {
+  const [address] = await wallet.getUnusedAddresses()
+  fs.writeFileSync('me.addr', address);
+})();
 \end{verbatim}
 
 You can run the instructions above via:
@@ -200,31 +203,56 @@ First, we set up Mesh with Blockfrost as a provider. This will allow us to let M
 
 \begin{verbatim}
 common.ts
-import fs from "node:fs";
+import fs from 'node:fs';
 import {
-  BlockfrostProvider,
-  MeshTxBuilder,
-  MeshWallet,
-  serializePlutusScript,
-  UTxO,
+    BlockfrostProvider,
+    MeshTxBuilder,
+    MeshWallet,
+    serializePlutusScript,
 } from "@meshsdk/core";
-import { applyParamsToScript } from "@meshsdk/core-csl";
- 
-const blockchainProvider = new BlockfrostProvider(process.env.BLOCKFROST_PROJECT_ID);
- 
-// wallet for signing transactions
+import { applyParamsToScript } from '@meshsdk/core-csl';
+// Point to the Aiken validator blueprint
+import blueprint from "./../hello-world/plutus.json";
+
+const blockfrostApiKey = process.env.BLOCKFROST_API_KEY!;
+
+if (!blockfrostApiKey) {
+    throw new Error("BLOCKFROST_API_KEY not set");
+}
+export const provider = new BlockfrostProvider(blockfrostApiKey);
+
 export const wallet = new MeshWallet({
-  networkId: 0,
-  fetcher: blockchainProvider,
-  submitter: blockchainProvider,
-  key: {
-    type: "root",
-    bech32: fs.readFileSync("me.sk").toString(),
-  },
+    networkId: 0,
+    fetcher: provider,
+    submitter: provider,
+    key: {
+        type: 'root',
+        bech32: fs.readFileSync('me.sk', 'utf8'),
+    }
 });
+
+export function getScript() {
+    const scriptCbor = applyParamsToScript(
+        blueprint.validators[0].compiledCode,
+        []
+    );
+
+    const validatorAddr = serializePlutusScript(
+        { code: scriptCbor, version: "V3" },
+    ).address;
+
+    return { scriptCbor, validatorAddr };
+}
+
+export const getTxBuilder = () => {
+    return new MeshTxBuilder({
+        fetcher: provider,
+        submitter: provider,
+    });
+}
 \end{verbatim}
 
-Note that the highlighted line above looks for an environment variable named \texttt{BLOCKFROST\_PROJECT\_ID} which its value must be set to your Blockfrost project id. You can define a new environment variable in your terminal by running (in the same session you're also executing the script!):
+Note that this script requires an environment variable named \texttt{BLOCKFROST\_PROJECT\_ID} to be set to your Blockfrost project id. You can define a new environment variable in your terminal by running (in the same session you're also executing the script!):
 
 \begin{verbatim}
 export BLOCKFROST_PROJECT_ID=preview...
@@ -237,32 +265,39 @@ Now that we can read our validator, we can make our first transaction to lock fu
 
 \begin{verbatim}
 lock.ts
-import { Asset, deserializeAddress, mConStr0 } from "@meshsdk/core";
-import { getScript, getTxBuilder, wallet } from "./common";
- 
-async function main() {
-  // these are the assets we want to lock into the contract
+import { deserializeAddress, mConStr0 } from '@meshsdk/core';
+import { getScript, getTxBuilder, wallet } from './common';
+
+(async () => {
   const lockAmount = 10_000_000;
- 
-  // get a valid address for the contract
-  const validatorAddr = deserializeAddress(
-    "addr_test1qxygsw9r9rt5q0jx8m6lmcjlsrn2ck7c7tpekl9wzyj8nvc70wwdlcs78s7ntljtm6xqfvwzttttts33dtjpytldc7cs7dpjl7jqxyr9qyz3e"
-  );
- 
-  // lock the funds!
-  const { tx, requiredSigners } = await getTxBuilder().build({
-    assets: [new Asset("lovelace", lockAmount)],
-    recipients: [
-      {
-        address: validatorAddr,
-        datum: { owner: wallet.getUnusedAddresses()[0] },
-      },
-    ],
-  });
-  await wallet.signAndSubmit(tx, requiredSigners);
-}
- 
-main();
+  const { validatorAddr } = getScript();
+
+  const ownerAddress = (await wallet.getUnusedAddresses())[0];
+  const { pubKeyHash: ownerPubKeyHash } = deserializeAddress(ownerAddress);
+  const walletUtxos = await wallet.getUtxos();
+
+  const txBuilder = getTxBuilder();
+
+  const unsignedTx = await txBuilder
+    .txOut(validatorAddr, [{
+      unit: "lovelace",
+      quantity: lockAmount.toString()
+    }])
+    .txOutInlineDatumValue(
+      // The datum for the validator has a
+      // constructor with one field
+      mConStr0([ownerPubKeyHash])
+    )
+    .changeAddress(ownerAddress)
+    .selectUtxosFrom(walletUtxos)
+    .complete();
+
+  const signedTx = await wallet.signTx(unsignedTx);
+  const txHash = await wallet.submitTx(signedTx);
+
+  console.log(`Locked ${lockAmount} lovelace at ${validatorAddr}`);
+  console.log(`Transaction hash: ${txHash}`);
+})();
 \end{verbatim}
 
 
@@ -276,35 +311,78 @@ With our funds now locked in the contract, we can now spend them. First, we'll n
 
 \begin{verbatim}
 spend.ts
-import { getTxBuilder, wallet } from "./common";
- 
-async function main() {
-  const tx = await getTxBuilder().build({
-    assets: [{ asset: "lovelace", amount: 10_000_000 }],
-    recipients: [
-      {
-        address: wallet.getUnusedAddresses()[0],
-        redeemer: { msg: "Hello, World!" },
-      },
-    ],
+import { deserializeAddress, mConStr0, stringToHex } from '@meshsdk/core';
+import { parseDatumCbor } from '@meshsdk/core-csl';
+import { getScript, getTxBuilder, wallet, provider } from './common';
+
+(async () => {
+  const { scriptCbor, validatorAddr } = getScript();
+
+  const ownerAddress = (await wallet.getUnusedAddresses())[0];
+  const { pubKeyHash: ownerPubKeyHash } = deserializeAddress(ownerAddress);
+
+  const scriptUtxos = await provider.fetchAddressUTxOs(validatorAddr);
+
+  // Finds the UTxO previously created by searching through the
+  // list of UTxOs in the contract and finding the one where the datum
+  // matches our wallet's pubKeyHash - remember, the owner is us!
+  const utxoToSpend = scriptUtxos.find(utxo => {
+    if (utxo.output.plutusData) {
+      const datum = parseDatumCbor(utxo.output.plutusData);
+      if (datum && datum.fields && datum.fields.length > 0) {
+        const [owner] = datum.fields;
+        return owner.bytes === ownerPubKeyHash;
+      }
+    }
+    return false;
   });
-  await wallet.signAndSubmit(tx);
-}
- 
-main();
+
+  if (!utxoToSpend) {
+    throw new Error('No UTXO found at script address with your ownership datum');
+  }
+
+  const [collateral] = await wallet.getCollateral();
+  const txBuilder = getTxBuilder();
+
+  const unsignedTx = await txBuilder
+    .spendingPlutusScriptV3()
+    .txIn(
+      utxoToSpend.input.txHash,
+      utxoToSpend.input.outputIndex,
+      utxoToSpend.output.amount,
+      utxoToSpend.output.address
+    )
+    .txInScript(scriptCbor)
+    .txInRedeemerValue(mConStr0([stringToHex("Hello, World!")]))
+    .txInInlineDatumPresent()
+    .txInCollateral(
+      collateral.input.txHash,
+      collateral.input.outputIndex,
+      collateral.output.amount,
+      collateral.output.address
+    )
+    .requiredSignerHash(ownerPubKeyHash)
+    .changeAddress(ownerAddress)
+    .selectUtxosFrom(await wallet.getUtxos())
+    .complete();
+
+  const signedTx = await wallet.signTx(unsignedTx);
+  const txHash = await wallet.submitTx(signedTx);
+
+  console.log(`Unlocked funds and sent to: ${ownerAddress}`);
+  console.log(`Transaction hash: ${txHash}`);
+})();
 \end{verbatim}
 \includegraphics[scale=0.3]{unlock.png}
 
 
 
-Once the transaction is complete, go ahead and look for it on CardanoScan again to confirm the transaction has been processed.
-
-You can look for it using the transaction hash: \textit{af3e7d83e5ee5324a612de9126636ef55505ffb9c468dacaf419635921b7a91c}
+After running this script, use the new transaction hash printed to the console and look for it on CardanoScan again to confirm it has been processed.
 
 
 \section{Best Practices for Secure and Robust Smart Contract}
 
-Auditing should be mandatory before any contract goes live. While open-source code is beneficial for transparency and trust, it is not sufficient on its own. Audits help identify potential vulnerabilities and ensure that the contract behaves as expected under various conditions. 
+Auditing should be mandatory before any contract goes live. While open-source code is beneficial for transparency and trust, it is not sufficient on its own. Audits help identify potential vulnerabilities and ensure that the contract behaves as expected under various conditions.
 
 A well-conducted audit verifies that the code meets security standards and mitigates risks, including potential exploits or misuse. Moreover, it's important to have a robust testing framework in place to ensure the contract functions correctly in both expected and edge cases.
 
@@ -313,44 +391,44 @@ Following these best practices ensures the safety of assets and enhances the rel
 Here is a list of checks that you should perform on your contract before going live:
 
 \begin{itemize}
-    \item \textbf{Dust attack:} The contract may be used by an attacker who adds additional tokens, making the UTXO locked forever.
-    \item \textbf{Double spending:} Ensure that the contract logic is enforced so that it is only executed for one input at a time, preventing multiple inputs from being withdrawn from the contract.
-    \item \textbf{Stake key:} Verify that funds are sent to the correct contract under the right stake key. This ensures that the true owner receives staking rewards.
-    \item \textbf{Mint-burn:} Confirm that the mint or burn functions are validating the correct policy, and not just using a random asset name.
+  \item \textbf{Dust attack:} The contract may be used by an attacker who adds additional tokens, making the UTXO locked forever.
+  \item \textbf{Double spending:} Ensure that the contract logic is enforced so that it is only executed for one input at a time, preventing multiple inputs from being withdrawn from the contract.
+  \item \textbf{Stake key:} Verify that funds are sent to the correct contract under the right stake key. This ensures that the true owner receives staking rewards.
+  \item \textbf{Mint-burn:} Confirm that the mint or burn functions are validating the correct policy, and not just using a random asset name.
 \end{itemize}
 
 \section{Exercises to test your smart contract skills}
 \begin{remark}
-    EXERCISE 3: Make all tutorials available in the following links:
-    \begin{itemize}
-        \item \url{https://aiken-lang.org/example--vesting}
-        \item \url{https://aiken-lang.org/example--gift-card}
-    \end{itemize}
+  EXERCISE 3: Make all tutorials available in the following links:
+  \begin{itemize}
+    \item \url{https://aiken-lang.org/example--vesting}
+    \item \url{https://aiken-lang.org/example--gift-card}
+  \end{itemize}
 \end{remark}
 
 \begin{remark}
-    EXERCISE 4: Create a minting policy that allows the following:
-    \begin{itemize}
-        \item Mint the token \texttt{always} to everyone, at any time.
-        \item Mint the token \texttt{onetime} only to the project owner, and only once forever.
-        \item Mint the token \texttt{fenix} only if both \texttt{always} and \texttt{onetime} have been burned.
-        \item Any other token name is forbidden.
-    \end{itemize}
+  EXERCISE 4: Create a minting policy that allows the following:
+  \begin{itemize}
+    \item Mint the token \texttt{always} to everyone, at any time.
+    \item Mint the token \texttt{onetime} only to the project owner, and only once forever.
+    \item Mint the token \texttt{fenix} only if both \texttt{always} and \texttt{onetime} have been burned.
+    \item Any other token name is forbidden.
+  \end{itemize}
 \end{remark}
 
 \begin{remark}
-    EXERCISE 5: Create a smart wallet account where users can receive payments. The datum is optional, as it can function like a regular wallet. The rules are as follows:
-    \begin{itemize}
-        \item If the datum is empty, the owner can spend the tokens.
-        \item If the datum is not empty, it indicates the time when the user can withdraw it, as a POSIX timestamp.
-        \item The owner can be a user, a smart contract, or a multisig, allowing multisignatures and smart contracts to use it as well.
-    \end{itemize}
+  EXERCISE 5: Create a smart wallet account where users can receive payments. The datum is optional, as it can function like a regular wallet. The rules are as follows:
+  \begin{itemize}
+    \item If the datum is empty, the owner can spend the tokens.
+    \item If the datum is not empty, it indicates the time when the user can withdraw it, as a POSIX timestamp.
+    \item The owner can be a user, a smart contract, or a multisig, allowing multisignatures and smart contracts to use it as well.
+  \end{itemize}
 \end{remark}
 
 \begin{remark}
-    EXERCISE 6: Implement a contract where a user can lock 1 NFT and generate an amount of N tokens as a result. The conditions are as follows:
-    \begin{itemize}
-        \item The only way to unlock the NFT is to burn a number M of tokens in the transaction.
-        \item The unit of the NFT, the number N of tokens generated, and the number M of tokens to burn are parameters of the contract.
-    \end{itemize}
+  EXERCISE 6: Implement a contract where a user can lock 1 NFT and generate an amount of N tokens as a result. The conditions are as follows:
+  \begin{itemize}
+    \item The only way to unlock the NFT is to burn a number M of tokens in the transaction.
+    \item The unit of the NFT, the number N of tokens generated, and the number M of tokens to burn are parameters of the contract.
+  \end{itemize}
 \end{remark}
