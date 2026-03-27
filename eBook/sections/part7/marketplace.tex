@@ -762,25 +762,348 @@ With Aiken, Cardano developers can write clean, readable smart contracts that in
 
 \section{Plutarch Marketplace}
 
-% TODO (SeungheonOh): Write the Plutarch marketplace implementation covering:
-% - Defining the Datum and Redeemer types in Plutarch
-% - Implementing the marketplace validator using Plutarch's eDSL
-% - Handling Buy and WithdrawOrUpdate actions
-% - Marketplace fee calculation and payout validation
-% - Comparison with the Plutus, Aiken, Helios, OpShin, and Plu-ts implementations
-% - Full code listing with explanations
+In this subsection, we will explore how to implement the marketplace contract using \textbf{Plutarch}, an embedded domain-specific language (eDSL) for writing Cardano smart contracts in Haskell. Unlike \texttt{PlutusTx}, which uses Template Haskell to compile Haskell directly to Untyped Plutus Core (UPLC), Plutarch gives developers explicit control over the generated UPLC through a typed combinator library. This results in more predictable script sizes and execution costs.
+
+You can find the Plutarch library and documentation at \href{https://github.com/Plutonomicon/plutarch-plutus}{github.com/Plutonomicon/plutarch-plutus}.
+
+\paragraph{Language Extensions and Imports}
+
+Plutarch relies heavily on GHC extensions. A typical Plutarch module begins with:
+
+\begin{lstlisting}[language=haskell, caption=Plutarch Language Extensions]
+{-# LANGUAGE DataKinds             #-}
+{-# LANGUAGE DeriveAnyClass        #-}
+{-# LANGUAGE DeriveGeneric         #-}
+{-# LANGUAGE DerivingStrategies    #-}
+{-# LANGUAGE OverloadedRecordDot   #-}
+{-# LANGUAGE OverloadedStrings     #-}
+{-# LANGUAGE QualifiedDo           #-}
+{-# LANGUAGE TypeApplications      #-}
+{-# LANGUAGE TypeFamilies          #-}
+{-# LANGUAGE TypeOperators         #-}
+
+module Market.Plutarch where
+
+import GHC.Generics (Generic)
+import Plutarch.Prelude
+import Plutarch.LedgerApi.V2
+import Plutarch.LedgerApi.Value (plovelaceValueOf, pvalueOf)
+import qualified Plutarch.Monadic as P
+\end{lstlisting}
+
+\paragraph{Defining the Datum Type}
+
+In Plutarch, on-chain data types are defined as Haskell types of kind \texttt{S -> Type}, where \texttt{S} is a phantom type representing the script evaluation context. Record fields are declared using \texttt{PDataRecord}, and the \texttt{PlutusTypeData} strategy ensures the type is encoded as Plutus \texttt{Data} --- exactly matching the on-chain representation.
+
+The \texttt{PNFTSale} datum mirrors the \texttt{NFTSale} from the PlutusTx implementation, carrying the seller, price, token policy, token name, royalty address, and royalty percentage:
+
+\begin{lstlisting}[language=haskell, caption=Plutarch Datum Definition]
+data PNFTSale (s :: S) = PNFTSale
+  ( Term s
+    ( PDataRecord
+      '[ "nSeller"         ':= PPubKeyHash
+       , "nPrice"          ':= PInteger
+       , "nCurrency"       ':= PCurrencySymbol
+       , "nToken"          ':= PTokenName
+       , "nRoyalty"        ':= PPubKeyHash
+       , "nRoyaltyPercent" ':= PInteger
+       ]
+    )
+  )
+  deriving stock (Generic)
+  deriving anyclass (PlutusType, PIsData, PDataFields)
+
+instance DerivePlutusType PNFTSale where
+  type DPTStrat _ = PlutusTypeData
+\end{lstlisting}
+
+The key difference from a plain Haskell record is that each field is tracked with its on-chain \texttt{Data} encoding in the type system. The \texttt{PDataFields} instance enables convenient field extraction with \texttt{pletFields}.
+
+\paragraph{Defining the Redeemer Type}
+
+The redeemer represents the two possible actions a user can take: purchasing the NFT (\texttt{PBuy}) or closing the listing (\texttt{PClose}):
+
+\begin{lstlisting}[language=haskell, caption=Plutarch Redeemer Definition]
+data PSaleAction (s :: S)
+  = PBuy   (Term s (PDataRecord '[]))
+  | PClose (Term s (PDataRecord '[]))
+  deriving stock (Generic)
+  deriving anyclass (PlutusType, PIsData)
+
+instance DerivePlutusType PSaleAction where
+  type DPTStrat _ = PlutusTypeData
+\end{lstlisting}
+
+Sum types in Plutarch use the same \texttt{PlutusTypeData} strategy, which generates constructor indices matching \texttt{PlutusTx.makeIsDataIndexed}. Here \texttt{PBuy} has index 0 and \texttt{PClose} has index 1, consistent with the PlutusTx \texttt{SaleAction} type.
+
+\paragraph{Implementing the Validator}
+
+The marketplace validator is a Plutarch term of type \texttt{PNFTSale :--> PSaleAction :--> PScriptContext :--> PUnit}. The \texttt{:-->} operator denotes a Plutarch-level function arrow, and \texttt{plam} constructs the lambda. Every top-level function is wrapped in \texttt{phoistAcyclic} to avoid duplicating its definition at every call site in the compiled UPLC:
+
+\begin{lstlisting}[language=haskell, caption=Plutarch Marketplace Validator]
+marketplaceValidator
+  :: Term s PPubKeyHash  -- marketplace fee address
+  -> Term s (PNFTSale :--> PSaleAction :--> PScriptContext :--> PUnit)
+marketplaceValidator feeAddr = phoistAcyclic $ plam $ \datumRaw redeemerRaw ctx' ->
+  P.do
+    ctx    <- pmatch ctx'
+    txInfo <- pmatch (pscriptContext'txInfo ctx)
+    datum  <- pletFields @'["nSeller","nPrice","nCurrency",
+                            "nToken","nRoyalty","nRoyaltyPercent"]
+                         datumRaw
+    pmatch redeemerRaw $ \case
+      PClose _ ->
+        -- Only the seller can close the listing
+        pif (pelem # pdata (pfromData datum.nSeller)
+                  # pfromData (ptxInfo'signatories txInfo))
+            (pconstant ())
+            perror
+      PBuy _ ->
+        P.do
+          let outputs        = pfromData (ptxInfo'outputs txInfo)
+              seller         = pfromData datum.nSeller
+              price          = pfromData datum.nPrice
+              cs             = pfromData datum.nCurrency
+              tn             = pfromData datum.nToken
+              royaltyPkh     = pfromData datum.nRoyalty
+              royaltyPercent = pfromData datum.nRoyaltyPercent
+
+          -- Fee constants (20/1000 = 2%, minimum 1 ADA)
+          let marketplacePercent = pconstant @PInteger 20
+              minFee             = pconstant @PInteger 1_000_000
+
+          let mktFee     = pmax # minFee
+                                # (marketplacePercent * price `pdiv` 1000)
+          let royaltyFee = pmax # minFee
+                                # (royaltyPercent * price `pdiv` 1000)
+
+          -- Check NFT reaches the buyer
+          let checkNFTOut =
+                pany # plam (\o ->
+                  let out = pfromData o
+                      val = pfromData (ptxOut'value out)
+                  in  pvalueOf # val # cs # tn #== 1)
+                     # outputs
+
+          -- Check seller receives at least price - fees
+          let sellerMin = price - mktFee - royaltyFee
+          let checkSellerOut =
+                pany # plam (\o ->
+                  let out      = pfromData o
+                      lovelace = plovelaceValueOf
+                                   # pfromData (ptxOut'value out)
+                  in  ptxOut'address out #== pcon (PAddress
+                        (pdcons # pdata (pcon $ PPubKeyCredential
+                                   (pdcons # pdata seller # pdnil))
+                                # pdnil)
+                        (pconstant Nothing))
+                      #&& sellerMin #<= lovelace)
+                     # outputs
+
+          -- Check marketplace fee output
+          let checkMarketplaceFee =
+                pany # plam (\o ->
+                  let out      = pfromData o
+                      lovelace = plovelaceValueOf
+                                   # pfromData (ptxOut'value out)
+                  in  ptxOut'address out #== pcon (PAddress
+                        (pdcons # pdata (pcon $ PPubKeyCredential
+                                   (pdcons # pdata feeAddr # pdnil))
+                                # pdnil)
+                        (pconstant Nothing))
+                      #&& mktFee #<= lovelace)
+                     # outputs
+
+          -- Check royalty fee (skipped when royaltyPercent == 0)
+          let checkRoyaltyFee =
+                pif (royaltyPercent #== 0)
+                    (pcon PTrue)
+                    (pany # plam (\o ->
+                       let out      = pfromData o
+                           lovelace = plovelaceValueOf
+                                        # pfromData (ptxOut'value out)
+                       in  ptxOut'address out #== pcon (PAddress
+                             (pdcons # pdata (pcon $ PPubKeyCredential
+                                        (pdcons # pdata royaltyPkh # pdnil))
+                                     # pdnil)
+                             (pconstant Nothing))
+                           #&& royaltyFee #<= lovelace)
+                     # outputs)
+
+          pif (checkNFTOut #&& checkSellerOut
+               #&& checkMarketplaceFee #&& checkRoyaltyFee)
+              (pconstant ())
+              perror
+\end{lstlisting}
+
+\paragraph{Explanation of the Code}
+
+\begin{itemize}
+    \item \textbf{plam and phoistAcyclic}: \texttt{plam} constructs a Plutarch-level lambda. \texttt{phoistAcyclic} lifts the compiled term to the top of the UPLC program so it is defined once and shared across all call sites, reducing script size.
+    \item \textbf{pletFields}: Extracts multiple named fields from a \texttt{PDataFields} instance in a single traversal. Field access uses dot notation via \texttt{OverloadedRecordDot}.
+    \item \textbf{pmatch}: Pattern-matches on a Plutarch sum type, analogous to Haskell's \texttt{case} expression. The \texttt{PClose} branch checks that the seller's \texttt{PPubKeyHash} is present in the transaction's signatories using \texttt{pelem}.
+    \item \textbf{pany}: Traverses a \texttt{PBuiltinList} and returns \texttt{PTrue} if any element satisfies the predicate, analogous to Haskell's \texttt{any}.
+    \item \textbf{plovelaceValueOf / pvalueOf}: Utility functions from \texttt{Plutarch.LedgerApi.Value} that query the lovelace amount or a specific token quantity within a \texttt{PLedgerValue}.
+    \item \textbf{pmax and pdiv}: Plutarch-level arithmetic operators. \texttt{pdiv} performs integer division; \texttt{pmax} returns the larger of two integers.
+    \item \textbf{pif}: Plutarch's conditional operator. Unlike Haskell's \texttt{if}, both branches are Plutarch terms evaluated lazily only when needed.
+    \item \textbf{perror}: Terminates script execution with a validation error, equivalent to returning \texttt{False} in a PlutusTx validator.
+\end{itemize}
+
+\paragraph{Fee Calculation}
+
+The marketplace fee mirrors the PlutusTx implementation: a percentage of the listing price with a minimum of 1~ADA (1{,}000{,}000 lovelace). Royalties are only checked when \texttt{nRoyaltyPercent} is non-zero, and the seller receives the price minus both fees:
+
+\begin{lstlisting}[language=haskell, caption=Fee Calculation in Plutarch]
+let marketplacePercent = pconstant @PInteger 20  -- 2% (20/1000)
+    minFee             = pconstant @PInteger 1_000_000
+
+let mktFee     = pmax # minFee # (marketplacePercent * price `pdiv` 1000)
+let royaltyFee = pmax # minFee # (royaltyPercent * price `pdiv` 1000)
+let sellerMin  = price - mktFee - royaltyFee
+\end{lstlisting}
+
+\paragraph{Compiling the Validator}
+
+Once the validator term is defined, it is compiled to a Plutus \texttt{Script} and serialised to bytes using Plutarch's \texttt{compile} and \texttt{serialiseScript} functions:
+
+\begin{lstlisting}[language=haskell, caption=Compiling the Plutarch Validator]
+import Plutarch.Internal.Term (compile)
+import Plutarch.Script        (serialiseScript)
+import Data.ByteString.Short  (ShortByteString)
+
+compiledMarketplace :: PPubKeyHash -> Either Text ShortByteString
+compiledMarketplace feeAddr =
+  serialiseScript <$>
+    compile mempty (marketplaceValidator (pconstant feeAddr))
+\end{lstlisting}
+
+The resulting \texttt{ShortByteString} is the CBOR-encoded UPLC script that can be stored in a \texttt{plutus.json} blueprint or submitted directly to the chain.
+
+\paragraph{Comparison with Other Implementations}
+
+Plutarch occupies a distinct position among the languages covered in this chapter:
+
+\begin{itemize}
+    \item \textbf{vs PlutusTx}: Both are Haskell-based, but PlutusTx uses Template Haskell quasi-quotes (\texttt{[|| \ldots ||]}) and GHC plugins to compile to UPLC. Plutarch is explicit: the developer writes UPLC-like combinators directly, giving full control over the generated code's size and cost.
+    \item \textbf{vs Aiken}: Aiken is a purpose-built language with a clean, Rust-inspired syntax. Plutarch is more verbose but offers the full power of the Haskell type system, including type classes, higher-kinded types, and compile-time guarantees that Aiken cannot provide.
+    \item \textbf{vs Helios and OpShin}: These languages compile their own syntax (TypeScript-like and Python respectively) to UPLC. Plutarch stays within Haskell, so developers share the same tooling (GHC, Cabal, HLS) with PlutusTx projects.
+    \item \textbf{vs Plu-ts}: Plu-ts is a TypeScript eDSL, similar in spirit to Plutarch but targeting a JavaScript/TypeScript audience. Plutarch targets Haskell and functional-programming developers.
+\end{itemize}
+
+The tradeoff is learning curve versus control. Plutarch's explicit UPLC-level types make it harder to get started but easier to reason about on-chain cost and correctness once the developer is familiar with the combinators.
+
+\paragraph{Conclusion}
+
+Plutarch's eDSL approach allows Haskell developers to write highly optimised Cardano validators without sacrificing type safety. By defining \texttt{PNFTSale} and \texttt{PSaleAction} with the \texttt{PlutusTypeData} strategy, the on-chain encoding is transparent and consistent with PlutusTx data types. The validator logic --- fee calculation, signatory checks, and output traversal --- maps directly to the PlutusTx implementation but is expressed through Plutarch combinators that compile to smaller, more predictable UPLC scripts.
 
 
 \section{Testing and Deploying Marketplace Contracts}
 
 Now that we've defined and explained the marketplace contract using the Aiken language, it's time to interact with it. This process involves obtaining the contract address and interacting with the contract, which can be done with various tools and libraries.
 
-% TODO (SeungheonOh): Add Plutarch-specific testing and deployment instructions:
-% - Compiling and serializing Plutarch marketplace contracts
-% - Generating the Plutus blueprint / plutus.json from Plutarch
-% - Obtaining the contract address for a Plutarch-compiled validator
-% - Testing the Plutarch marketplace contract on testnet
-% - Any Plutarch-specific deployment considerations
+\subsubsection{Compiling and Serialising a Plutarch Marketplace Contract}
+
+Plutarch validators must be explicitly compiled to UPLC before they can be deployed. The two key functions are \texttt{compile} (from \texttt{Plutarch.Internal.Term}) and \texttt{serialiseScript} (from \texttt{Plutarch.Script}):
+
+\begin{lstlisting}[language=haskell, caption=Writing a Compiled Plutarch Validator to Disk]
+import Plutarch.Internal.Term  (compile, Config(..))
+import Plutarch.Script         (serialiseScript)
+import Data.ByteString.Short   (fromShort)
+import qualified Data.ByteString.Base16 as Base16
+import qualified Data.Text.IO as TIO
+
+writeValidator :: IO ()
+writeValidator =
+  case compile mempty (marketplaceValidator marketplaceFeeHash) of
+    Left err  -> TIO.putStrLn $ "Compilation error: " <> err
+    Right scr -> do
+      let bytes = fromShort (serialiseScript scr)
+      writeFile "marketplace.plutus" (show (Base16.encode bytes))
+      putStrLn "Validator written to marketplace.plutus"
+  where
+    marketplaceFeeHash =
+      pconstant "87beb2237d63ff03bc842950a88959d69abbe29e8adea8176b32fd69"
+\end{lstlisting}
+
+Passing \texttt{mempty} as the \texttt{Config} disables tracing so trace statements are stripped from the compiled script. During development you can use \texttt{Config \{ tracingMode = DoTracing \}} to retain \texttt{ptrace} messages for debugging.
+
+\subsubsection{Generating the Plutus Blueprint}
+
+Cardano's CIP-57 Plutus Blueprint format (\texttt{plutus.json}) is the standard way to distribute compiled validators. For Plutarch validators the blueprint must currently be generated manually, since Plutarch does not yet include a built-in blueprint generator. A minimal \texttt{plutus.json} for the marketplace validator looks like:
+
+\begin{lstlisting}[language=json, caption=Plutus Blueprint for a Plutarch Validator]
+{
+  "preamble": {
+    "title": "Plutarch Marketplace",
+    "description": "NFT marketplace validator compiled with Plutarch",
+    "version": "1.0.0",
+    "plutusVersion": "v2"
+  },
+  "validators": [
+    {
+      "title": "marketplace.spend",
+      "compiledCode": "<hex-encoded CBOR of the UPLC script>",
+      "hash": "<script hash>"
+    }
+  ]
+}
+\end{lstlisting}
+
+The script hash can be computed with \texttt{cardano-cli transaction policyid --script-file marketplace.plutus} or by using the \texttt{cardano-api} library's \texttt{hashScript} function.
+
+\subsubsection{Obtaining the Contract Address}
+
+Once the compiled script is available the contract address is derived from its hash using the Cardano CLI:
+
+\begin{lstlisting}[language=bash, caption=Deriving the Contract Address from a Plutarch Script]
+# Build the script address (preview testnet, magic 2)
+cardano-cli address build \
+  --payment-script-file marketplace.plutus \
+  --testnet-magic 2 \
+  --out-file marketplace.addr
+
+cat marketplace.addr
+\end{lstlisting}
+
+Alternatively, MeshJS can derive the address from the \texttt{compiledCode} field in \texttt{plutus.json} directly in TypeScript, as shown in the MeshJS section below.
+
+\subsubsection{Testing the Plutarch Validator Off-Chain}
+
+Before deploying to testnet, Plutarch validators can be unit-tested off-chain using \texttt{evalScript} from \texttt{Plutarch.Evaluate}:
+
+\begin{lstlisting}[language=haskell, caption=Off-Chain Testing of the Plutarch Marketplace Validator]
+import Plutarch.Evaluate  (evalScript, applyArguments)
+import PlutusLedgerApi.V2 (toData)
+
+testBuy :: IO ()
+testBuy = do
+  let Right scr = compile mempty
+                    (marketplaceValidator marketplaceFeeHash)
+      args = [ toData mockDatum    -- NFTSale datum
+             , toData Buy          -- Buy redeemer
+             , toData mockContext  -- ScriptContext
+             ]
+      (result, budget, traces) = evalScript (applyArguments scr args)
+  case result of
+    Right _ -> putStrLn $ "PASS - budget: " <> show budget
+    Left  e -> putStrLn $ "FAIL: " <> show e
+                       <> "\nTraces: " <> show traces
+\end{lstlisting}
+
+The \texttt{mockDatum} and \texttt{mockContext} values are constructed using the \texttt{plutus-ledger-api} test helpers. Running these tests with \texttt{cabal test} verifies that the validator accepts and rejects the correct transactions before any on-chain submission.
+
+\subsubsection{Deploying to Testnet}
+
+After off-chain testing, the workflow for deploying a Plutarch marketplace contract to the Cardano preview or preprod testnet is identical to any other Plutus V2 contract:
+
+\begin{enumerate}
+    \item Obtain test ADA from the Cardano faucet.
+    \item Build the contract address from the compiled script file as shown above.
+    \item Use MeshJS, Lucid, or the Cardano CLI to submit listing and purchase transactions to the contract address, attaching the inline datum and redeemer as shown in the MeshJS section below.
+    \item Monitor transaction status with a testnet explorer such as \texttt{preview.cardanoscan.io}.
+\end{enumerate}
+
+Because the Plutarch validator compiles to standard Plutus V2 UPLC, all existing off-chain tooling (MeshJS, Lucid, cardano-cli) works without any modification.
 
 \subsection{Getting the Marketplace Address}
 

@@ -648,11 +648,175 @@ This means that the contract will always validate successfully, effectively alwa
 
 \section{Plutarch: Advanced Functional Contract Composition} \label{sec:Plutarch}
 
-% TODO (SeungheonOh): Write the Plutarch section covering:
-% - Introduction to Plutarch and its design philosophy
-% - How Plutarch relates to Plutus Core and the Haskell ecosystem
-% - Setting up the Plutarch development environment
-% - Language features: eDSL approach, type-level programming, and term-level constructs
-% - Example of a simple smart contract written in Plutarch
-% - Comparison with other Cardano smart contract languages
-% - References and further resources
+Plutarch is an embedded domain-specific language (eDSL) for writing Cardano smart contracts directly in Haskell. Rather than compiling a surface language to Untyped Plutus Core (UPLC), Plutarch lets developers construct UPLC terms explicitly using a library of typed combinators. The resulting scripts are typically smaller and cheaper to execute than equivalent PlutusTx contracts because every UPLC node is under the developer's direct control.
+
+\subsection{Design Philosophy}
+
+Plutarch is built around three guiding ideas:
+
+\begin{itemize}
+    \item \textbf{Explicit over implicit}: PlutusTx compiles arbitrary Haskell through GHC plugins, which can silently generate expensive UPLC. Plutarch makes every UPLC construct explicit --- if a term is shared, the developer writes \texttt{phoistAcyclic}; if a value is bound, the developer writes \texttt{plet}. There are no hidden costs.
+    \item \textbf{Type safety end-to-end}: Plutarch uses GHC's kind system to distinguish Plutarch types (\texttt{S -> Type}) from ordinary Haskell types. A \texttt{Term s PInteger} is a typed UPLC integer term, not a Haskell \texttt{Integer}. This prevents category errors at compile time.
+    \item \textbf{Haskell as the host}: Because Plutarch is a Haskell library, it shares the full GHC toolchain --- Cabal, HLS, QuickCheck, and any Haskell testing framework --- without requiring a separate build system or language server.
+\end{itemize}
+
+\subsection{Plutarch and the Cardano Haskell Ecosystem}
+
+Plutarch sits between PlutusTx and raw UPLC in the Cardano development stack:
+
+\begin{itemize}
+    \item \textbf{PlutusTx} compiles Haskell quasi-quoted with \texttt{[|| \ldots ||]} through a GHC plugin pipeline: Haskell $\to$ GHC Core $\to$ Plutus IR $\to$ Typed Plutus Core $\to$ UPLC. The developer writes normal Haskell and the pipeline handles the rest.
+    \item \textbf{Plutarch} is a Haskell library whose combinators (\texttt{plam}, \texttt{phoistAcyclic}, \texttt{plet}, \texttt{pif}, \ldots) map one-to-one onto UPLC constructs. The developer writes Plutarch terms and calls \texttt{compile} to produce the UPLC script.
+    \item \textbf{Raw UPLC} is the bytecode executed on-chain. Both PlutusTx and Plutarch compile down to it; Plutarch just exposes the structure more directly.
+\end{itemize}
+
+Plutarch uses the same \texttt{plutus-ledger-api} types as PlutusTx (\texttt{PPubKeyHash}, \texttt{PCurrencySymbol}, \texttt{PTxInfo}, \ldots), so datum and redeemer definitions are compatible between the two ecosystems.
+
+\subsection{Setting Up the Plutarch Development Environment}
+
+The recommended way to set up a Plutarch project is through Nix, which pins all dependencies to a known-good set:
+
+\begin{verbatim}
+# 1. Install Nix (if not already installed)
+curl -L https://nixos.org/nix/install | sh
+
+# 2. Clone the Plutarch starter template
+git clone https://github.com/Plutonomicon/plutarch-template
+cd plutarch-template
+
+# 3. Enter the Nix development shell
+nix develop
+
+# 4. Build the project
+cabal build all
+
+# 5. Run tests
+cabal test
+\end{verbatim}
+
+For developers who prefer Cabal without Nix, Plutarch can be added to an existing \texttt{cabal.project} by pointing to the GitHub repository:
+
+\begin{verbatim}
+source-repository-package
+  type:     git
+  location: https://github.com/Plutonomicon/plutarch-plutus
+  tag:      <commit-hash>
+\end{verbatim}
+
+The recommended GHC version is \textbf{GHC 9.6} or later, which is required for the \texttt{QualifiedDo} and \texttt{OverloadedRecordDot} extensions used throughout Plutarch contracts.
+
+\subsection{Language Features}
+
+\subsubsection{The eDSL Approach}
+
+Plutarch terms live in the type \texttt{Term s a}, where \texttt{s} is a phantom type enforcing that terms from different evaluation scopes are not mixed, and \texttt{a} is the Plutarch type of the result. Lambdas are written with \texttt{plam} and applied with the \texttt{\#} operator:
+
+\begin{lstlisting}[language=haskell, caption=Basic Plutarch Terms]
+-- Identity function
+pid :: Term s (a :--> a)
+pid = plam $ \x -> x
+
+-- Addition
+padd :: Term s (PInteger :--> PInteger :--> PInteger)
+padd = plam $ \x y -> x + y
+
+-- Application: result is 3
+three :: Term s PInteger
+three = padd # 1 # 2
+\end{lstlisting}
+
+\subsubsection{Type-Level Programming}
+
+On-chain data types are defined as Haskell types of kind \texttt{S -> Type} using \texttt{PDataRecord} for product fields and \texttt{PlutusType} for sum constructors. The \texttt{PlutusTypeData} strategy encodes the type as Plutus \texttt{Data}, matching PlutusTx's on-chain representation:
+
+\begin{lstlisting}[language=haskell, caption=Type-Level Data Definitions in Plutarch]
+-- Product type (datum)
+data PMyDatum (s :: S) = PMyDatum
+  ( Term s (PDataRecord '["owner" ':= PPubKeyHash, "value" ':= PInteger]) )
+  deriving stock (Generic)
+  deriving anyclass (PlutusType, PIsData, PDataFields)
+instance DerivePlutusType PMyDatum where type DPTStrat _ = PlutusTypeData
+
+-- Sum type (redeemer)
+data PMyRedeemer (s :: S)
+  = PIncrement (Term s (PDataRecord '[]))
+  | PClose     (Term s (PDataRecord '[]))
+  deriving stock (Generic)
+  deriving anyclass (PlutusType, PIsData)
+instance DerivePlutusType PMyRedeemer where type DPTStrat _ = PlutusTypeData
+\end{lstlisting}
+
+\subsubsection{Term-Level Constructs}
+
+The most common Plutarch term-level constructs are:
+
+\begin{itemize}
+    \item \texttt{plam}: construct a lambda
+    \item \texttt{phoistAcyclic}: hoist a closed term to the top of the script (defined once, shared everywhere)
+    \item \texttt{plet}: bind a sub-term to avoid repeated evaluation
+    \item \texttt{pif}: conditional branching (\texttt{pif condition trueBranch falseBranch})
+    \item \texttt{pmatch}: pattern match on a sum type
+    \item \texttt{pletFields}: extract multiple named fields from a product type in one traversal
+    \item \texttt{perror}: fail script execution (equivalent to returning \texttt{False})
+    \item \texttt{pconstant}: lift a Haskell value into a constant Plutarch term
+\end{itemize}
+
+\subsection{A Simple Smart Contract in Plutarch}
+
+The following contract checks that the redeemer is the integer 42, mirroring the PlutusTx example earlier in this chapter:
+
+\begin{lstlisting}[language=haskell, caption=Simple Plutarch Validator (Redeemer Must Be 42)]
+{-# LANGUAGE DataKinds         #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE TypeApplications  #-}
+{-# LANGUAGE TypeOperators     #-}
+
+module Contracts.FortyTwo where
+
+import Plutarch.Prelude
+import Plutarch.LedgerApi.V2 (PScriptContext)
+import Plutarch.Internal.Term (compile)
+import Plutarch.Script (serialiseScript)
+
+-- Validator: succeeds only when the redeemer equals 42
+fortyTwoValidator
+  :: Term s (PAsData PInteger :--> PAsData PInteger :--> PScriptContext :--> PUnit)
+fortyTwoValidator = phoistAcyclic $ plam $ \_datum redeemerData _ctx ->
+  let redeemer = pfromData redeemerData
+  in  pif (redeemer #== 42)
+          (pconstant ())
+          perror
+
+-- Compile and serialise the validator
+compiledScript :: Either Text ShortByteString
+compiledScript = serialiseScript <$> compile mempty fortyTwoValidator
+\end{lstlisting}
+
+\paragraph{Explanation}
+\begin{itemize}
+    \item \texttt{phoistAcyclic} ensures the validator body is compiled once and referenced, rather than inlined at every use site.
+    \item \texttt{pfromData} unwraps the \texttt{PAsData PInteger} redeemer into a plain \texttt{PInteger} term for comparison.
+    \item \texttt{pif} evaluates to \texttt{pconstant ()} (success) when the redeemer is 42, and \texttt{perror} (failure) otherwise.
+    \item \texttt{compile mempty} compiles the term without tracing. Passing \texttt{Config \{ tracingMode = DoTracing \}} instead retains \texttt{ptrace} output for debugging.
+\end{itemize}
+
+The compiled \texttt{ShortByteString} is the CBOR-encoded UPLC script ready to be submitted to the chain or stored in a \texttt{plutus.json} blueprint.
+
+\subsection{Comparison with Other Cardano Smart Contract Languages}
+
+\begin{itemize}
+    \item \textbf{vs PlutusTx}: Both are Haskell-based and share the same ledger-api types. PlutusTx is more beginner-friendly because it looks like normal Haskell. Plutarch requires understanding UPLC-level constructs but produces smaller, cheaper scripts and makes execution costs predictable.
+    \item \textbf{vs Aiken}: Aiken has a cleaner, Rust-inspired syntax and is the easiest entry point for developers new to Cardano. Plutarch stays in Haskell and offers the full GHC type system, but demands more prior knowledge.
+    \item \textbf{vs Helios}: Helios targets JavaScript/TypeScript developers with a C-like syntax. Plutarch targets Haskell developers who want low-level UPLC control.
+    \item \textbf{vs OpShin}: OpShin compiles Python to UPLC, making it the most accessible to developers with a Python background. Plutarch provides stronger static guarantees through Haskell's type system.
+    \item \textbf{vs Plu-ts}: Plu-ts is a TypeScript eDSL conceptually similar to Plutarch, but targeting the TypeScript ecosystem. Plutarch targets Haskell.
+\end{itemize}
+
+\subsection{References and Further Resources}
+
+\begin{itemize}
+    \item \textbf{Plutarch GitHub repository}: \href{https://github.com/Plutonomicon/plutarch-plutus}{github.com/Plutonomicon/plutarch-plutus} --- source code, documentation, and examples.
+    \item \textbf{Plutarch starter template}: \href{https://github.com/Plutonomicon/plutarch-template}{github.com/Plutonomicon/plutarch-template} --- a ready-to-use project scaffold with Nix and Cabal configuration.
+    \item \textbf{Plutarch documentation}: The \texttt{docs/} folder in the repository covers all typeclasses, combinators, and concepts in detail.
+    \item \textbf{Plutonomicon}: \href{https://github.com/Plutonomicon}{github.com/Plutonomicon} --- the organisation that maintains Plutarch and related on-chain tooling for the Cardano ecosystem.
+\end{itemize}
