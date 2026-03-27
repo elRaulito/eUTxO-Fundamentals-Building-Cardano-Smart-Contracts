@@ -11,7 +11,7 @@
 \contentsline {subsection}{\numberline {1.1.2}Applications}{8}{subsection.1.1.2}%
 \contentsline {subsection}{\numberline {1.1.3}Smart Contract audits}{9}{subsection.1.1.3}%
 \contentsline {subsection}{\numberline {1.1.4}Smart Contract risks}{9}{subsection.1.1.4}%
-\contentsline {subsection}{\numberline {1.1.5}The cost of deploying a contract}{9}{subsection.1.1.5}%
+\contentsline {subsection}{\numberline {1.1.5}The cost of deploying a contract}{10}{subsection.1.1.5}%
 \contentsline {section}{\numberline {1.2}Advantages of Cardano for Smart Contract Development}{10}{section.1.2}%
 \contentsline {part}{II\hspace {1em}Setting Up the Development Environment}{11}{part.2}%
 \contentsline {chapter}{\numberline {2}Installing and Configuring Cardano Development Tools}{12}{chapter.2}%
