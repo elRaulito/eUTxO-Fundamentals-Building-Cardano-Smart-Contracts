@@ -11,7 +11,7 @@
 \contentsline {subsection}{\numberline {1.1.2}Applications}{8}{subsection.1.1.2}%
 \contentsline {subsection}{\numberline {1.1.3}Smart Contract audits}{9}{subsection.1.1.3}%
 \contentsline {subsection}{\numberline {1.1.4}Smart Contract risks}{9}{subsection.1.1.4}%
-\contentsline {subsection}{\numberline {1.1.5}The cost of deploying a contract}{10}{subsection.1.1.5}%
+\contentsline {subsection}{\numberline {1.1.5}The cost of deploying a contract}{9}{subsection.1.1.5}%
 \contentsline {section}{\numberline {1.2}Advantages of Cardano for Smart Contract Development}{10}{section.1.2}%
 \contentsline {part}{II\hspace {1em}Setting Up the Development Environment}{11}{part.2}%
 \contentsline {chapter}{\numberline {2}Installing and Configuring Cardano Development Tools}{12}{chapter.2}%
@@ -19,50 +19,50 @@
 \contentsline {section}{\numberline {2.2}Hot wallets on Cardano}{12}{section.2.2}%
 \contentsline {section}{\numberline {2.3}Setting Up and Connecting to Cardano Testnet}{12}{section.2.3}%
 \contentsline {subsection}{\numberline {2.3.1}Preview and Preprod testnets}{14}{subsection.2.3.1}%
-\contentsline {subsection}{\numberline {2.3.2}Get tADA}{15}{subsection.2.3.2}%
-\contentsline {subsection}{\numberline {2.3.3}CIP30}{15}{subsection.2.3.3}%
+\contentsline {subsection}{\numberline {2.3.2}Get tADA}{14}{subsection.2.3.2}%
+\contentsline {subsection}{\numberline {2.3.3}CIP30}{14}{subsection.2.3.3}%
 \contentsline {section}{\numberline {2.4}Interacting with Cardano node and Wallet APIs}{15}{section.2.4}%
-\contentsline {subsection}{\numberline {2.4.1}Create a Maestro account}{16}{subsection.2.4.1}%
-\contentsline {subsection}{\numberline {2.4.2}Indexer alternatives}{16}{subsection.2.4.2}%
+\contentsline {subsection}{\numberline {2.4.1}Create a Maestro account}{15}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}Indexer alternatives}{15}{subsection.2.4.2}%
 \contentsline {section}{\numberline {2.5}Setting Up a Cardano node on Contabo Cloud VPS}{16}{section.2.5}%
-\contentsline {subsection}{\numberline {2.5.1}Step 1: Provisioning a Contabo Cloud VPS}{17}{subsection.2.5.1}%
-\contentsline {subsection}{\numberline {2.5.2}Step 2: Downloading and Extracting Cardano node Software}{17}{subsection.2.5.2}%
-\contentsline {subsection}{\numberline {2.5.3}Step 3: Setting Up Node Configuration}{17}{subsection.2.5.3}%
-\contentsline {subsection}{\numberline {2.5.4}Step 4: Installing Required Dependencies and Syncing the Blockchain}{18}{subsection.2.5.4}%
-\contentsline {subsection}{\numberline {2.5.5}Step 5: Starting the Cardano node}{18}{subsection.2.5.5}%
+\contentsline {subsection}{\numberline {2.5.1}Step 1: Provisioning a Contabo Cloud VPS}{16}{subsection.2.5.1}%
+\contentsline {subsection}{\numberline {2.5.2}Step 2: Downloading and Extracting Cardano node Software}{16}{subsection.2.5.2}%
+\contentsline {subsection}{\numberline {2.5.3}Step 3: Setting Up Node Configuration}{16}{subsection.2.5.3}%
+\contentsline {subsection}{\numberline {2.5.4}Step 4: Installing Required Dependencies and Syncing the Blockchain}{17}{subsection.2.5.4}%
+\contentsline {subsection}{\numberline {2.5.5}Step 5: Starting the Cardano node}{17}{subsection.2.5.5}%
 \contentsline {subsection}{\numberline {2.5.6}Step 6: Setting Up Cardano Submit API}{18}{subsection.2.5.6}%
-\contentsline {subsection}{\numberline {2.5.7}Step 7: Accessing Transaction Submission Endpoint}{19}{subsection.2.5.7}%
-\contentsline {part}{III\hspace {1em}Exploring the eUTxO Model}{20}{part.3}%
-\contentsline {chapter}{\numberline {3}Understanding the eUTxO Model and Its Components}{21}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Understanding the eUTxO Model and Its Components}{21}{section.3.1}%
-\contentsline {section}{\numberline {3.2}eUTXO Model}{21}{section.3.2}%
-\contentsline {subsection}{\numberline {3.2.1}Example}{21}{subsection.3.2.1}%
-\contentsline {subsection}{\numberline {3.2.2}Account/Balance Model}{21}{subsection.3.2.2}%
-\contentsline {subsection}{\numberline {3.2.3}Example}{21}{subsection.3.2.3}%
-\contentsline {subsection}{\numberline {3.2.4}Analogies}{22}{subsection.3.2.4}%
-\contentsline {subsection}{\numberline {3.2.5}Benefits}{22}{subsection.3.2.5}%
-\contentsline {subsection}{\numberline {3.2.6}eUTXO Model}{22}{subsection.3.2.6}%
-\contentsline {subsection}{\numberline {3.2.7}Account/Balance Model}{22}{subsection.3.2.7}%
-\contentsline {section}{\numberline {3.3}Writing Transactions and Validating Inputs and Outputs}{22}{section.3.3}%
-\contentsline {subsection}{\numberline {3.3.1}Build a transaction with Cardano node}{23}{subsection.3.3.1}%
-\contentsline {subsection}{\numberline {3.3.2}Building a Transaction with Lucid}{26}{subsection.3.3.2}%
-\contentsline {section}{\numberline {3.4}Cardano Native Scripts}{26}{section.3.4}%
-\contentsline {subsection}{\numberline {3.4.1}Comparison with Bitcoin Scripts}{26}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {2.5.7}Step 7: Accessing Transaction Submission Endpoint}{18}{subsection.2.5.7}%
+\contentsline {part}{III\hspace {1em}Exploring the eUTxO Model}{19}{part.3}%
+\contentsline {chapter}{\numberline {3}Understanding the eUTxO Model and Its Components}{20}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Understanding the eUTxO Model and Its Components}{20}{section.3.1}%
+\contentsline {section}{\numberline {3.2}eUTXO Model}{20}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Example}{20}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Account/Balance Model}{20}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}Example}{20}{subsection.3.2.3}%
+\contentsline {subsection}{\numberline {3.2.4}Analogies}{21}{subsection.3.2.4}%
+\contentsline {subsection}{\numberline {3.2.5}Benefits}{21}{subsection.3.2.5}%
+\contentsline {subsection}{\numberline {3.2.6}eUTXO Model}{21}{subsection.3.2.6}%
+\contentsline {subsection}{\numberline {3.2.7}Account/Balance Model}{21}{subsection.3.2.7}%
+\contentsline {section}{\numberline {3.3}Writing Transactions and Validating Inputs and Outputs}{21}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Build a transaction with Cardano node}{22}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Building a Transaction with Mesh}{25}{subsection.3.3.2}%
+\contentsline {section}{\numberline {3.4}Cardano Native Scripts}{25}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Comparison with Bitcoin Scripts}{25}{subsection.3.4.1}%
 \contentsline {subsection}{\numberline {3.4.2}Description}{26}{subsection.3.4.2}%
-\contentsline {subsection}{\numberline {3.4.3}Multisig Script Language}{27}{subsection.3.4.3}%
-\contentsline {subsection}{\numberline {3.4.4}JSON Script Syntax}{27}{subsection.3.4.4}%
-\contentsline {subsection}{\numberline {3.4.5}Time Locking Scripts}{27}{subsection.3.4.5}%
-\contentsline {subsection}{\numberline {3.4.6}Description}{27}{subsection.3.4.6}%
+\contentsline {subsection}{\numberline {3.4.3}Multisig Script Language}{26}{subsection.3.4.3}%
+\contentsline {subsection}{\numberline {3.4.4}JSON Script Syntax}{26}{subsection.3.4.4}%
+\contentsline {subsection}{\numberline {3.4.5}Time Locking Scripts}{26}{subsection.3.4.5}%
+\contentsline {subsection}{\numberline {3.4.6}Description}{26}{subsection.3.4.6}%
 \contentsline {subsection}{\numberline {3.4.7}JSON Script Syntax}{27}{subsection.3.4.7}%
-\contentsline {subsection}{\numberline {3.4.8}Multisignature Script Example}{28}{subsection.3.4.8}%
-\contentsline {subsection}{\numberline {3.4.9}Time Locking Script Example}{29}{subsection.3.4.9}%
-\contentsline {section}{\numberline {3.5}Using Lucid Library for Cardano Native Scripts}{30}{section.3.5}%
-\contentsline {subsection}{\numberline {3.5.1}Importing and Using Lucid Library}{30}{subsection.3.5.1}%
-\contentsline {subsubsection}{Example: Importing a Native Script and Performing a Transaction}{30}{subsubsection*.2}%
-\contentsline {subsection}{\numberline {3.5.2}Advantages of Using Lucid Library}{31}{subsection.3.5.2}%
-\contentsline {section}{\numberline {3.6}Interacting with Smart Contracts Using Lucid}{31}{section.3.6}%
-\contentsline {subsection}{\numberline {3.6.1}Minting Tokens with a Smart Contract}{32}{subsection.3.6.1}%
-\contentsline {subsubsection}{Example: Using a Minting Smart Contract}{32}{subsubsection*.3}%
+\contentsline {subsection}{\numberline {3.4.8}Multisignature Script Example}{27}{subsection.3.4.8}%
+\contentsline {subsection}{\numberline {3.4.9}Time Locking Script Example}{28}{subsection.3.4.9}%
+\contentsline {section}{\numberline {3.5}Using MeshJS Library for Cardano Native Scripts}{29}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}Importing and Using MeshJS Library}{29}{subsection.3.5.1}%
+\contentsline {subsubsection}{Example: Importing a Native Script and Performing a Transaction}{29}{subsubsection*.2}%
+\contentsline {subsection}{\numberline {3.5.2}Advantages of Using MeshJS Library}{30}{subsection.3.5.2}%
+\contentsline {section}{\numberline {3.6}Interacting with Smart Contracts Using MeshJS}{31}{section.3.6}%
+\contentsline {subsection}{\numberline {3.6.1}Minting Tokens with a Smart Contract}{31}{subsection.3.6.1}%
+\contentsline {subsubsection}{Example: Using a Minting Smart Contract}{31}{subsubsection*.3}%
 \contentsline {subsection}{\numberline {3.6.2}Advantages of Using Smart Contracts}{33}{subsection.3.6.2}%
 \contentsline {section}{\numberline {3.7}Datum, Redeemers, and Script Context}{34}{section.3.7}%
 \contentsline {subsection}{\numberline {3.7.1}Datum}{34}{subsection.3.7.1}%
@@ -222,19 +222,43 @@
 \contentsline {subsection}{\numberline {8.4.4}Cardano Treasury: A Responsibility, Not Just a Feature}{127}{subsection.8.4.4}%
 \contentsline {subsection}{\numberline {8.4.5}Common Issues and Troubleshooting}{128}{subsection.8.4.5}%
 \contentsline {subsection}{\numberline {8.4.6}Key Takeaways}{129}{subsection.8.4.6}%
-\contentsline {part}{IX\hspace {1em}Conclusion and \\ Next Steps}{130}{part.9}%
-\contentsline {chapter}{\numberline {9}Conclusions}{131}{chapter.9}%
-\contentsline {section}{\numberline {9.1}Recap of Key Concepts and Takeaways}{131}{section.9.1}%
-\contentsline {section}{\numberline {9.2}Resources for Further Learning and Exploration}{131}{section.9.2}%
-\contentsline {section}{\numberline {9.3}Contributing to the Cardano Smart Contract Ecosystem}{132}{section.9.3}%
-\contentsline {part}{X\hspace {1em}EXERCISE solutions}{133}{part.10}%
-\contentsline {chapter}{\numberline {10}Solutions}{134}{chapter.10}%
-\contentsline {section}{\numberline {10.1}Solutions}{134}{section.10.1}%
-\contentsline {subsection}{\numberline {10.1.1}Exercise 1}{134}{subsection.10.1.1}%
-\contentsline {subsection}{\numberline {10.1.2}Exercise 2}{134}{subsection.10.1.2}%
-\contentsline {subsection}{\numberline {10.1.3}Exercise 4}{135}{subsection.10.1.3}%
-\contentsline {subsection}{\numberline {10.1.4}Exercise 5}{141}{subsection.10.1.4}%
-\contentsline {subsection}{\numberline {10.1.5}Exercise 6}{142}{subsection.10.1.5}%
-\contentsline {subsection}{\numberline {10.1.6}Exercise 7}{148}{subsection.10.1.6}%
-\contentsline {chapter}{Glossary}{150}{section*.50}%
+\contentsline {part}{IX\hspace {1em}Advanced Techniques \\ and Design Patterns}{130}{part.9}%
+\contentsline {chapter}{\numberline {9}Advanced Smart Contract Design Patterns}{131}{chapter.9}%
+\contentsline {section}{\numberline {9.1}Introduction to Advanced Design Patterns}{131}{section.9.1}%
+\contentsline {section}{\numberline {9.2}Linked List as Infinite Array in eUTxO}{131}{section.9.2}%
+\contentsline {subsection}{\numberline {9.2.1}The Array Problem in Blockchain}{131}{subsection.9.2.1}%
+\contentsline {subsection}{\numberline {9.2.2}Linked Lists in eUTxO}{132}{subsection.9.2.2}%
+\contentsline {subsection}{\numberline {9.2.3}Advantages of the eUTxO Linked List}{133}{subsection.9.2.3}%
+\contentsline {subsection}{\numberline {9.2.4}Proving Membership Off-Chain}{133}{subsection.9.2.4}%
+\contentsline {subsection}{\numberline {9.2.5}When to Use Linked Lists}{133}{subsection.9.2.5}%
+\contentsline {subsection}{\numberline {9.2.6}Merkle Patricia Forestry}{134}{subsection.9.2.6}%
+\contentsline {section}{\numberline {9.3}Merklized Validators for Scalable Contracts}{134}{section.9.3}%
+\contentsline {subsection}{\numberline {9.3.1}The Monolithic Validator Problem}{134}{subsection.9.3.1}%
+\contentsline {subsection}{\numberline {9.3.2}The Merklized Validator Pattern}{134}{subsection.9.3.2}%
+\contentsline {subsection}{\numberline {9.3.3}Implementing the Pattern in Aiken}{135}{subsection.9.3.3}%
+\contentsline {subsection}{\numberline {9.3.4}Benefits Summary}{136}{subsection.9.3.4}%
+\contentsline {section}{\numberline {9.4}Special Tips and Tricks}{136}{section.9.4}%
+\contentsline {subsection}{\numberline {9.4.1}Separating Spend and Mint Logic}{136}{subsection.9.4.1}%
+\contentsline {subsubsection}{The Self-Referential Hash Problem}{136}{subsubsection*.51}%
+\contentsline {subsubsection}{The Solution: Two Dedicated Contracts}{137}{subsubsection*.52}%
+\contentsline {subsection}{\numberline {9.4.2}Settings UTxO Pattern}{138}{subsection.9.4.2}%
+\contentsline {subsubsection}{The Problem with Hardcoded Parameters}{138}{subsubsection*.53}%
+\contentsline {subsubsection}{The Settings UTxO}{138}{subsubsection*.54}%
+\contentsline {subsubsection}{Governance of the Settings UTxO}{139}{subsubsection*.55}%
+\contentsline {section}{\numberline {9.5}Key Takeaways}{139}{section.9.5}%
+\contentsline {part}{X\hspace {1em}Conclusion and \\ Next Steps}{140}{part.10}%
+\contentsline {chapter}{\numberline {10}Conclusions}{141}{chapter.10}%
+\contentsline {section}{\numberline {10.1}Recap of Key Concepts and Takeaways}{141}{section.10.1}%
+\contentsline {section}{\numberline {10.2}Resources for Further Learning and Exploration}{141}{section.10.2}%
+\contentsline {section}{\numberline {10.3}Contributing to the Cardano Smart Contract Ecosystem}{142}{section.10.3}%
+\contentsline {part}{XI\hspace {1em}EXERCISE solutions}{143}{part.11}%
+\contentsline {chapter}{\numberline {11}Solutions}{144}{chapter.11}%
+\contentsline {section}{\numberline {11.1}Solutions}{144}{section.11.1}%
+\contentsline {subsection}{\numberline {11.1.1}Exercise 1}{144}{subsection.11.1.1}%
+\contentsline {subsection}{\numberline {11.1.2}Exercise 2}{144}{subsection.11.1.2}%
+\contentsline {subsection}{\numberline {11.1.3}Exercise 4}{145}{subsection.11.1.3}%
+\contentsline {subsection}{\numberline {11.1.4}Exercise 5}{151}{subsection.11.1.4}%
+\contentsline {subsection}{\numberline {11.1.5}Exercise 6}{152}{subsection.11.1.5}%
+\contentsline {subsection}{\numberline {11.1.6}Exercise 7}{158}{subsection.11.1.6}%
+\contentsline {chapter}{Glossary}{161}{section*.57}%
 \contentsfinish 

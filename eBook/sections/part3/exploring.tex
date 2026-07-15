@@ -50,7 +50,7 @@ Both models have trade-offs and are chosen based on specific blockchain needs. S
 
 \section{Writing Transactions and Validating Inputs and Outputs}
 
-In this section, we'll analyze the components of a Cardano transaction and how it is built using a Cardano node and then using the Lucid library.
+In this section, we'll analyze the components of a Cardano transaction and how it is built using a Cardano node and then using the MeshJS library.
 
 Let's start with the following transaction:
 
@@ -200,19 +200,29 @@ cardano-cli transaction submit --tx-file matx.signed
 
 And now, after it has been processed, our balance will decrease.
 
-\subsection{Building a Transaction with Lucid}
+\subsection{Building a Transaction with Mesh}
 
-The \textit{Lucid} library was the very first library to accelerate development on Cardano. The main advantage of this library is its capability to make the entire process faster and easier. The previous example can be simplified as follows:
+The \textit{MeshJS} library (\texttt{@meshsdk/core}) is the actively maintained off-chain library for Cardano. Historically this role was filled by \textit{Lucid}, the very first library to accelerate development on Cardano, but Lucid is no longer maintained and Mesh has taken its place. The main advantage of Mesh is its capability to make the entire process faster and easier. The previous example can be simplified as follows:
 
 \begin{lstlisting}
-const tx = await lucid.newTx()
-  .payToAddress("ADDRESSRECEIVER", {lovelace: 2000000n})
+import { MeshTxBuilder } from "@meshsdk/core";
+
+const txBuilder = new MeshTxBuilder({
+  fetcher: provider,
+  submitter: provider,
+});
+
+await txBuilder
+  .txOut("ADDRESSRECEIVER", [{ unit: "lovelace", quantity: "2000000" }])
+  .changeAddress(walletAddress)
+  .selectUtxosFrom(await wallet.getUtxos())
   .complete();
-const signedTx = await tx.sign().complete();
-const txHash = await signedTx.submit();
+
+const signedTx = await wallet.signTx(txBuilder.txHex);
+const txHash = await wallet.submitTx(signedTx);
 \end{lstlisting}
 
-There is no doubt why \textit{Lucid} has been used by the majority of the \textbf{dApps} developed on Cardano.
+There is no doubt why \textit{Mesh} is used by the majority of the \textbf{dApps} developed on Cardano today.
 
 \section{Cardano Native Scripts}
 
@@ -432,81 +442,95 @@ cardano-cli transaction submit \
   --testnet-magic 42
 \end{verbatim}
 
-\section{Using Lucid Library for Cardano Native Scripts}
+\section{Using MeshJS Library for Cardano Native Scripts}
 
-Working with Cardano native scripts can be made significantly easier and faster by using the Lucid library in JavaScript. This library simplifies many operations that would otherwise require complex command-line interactions. Here, we'll demonstrate how to import a Cardano native script and perform transactions using the Lucid library.
+Working with Cardano native scripts can be made significantly easier and faster by using the MeshJS library in JavaScript. This library simplifies many operations that would otherwise require complex command-line interactions. Here, we'll demonstrate how to import a Cardano native script and perform transactions using the MeshJS library.
 
-\subsection{Importing and Using Lucid Library}
+\subsection{Importing and Using MeshJS Library}
 
-The Lucid library provides a user-friendly interface for interacting with Cardano, allowing developers to perform tasks quickly and efficiently. Here’s an example of how to import a Cardano native script and use it for transactions.
+The MeshJS library provides a user-friendly interface for interacting with Cardano, allowing developers to perform tasks quickly and efficiently. Here’s an example of how to import a Cardano native script and use it for transactions.
 
 \subsubsection{Example: Importing a Native Script and Performing a Transaction}
 
-First, we need to import the necessary modules from the Lucid library:
+First, we need to install and import the necessary modules from the MeshJS library:
 
 \begin{lstlisting}
-import { Lucid, Blockfrost, Constr, Utils } from "https://unpkg.com/lucid-cardano@0.9.6/web/mod.js";
+npm install @meshsdk/core
 \end{lstlisting}
 
-Next, initialize the Lucid library with Blockfrost and specify the network:
-
 \begin{lstlisting}
-const lucid = await Lucid.new(
-new Blockfrost("https://cardano-mainnet.blockfrost.io/api/v0", "APIKEYHERE"),
-"Mainnet",
-);
+import {
+  BlockfrostProvider,
+  BrowserWallet,
+  MeshTxBuilder,
+  serializeNativeScript,
+} from "@meshsdk/core";
 \end{lstlisting}
 
-Now, we can define a multisignature script in JSON format and convert it to a native script using Lucid:
+Next, initialize a provider with Blockfrost and connect a CIP30 wallet:
 
 \begin{lstlisting}
-const multisigScript = lucid.utils.nativeScriptFromJson(
-{
-"type": "all",
-scripts: [
-{ type: "sig", keyHash: "1c471b31ea0b04c652bd8f76b239aea5f57139bdc5a2b28ab1e69175" },
-],
-}
-);
+const provider = new BlockfrostProvider("APIKEYHERE");
+const wallet = await BrowserWallet.enable("eternl");
+\end{lstlisting}
+
+Now, we can define a multisignature script in JSON format as a Mesh native script:
+
+\begin{lstlisting}
+const multisigScript = {
+  type: "all",
+  scripts: [
+    { type: "sig", keyHash: "1c471b31ea0b04c652bd8f76b239aea5f57139bdc5a2b28ab1e69175" },
+  ],
+};
 \end{lstlisting}
 
 With the multisignature script, we can create the corresponding address:
 
 \begin{lstlisting}
-const multisigAddress = lucid.utils.validatorToAddress(multisigScript);
+const { address: multisigAddress, scriptCbor } =
+  serializeNativeScript(multisigScript);
 \end{lstlisting}
 
 Finally, we can construct, sign, and submit a transaction:
 
 \begin{lstlisting}
-var tx = await lucid
-.newTx()
-.payToAddress(multisigAddress, { lovelace: 1000000 }) // Example: sending 1 ADA
-.attachMintingPolicy(multisigScript)
-.addSignerKey("1c471b31ea0b04c652bd8f76b239aea5f57139bdc5a2b28ab1e69175") // Signer key
-.complete();
+const walletAddress = await wallet.getChangeAddress();
+const utxos = await wallet.getUtxos();
 
-const signedTx = await tx.sign().complete();
-const txHash = await signedTx.submit();
+const txBuilder = new MeshTxBuilder({
+  fetcher: provider,
+  submitter: provider,
+});
+
+await txBuilder
+  .txOut(multisigAddress, [{ unit: "lovelace", quantity: "1000000" }]) // Example: sending 1 ADA
+  .requiredSignerHash("1c471b31ea0b04c652bd8f76b239aea5f57139bdc5a2b28ab1e69175") // Signer key
+  .changeAddress(walletAddress)
+  .selectUtxosFrom(utxos)
+  .complete();
+
+const signedTx = await wallet.signTx(txBuilder.txHex);
+const txHash = await wallet.submitTx(signedTx);
 console.log(txHash);
 \end{lstlisting}
 
-\subsection{Advantages of Using Lucid Library}
+\subsection{Advantages of Using MeshJS Library}
 
-Using the Lucid library for managing Cardano native scripts offers several advantages over traditional command-line methods:
+Using the MeshJS library for managing Cardano native scripts offers several advantages over traditional command-line methods:
 
 \begin{itemize}
-\item \textbf{Ease of Use}: The Lucid library abstracts away much of the complexity involved in script and transaction management, making it easier for developers to interact with the Cardano blockchain.
+\item \textbf{Ease of Use}: The MeshJS library abstracts away much of the complexity involved in script and transaction management, making it easier for developers to interact with the Cardano blockchain.
 \item \textbf{Speed}: Transactions and script operations can be performed more quickly without the need to manually handle and submit command-line operations.
 \item \textbf{Flexibility}: JavaScript provides a more flexible environment for developing and testing blockchain interactions compared to the command-line interface.
-\item \textbf{Integration}: Lucid can be easily integrated into web applications and other JavaScript-based projects, facilitating broader use cases and seamless user experiences.
+\item \textbf{Integration}: Mesh can be easily integrated into web applications and other JavaScript-based projects, facilitating broader use cases and seamless user experiences.
 \end{itemize}
 
-\section{Interacting with Smart Contracts Using Lucid}
+\section{Interacting with Smart Contracts Using MeshJS}
 
 In this section we'll see how a transaction including smart contracts on Cardano is done, don't worry if you don't get most of it. Focus on looking at the similarities with using a cardano native script as shown before.
 
-Interacting with smart contracts on the Cardano blockchain using the Lucid library is straightforward and similar to working with native scripts, such as multisignature scripts. However, smart contracts introduce more complex logic, enabling advanced functionalities. In this section, we'll demonstrate how to use a minting smart contract to create tokens on Cardano using Lucid.
+Interacting with smart contracts on the Cardano blockchain using the MeshJS library is straightforward and similar to working with native scripts, such as multisignature scripts. However, smart contracts introduce more complex logic, enabling advanced functionalities. In this section, we'll demonstrate how to use a minting smart contract to create tokens on Cardano using Mesh.
 
 \subsection{Minting Tokens with a Smart Contract}
 
@@ -514,60 +538,66 @@ The process of interacting with a smart contract involves defining the contract'
 
 \subsubsection{Example: Using a Minting Smart Contract}
 
-First, we need to import the necessary modules from the Lucid library and initialize it with Blockfrost:
+First, we need to import the necessary modules from the MeshJS library and initialize a Blockfrost provider:
 
 \begin{lstlisting}
-import { Lucid, Blockfrost, toHex, fromHex, Data, Constr, fromText } from "https://unpkg.com/lucid-cardano@0.10.0/web/mod.js";
+import {
+  BlockfrostProvider,
+  BrowserWallet,
+  MeshTxBuilder,
+  serializePlutusScript,
+  resolveScriptHash,
+  applyCborEncoding,
+  deserializeAddress,
+  stringToHex,
+  mConStr0,
+  metadataToCip68,
+} from "@meshsdk/core";
 
-const lucid = await Lucid.new(
-new Blockfrost("https://cardano-mainnet.blockfrost.io/api/v0", "APIKEYHERE"),
-"Mainnet",
-);
+const provider = new BlockfrostProvider("APIKEYHERE");
 \end{lstlisting}
 
-Next, import the Plutus script data and encode it using CBOR:
+Next, import the Plutus script data and apply the CBOR encoding:
 
 \begin{lstlisting}
-import data from '/plutus.json' assert { type: "json" };
+import data from './plutus.json' assert { type: "json" };
 console.log(data);
 
-import * as cbor from "https://deno.land/x/cbor@v1.4.1/index.js";
+const mintingScriptCbor = applyCborEncoding(
+  data.validators[1].compiledCode
+);
 
-const mintingPolicy = {
-type: "PlutusV2",
-script: toHex(cbor.encode(fromHex(data.validators[1].compiledCode)))
-};
-
-const storageScript = {
-type: "PlutusV2",
-script: toHex(cbor.encode(fromHex(data.validators[0].compiledCode)))
-};
+const storageScriptCbor = applyCborEncoding(
+  data.validators[0].compiledCode
+);
 \end{lstlisting}
 
-Enable the Nami wallet and select it with Lucid:
+Enable a CIP30 wallet with Mesh:
 
 \begin{lstlisting}
-const api = await window.cardano.nami.enable();
-lucid.selectWallet(api);
+const wallet = await BrowserWallet.enable("eternl");
 
-const { paymentCredential } = lucid.utils.getAddressDetails(
-await lucid.wallet.address(),
-);
+const walletAddress = await wallet.getChangeAddress();
+const { pubKeyHash } = deserializeAddress(walletAddress);
 \end{lstlisting}
 
 Define the policy ID and the storage address for the minting process:
 
 \begin{lstlisting}
-const policyId = lucid.utils.mintingPolicyToId(mintingPolicy);
-const storageAddress = lucid.utils.validatorToAddress(storageScript);
+const policyId = resolveScriptHash(mintingScriptCbor, "V2");
+const storageAddress = serializePlutusScript(
+  { code: storageScriptCbor, version: "V2" }
+).address;
 \end{lstlisting}
 
 Prepare the UTXO to be used in the transaction and define the redeemer:
 
 \begin{lstlisting}
-let utxoSeed = await lucid.utxosByOutRef([{ txHash: "451d8129bb9fce9829906fe32bb7c2a93f40493f3ceeb3b003ae7eb7c8a99f52", outputIndex: 4 }]);
+const [utxoSeed] = await provider.fetchUTxOs(
+  "451d8129bb9fce9829906fe32bb7c2a93f40493f3ceeb3b003ae7eb7c8a99f52", 4
+);
 
-const redeemer = Data.to(new Constr(0, []));
+const redeemer = mConStr0([]);
 \end{lstlisting}
 
 Define the metadata for the new tokens:
@@ -591,25 +621,58 @@ console.log(v, metaData[v]);
 });
 \end{lstlisting}
 
-Create the Datum and build the transaction:
+Create the Datum (following the CIP68 standard) and build the transaction:
 
 \begin{lstlisting}
-const Datum = Data.to(new Constr(0, [Data.fromJson(metaData), 1n, 1n]));
+const datum = metadataToCip68(metaData);
 
-const tx = await lucid
-.newTx()
-.collectFrom(utxoSeed)
-.mintAssets({ [${policyId}0014df10${fromText("FLDT")}]: BigInt(100000000 * Math.pow(10, 6)), [${policyId}000643b0${fromText("FLDT")}]: 1n }, redeemer)
-.payToContract(storageAddress, { inline: Datum }, { [${policyId}000643b0${fromText("FLDT")}]: 1n })
-.attachMintingPolicy(mintingPolicy)
-.complete();
+const utxos = await wallet.getUtxos();
+const collateral = (await wallet.getCollateral())[0];
+
+const txBuilder = new MeshTxBuilder({
+  fetcher: provider,
+  submitter: provider,
+});
+
+await txBuilder
+  .txIn(
+    utxoSeed.input.txHash,
+    utxoSeed.input.outputIndex,
+    utxoSeed.output.amount,
+    utxoSeed.output.address
+  )
+  .mintPlutusScriptV2()
+  .mint(
+    (100000000 * Math.pow(10, 6)).toString(),
+    policyId,
+    "0014df10" + stringToHex("FLDT")
+  )
+  .mintingScript(mintingScriptCbor)
+  .mintRedeemerValue(redeemer)
+  .mintPlutusScriptV2()
+  .mint("1", policyId, "000643b0" + stringToHex("FLDT"))
+  .mintingScript(mintingScriptCbor)
+  .mintRedeemerValue(redeemer)
+  .txOut(storageAddress, [
+    { unit: policyId + "000643b0" + stringToHex("FLDT"), quantity: "1" },
+  ])
+  .txOutInlineDatumValue(datum)
+  .txInCollateral(
+    collateral.input.txHash,
+    collateral.input.outputIndex,
+    collateral.output.amount,
+    collateral.output.address
+  )
+  .changeAddress(walletAddress)
+  .selectUtxosFrom(utxos)
+  .complete();
 \end{lstlisting}
 
 Sign and submit the transaction:
 
 \begin{lstlisting}
-const signedTx = await tx.sign().complete();
-const txHash = await signedTx.submit();
+const signedTx = await wallet.signTx(txBuilder.txHex);
+const txHash = await wallet.submitTx(signedTx);
 console.log(txHash);
 \end{lstlisting}
 
@@ -621,10 +684,10 @@ Using smart contracts in Cardano allows for more complex and flexible transactio
 \item \textbf{Advanced Logic}: Smart contracts enable sophisticated logic that goes beyond simple conditions like multisignature requirements.
 \item \textbf{Automation}: Automate complex workflows and interactions on the blockchain, reducing the need for manual intervention.
 \item \textbf{Flexibility}: Smart contracts can be tailored to a wide variety of use cases, from DeFi applications to NFTs.
-\item \textbf{Efficiency}: With Lucid, interacting with smart contracts is streamlined, making development faster and more efficient.
+\item \textbf{Efficiency}: With Mesh, interacting with smart contracts is streamlined, making development faster and more efficient.
 \end{itemize}
 
-By leveraging Lucid, developers can easily integrate advanced smart contract functionality into their Cardano applications, enhancing their capabilities and providing richer user experiences.
+By leveraging Mesh, developers can easily integrate advanced smart contract functionality into their Cardano applications, enhancing their capabilities and providing richer user experiences.
 
 \section{Datum, Redeemers, and Script Context}
 

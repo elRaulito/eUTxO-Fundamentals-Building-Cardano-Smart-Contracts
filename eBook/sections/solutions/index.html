@@ -5,29 +5,30 @@
     <title>Cardano Wallet Balance</title>
   </head>
   <body>
+    <button id="connect">Connect Wallet</button>
+    <button id="show">Show Balance</button>
     <div id="balance"></div>
 
     <script type="module">
-        import { Maestro, Lucid } from "https://deno.land/x/lucid/mod.ts";
+        // MeshJS loaded from a CDN for this simple example.
+        // In a real project install it with: npm install @meshsdk/core
+        import { BrowserWallet } from "https://esm.sh/@meshsdk/core";
 
-        const lucid = await Lucid.new(
-            new Maestro({
-                network: "Preview",  // For MAINNET: "Mainnet".
-                apiKey: "<Your-API-Key>",  // Get yours by visiting https://docs.gomaestro.org/docs/Getting-started/Sign-up-login.
-                turboSubmit: false  // Read about paid turbo transaction submission feature at https://docs.gomaestro.org/docs/Dapp%20Platform/Turbo%20Transaction.
-            }),
-            "Preview",  // For MAINNET: "Mainnet".
-        );
+        let wallet;
 
         // Enable Cardano wallet
-        const api = await window.cardano.eternl.enable();
-        lucid.selectWallet(api);
+        document.getElementById('connect').addEventListener('click', async () => {
+            wallet = await BrowserWallet.enable('eternl');
+        });
 
         // Get wallet balance
-        const balance = await lucid.wallet.getBalance();
+        document.getElementById('show').addEventListener('click', async () => {
+            const lovelace = await wallet.getLovelace();
 
-        // Display balance on the page
-        document.getElementById('balance').innerText = `Wallet Balance: ${balance}`;
+            // Display balance on the page (1 ADA = 1,000,000 lovelace)
+            document.getElementById('balance').innerText =
+                `Wallet Balance: ${Number(lovelace) / 1_000_000} ADA`;
+        });
     </script>
   </body>
 </html>
